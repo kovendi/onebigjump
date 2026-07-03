@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../../modules/file-upload/file-upload.css" />
   <link rel="stylesheet" href="../../modules/photo-picker/photo-picker.css" />
   <link rel="stylesheet" href="../../modules/markdown/markdown.css" />
+  <link rel="stylesheet" href="../../modules/language-switcher/language-switcher.css" />
   <link rel="stylesheet" href="style-guide.css" />
 </head>
 <body>
@@ -51,6 +52,7 @@
   <script src="../../modules/file-upload/file-upload.js"></script>
   <script src="../../modules/photo-picker/photo-picker.js"></script>
   <script src="../../modules/markdown/markdown.js"></script>
+  <script src="../../modules/language-switcher/language-switcher.js"></script>
   <script>
     window.i18n.initI18n();
     const t = window.i18n.t;
@@ -261,6 +263,10 @@
     // bottom-nav
     const bottomNavDemo = window.bottomNavModule.renderBottomNav({ active: 'dogs' });
     addComponentDemo(componentsGrid, 'style_guide.component_bottom_nav', null, bottomNavDemo);
+
+    // language-switcher
+    const languageSwitcherDemo = window.languageSwitcherModule.renderLanguageSwitcher();
+    addComponentDemo(componentsGrid, 'style_guide.component_language_switcher', null, languageSwitcherDemo);
   </script>
 </body>
 </html>

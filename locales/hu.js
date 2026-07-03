@@ -174,6 +174,7 @@ window.LOCALES.hu = {
   "style_guide.component_markdown": "Markdown",
   "style_guide.component_navbar": "Navbar",
   "style_guide.component_bottom_nav": "Bottom nav",
+  "style_guide.component_language_switcher": "Nyelvválasztó",
   "style_guide.dropdown_placeholder": "Válassz fajtát",
   "style_guide.dropdown_option_labrador": "Labrador retriever",
   "style_guide.dropdown_option_golden": "Golden retriever",

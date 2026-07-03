@@ -174,6 +174,7 @@ window.LOCALES.ro = {
   "style_guide.component_markdown": "Markdown",
   "style_guide.component_navbar": "Navbar",
   "style_guide.component_bottom_nav": "Bottom nav",
+  "style_guide.component_language_switcher": "Selector de limbă",
   "style_guide.dropdown_placeholder": "Alege o rasă",
   "style_guide.dropdown_option_labrador": "Labrador retriever",
   "style_guide.dropdown_option_golden": "Golden retriever",

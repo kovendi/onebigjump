@@ -8,12 +8,14 @@
   <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
   <link rel="stylesheet" href="../../modules/input/input.css" />
   <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="../../modules/language-switcher/language-switcher.css" />
   <link rel="stylesheet" href="login.css" />
 </head>
 <body>
   <div id="screen-content">
     <img class="login-bg-blob login-bg-blob--teal" src="../../assets/blob-teal.svg" alt="" />
     <img class="login-bg-blob login-bg-blob--pink" src="../../assets/blob-pink.svg" alt="" />
+    <div id="language-switcher"></div>
     <div class="login-page">
       <img class="login-logo" src="../../assets/onebigjump.png" alt="One Big Jump" />
 
@@ -67,9 +69,14 @@
   <script src="../../modules/iphone-frame/iphone-frame.js"></script>
   <script src="../../modules/input/input.js"></script>
   <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/language-switcher/language-switcher.js"></script>
   <script>
     window.i18n.initI18n();
     const t = window.i18n.t;
+
+    document.getElementById('language-switcher').replaceWith(
+      window.languageSwitcherModule.renderLanguageSwitcher()
+    );
 
     document.getElementById('registration-counter').textContent = '3 482';
     document.getElementById('registration-label').textContent = t('login.stats_users_label');
