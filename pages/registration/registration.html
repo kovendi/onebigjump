@@ -52,8 +52,10 @@
   <script src="../../modules/iphone-frame/iphone-frame.js"></script>
   <script src="../../modules/input/input.js"></script>
   <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
   <script>
     window.i18n.initI18n();
+    window.storage.getDb();
     const t = window.i18n.t;
 
     document.getElementById('registration-title').textContent = t('registration.title');
@@ -87,6 +89,15 @@
 
     document.getElementById('registration-form').addEventListener('submit', (e) => {
       e.preventDefault();
+      const formData = new FormData(e.target);
+      const newUser = window.storage.addUser({
+        id: 'user-' + Date.now(),
+        email: formData.get('email'),
+        username: formData.get('username'),
+        name: formData.get('name'),
+        password: formData.get('password')
+      });
+      window.storage.setCurrentUser(newUser.id);
       window.location.href = '../events/events.html';
     });
 

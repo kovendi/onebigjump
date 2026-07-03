@@ -25,8 +25,10 @@
   <script src="../../modules/i18n/i18n.js"></script>
   <script src="../../modules/iphone-frame/iphone-frame.js"></script>
   <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
   <script>
     window.i18n.initI18n();
+    window.storage.getDb();
     const t = window.i18n.t;
 
     const params = new URLSearchParams(window.location.search);

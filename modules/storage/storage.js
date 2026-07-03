@@ -1,33 +1,91 @@
 window.storage = (function () {
   var DB_KEY = 'oneBigJumpDb';
 
+  function demoUser() {
+    return {
+      id: 'demo-user',
+      email: 'demo@onebigjump.com',
+      username: 'demo',
+      name: 'Demo User',
+      password: 'demo1234'
+    };
+  }
+
   function defaultDb() {
     return {
       dogs: [],
-      tickets: []
+      tickets: [],
+      users: [demoUser()],
+      currentUserId: null
     };
   }
 
   function getDb() {
     var raw = localStorage.getItem(DB_KEY);
-    if (!raw) {
-      var db = defaultDb();
-      saveDb(db);
-      return db;
+    var db = raw ? JSON.parse(raw) : defaultDb();
+    var changed = !raw;
+
+    if (!db.users) {
+      db.users = [];
+      changed = true;
     }
-    return JSON.parse(raw);
+    if (db.users.length === 0) {
+      db.users.push(demoUser());
+      changed = true;
+    }
+    if (!db.currentUserId || !db.users.some(function (u) { return u.id === db.currentUserId; })) {
+      db.currentUserId = db.users[0].id;
+      changed = true;
+    }
+
+    if (changed) {
+      saveDb(db);
+    }
+    return db;
   }
 
   function saveDb(db) {
     localStorage.setItem(DB_KEY, JSON.stringify(db));
   }
 
+  function getUsers() {
+    return getDb().users;
+  }
+
+  function addUser(user) {
+    var db = getDb();
+    db.users.push(user);
+    saveDb(db);
+    return user;
+  }
+
+  function getCurrentUser() {
+    var db = getDb();
+    return db.users.find(function (u) { return u.id === db.currentUserId; }) || null;
+  }
+
+  function setCurrentUser(userId) {
+    var db = getDb();
+    db.currentUserId = userId;
+    saveDb(db);
+    return getCurrentUser();
+  }
+
+  function loginUser(email, password) {
+    var db = getDb();
+    var user = db.users.find(function (u) { return u.email === email && u.password === password; });
+    if (!user) return null;
+    return setCurrentUser(user.id);
+  }
+
   function getDogs() {
-    return getDb().dogs;
+    var db = getDb();
+    return db.dogs.filter(function (d) { return d.userId === db.currentUserId; });
   }
 
   function addDog(dog) {
     var db = getDb();
+    dog.userId = db.currentUserId;
     db.dogs.push(dog);
     saveDb(db);
     return dog;
@@ -44,7 +102,7 @@ window.storage = (function () {
 
   function getTickets() {
     var db = getDb();
-    return db.tickets || [];
+    return (db.tickets || []).filter(function (t) { return t.userId === db.currentUserId; });
   }
 
   function addTicket(ticket) {
@@ -52,6 +110,7 @@ window.storage = (function () {
     if (!db.tickets) {
       db.tickets = [];
     }
+    ticket.userId = db.currentUserId;
     db.tickets.push(ticket);
     saveDb(db);
     return ticket;
@@ -64,6 +123,11 @@ window.storage = (function () {
     addDog: addDog,
     updateDog: updateDog,
     getTickets: getTickets,
-    addTicket: addTicket
+    addTicket: addTicket,
+    getUsers: getUsers,
+    addUser: addUser,
+    getCurrentUser: getCurrentUser,
+    setCurrentUser: setCurrentUser,
+    loginUser: loginUser
   };
 })();

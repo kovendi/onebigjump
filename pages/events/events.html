@@ -36,8 +36,10 @@
   <script src="../../modules/date/date.js"></script>
   <script src="../../modules/event-card/event-card.js"></script>
   <script src="events-data.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
   <script>
     window.i18n.initI18n();
+    window.storage.getDb();
     const t = window.i18n.t;
 
     const eventsPage = document.getElementById('events-page');

@@ -70,8 +70,10 @@
   <script src="../../modules/input/input.js"></script>
   <script src="../../modules/button/button.js"></script>
   <script src="../../modules/language-switcher/language-switcher.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
   <script>
     window.i18n.initI18n();
+    window.storage.getDb();
     const t = window.i18n.t;
 
     document.getElementById('language-switcher').replaceWith(
@@ -101,6 +103,8 @@
 
     document.getElementById('login-form').addEventListener('submit', (e) => {
       e.preventDefault();
+      const formData = new FormData(e.target);
+      window.storage.loginUser(formData.get('email'), formData.get('password'));
       window.location.href = '../events/events.html';
     });
 
