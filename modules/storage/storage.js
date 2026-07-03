@@ -127,6 +127,23 @@ window.storage = (function () {
     return ticket;
   }
 
+  function deleteCurrentUser() {
+    var db = getDb();
+    var userId = db.currentUserId;
+    db.dogs = db.dogs.filter(function (d) { return d.userId !== userId; });
+    db.tickets = (db.tickets || []).filter(function (t) { return t.userId !== userId; });
+    if (userId === 'demo-user') {
+      var userIndex = db.users.findIndex(function (u) { return u.id === userId; });
+      if (userIndex !== -1) {
+        db.users[userIndex] = demoUser();
+      }
+    } else {
+      db.users = db.users.filter(function (u) { return u.id !== userId; });
+    }
+    db.currentUserId = null;
+    saveDb(db);
+  }
+
   return {
     getDb: getDb,
     saveDb: saveDb,
@@ -140,6 +157,7 @@ window.storage = (function () {
     getCurrentUser: getCurrentUser,
     setCurrentUser: setCurrentUser,
     loginUser: loginUser,
-    updateUser: updateUser
+    updateUser: updateUser,
+    deleteCurrentUser: deleteCurrentUser
   };
 })();

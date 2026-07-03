@@ -140,3 +140,60 @@
   font-weight: 600;
   color: var(--color-text-main);
 }
+
+.profile-account-actions {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+}
+
+.profile-account-row {
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 14px 2px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.profile-account-row:last-child {
+  border-bottom: none;
+}
+
+.profile-account-row--default {
+  color: var(--color-text-main);
+}
+
+.profile-account-row--danger {
+  color: var(--color-accent);
+}
+
+.profile-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px;
+}
+
+.profile-confirm-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.profile-confirm-message {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.profile-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}

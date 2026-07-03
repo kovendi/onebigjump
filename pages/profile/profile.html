@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../../modules/section-title/section-title.css" />
   <link rel="stylesheet" href="../../modules/photo-picker/photo-picker.css" />
   <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="../../modules/modal/modal.css" />
   <link rel="stylesheet" href="profile.css" />
 </head>
 <body>
@@ -30,6 +31,7 @@
   <script src="../../modules/section-title/section-title.js"></script>
   <script src="../../modules/photo-picker/photo-picker.js"></script>
   <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/modal/modal.js"></script>
   <script src="../../modules/storage/storage.js"></script>
   <script>
     window.i18n.initI18n();
@@ -210,6 +212,90 @@
     }
 
     content.appendChild(dogsList);
+
+    // account
+    content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('profile.account_title') }));
+
+    function openConfirmModal({ title, message, actionLabel, onConfirm }) {
+      const wrap = document.createElement('div');
+      wrap.className = 'profile-confirm';
+
+      const titleEl = document.createElement('h3');
+      titleEl.className = 'profile-confirm-title';
+      titleEl.textContent = title;
+      wrap.appendChild(titleEl);
+
+      const messageEl = document.createElement('p');
+      messageEl.className = 'profile-confirm-message';
+      messageEl.textContent = message;
+      wrap.appendChild(messageEl);
+
+      const actions = document.createElement('div');
+      actions.className = 'profile-confirm-actions';
+
+      actions.appendChild(window.buttonModule.renderButton({
+        label: t('common.cancel'),
+        variant: 'secondary',
+        onClick: () => window.modalModule.closeModal()
+      }));
+
+      actions.appendChild(window.buttonModule.renderButton({
+        label: actionLabel,
+        variant: 'primary',
+        onClick: () => {
+          window.modalModule.closeModal();
+          onConfirm();
+        }
+      }));
+
+      wrap.appendChild(actions);
+      window.modalModule.openModal(wrap);
+    }
+
+    function renderAccountRow(label, extraClass, onClick) {
+      const row = document.createElement('button');
+      row.type = 'button';
+      row.className = `profile-account-row ${extraClass}`;
+      row.textContent = label;
+      row.addEventListener('click', onClick);
+      return row;
+    }
+
+    const accountActions = document.createElement('div');
+    accountActions.className = 'profile-account-actions';
+
+    accountActions.appendChild(renderAccountRow(
+      t('profile.logout_button'),
+      'profile-account-row--default',
+      () => {
+        openConfirmModal({
+          title: t('profile.logout_confirm_title'),
+          message: t('profile.logout_confirm_message'),
+          actionLabel: t('profile.logout_confirm_action'),
+          onConfirm: () => {
+            window.location.href = '../login/login.html';
+          }
+        });
+      }
+    ));
+
+    accountActions.appendChild(renderAccountRow(
+      t('profile.delete_account_button'),
+      'profile-account-row--danger',
+      () => {
+        openConfirmModal({
+          title: t('profile.delete_account_confirm_title'),
+          message: t('profile.delete_account_confirm_message'),
+          actionLabel: t('profile.delete_account_confirm_action'),
+          onConfirm: () => {
+            window.storage.deleteCurrentUser();
+            window.location.href = '../login/login.html';
+          }
+        });
+      }
+    ));
+
+    content.appendChild(accountActions);
 
     profilePage.appendChild(
       window.bottomNavModule.renderBottomNav({ active: 'profile' })
