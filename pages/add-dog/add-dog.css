@@ -1,0 +1,30 @@
+#screen-content {
+  min-height: 100%;
+  overflow-x: clip;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-dog-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.add-dog-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.add-dog-submit {
+  margin-top: 8px;
+}
+
+.add-dog-submit:disabled {
+  background: #e2e8f0;
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}

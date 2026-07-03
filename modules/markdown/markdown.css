@@ -1,0 +1,31 @@
+.markdown__heading {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-main);
+  margin: 14px 0 6px;
+}
+
+.markdown__heading:first-child {
+  margin-top: 0;
+}
+
+.markdown__paragraph {
+  margin: 0 0 10px;
+}
+
+.markdown__paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.markdown__list {
+  margin: 0 0 10px;
+  padding-left: 18px;
+}
+
+.markdown__list:last-child {
+  margin-bottom: 0;
+}
+
+.markdown__list li {
+  margin-bottom: 4px;
+}

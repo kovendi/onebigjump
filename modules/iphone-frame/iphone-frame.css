@@ -1,0 +1,65 @@
+/* Only applied when JS has confirmed we're on desktop and added the frame */
+body.has-iphone-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #2b2f31;
+}
+
+.iphone-frame {
+  position: relative;
+  width: 390px;
+  height: 844px;
+  max-width: 100vw;
+  max-height: 100vh;
+  background: #000;
+  border-radius: 55px;
+  padding: 14px;
+  box-shadow:
+    0 0 0 2px #3a3d3f,
+    0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.iphone-notch {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 32px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 2;
+}
+
+.iphone-screen {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 100%;
+  background: var(--color-background);
+  border-radius: 40px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.iphone-screen::-webkit-scrollbar {
+  display: none;
+}
+
+.iphone-home-indicator {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 134px;
+  height: 5px;
+  background: #fff;
+  border-radius: 3px;
+  opacity: 0.9;
+  z-index: 2;
+}

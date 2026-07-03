@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Sikeres vásárlás</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="ticket-purchase-success.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="ticket-purchase-success-page" id="ticket-purchase-success-page">
+      <img class="ticket-purchase-success__icon" src="../../assets/icon-success.svg" alt="" />
+      <p class="ticket-purchase-success__title" id="ticket-purchase-success-title"></p>
+      <p class="ticket-purchase-success__description" id="ticket-purchase-success-description"></p>
+      <div class="ticket-purchase-success__action" id="ticket-purchase-success-action"></div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/button/button.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const params = new URLSearchParams(window.location.search);
+    const eventName = params.get('eventName') || '';
+    const quantity = params.get('quantity') || '1';
+
+    document.getElementById('ticket-purchase-success-title').textContent = t('ticket_purchase_success.title');
+    document.getElementById('ticket-purchase-success-description').textContent =
+      t('ticket_purchase_success.description').replace('{quantity}', quantity).replace('{eventName}', eventName);
+
+    document.getElementById('ticket-purchase-success-action').appendChild(
+      window.buttonModule.renderButton({
+        label: t('ticket_purchase_success.wallet_action'),
+        variant: 'primary',
+        onClick: () => { window.location.href = '../wallet/wallet.html'; }
+      })
+    );
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

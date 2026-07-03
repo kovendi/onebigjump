@@ -1,0 +1,69 @@
+// Classic script (not a module) — see iphone-frame.js for why.
+// window.navbarModule.renderNavbar({ title, onMenuClick, onNotificationClick, hasNotification, showBack, onBackClick }) -> HTMLElement
+// title: already-translated string (caller resolves via i18n.t()); onMenuClick: called when the hamburger icon is tapped
+// onNotificationClick: called when the bell icon is tapped; hasNotification: shows a red indicator dot on the bell
+// showBack: shows a back arrow before the title instead of empty space; onBackClick: called when tapped (defaults to history.back())
+
+window.navbarModule = (function () {
+  function renderNavbar({ title = "", onMenuClick, onNotificationClick, hasNotification = false, showBack = false, onBackClick } = {}) {
+    const navbar = document.createElement("div");
+    navbar.className = "navbar";
+
+    const titleWrap = document.createElement("div");
+    titleWrap.className = "navbar__title-wrap";
+
+    if (showBack) {
+      const backButton = document.createElement("button");
+      backButton.type = "button";
+      backButton.className = "navbar__back-button";
+      backButton.setAttribute("aria-label", "Back");
+      backButton.innerHTML = `<img src="../../assets/icon-back.svg" alt="" class="navbar__back-icon">`;
+      backButton.addEventListener("click", onBackClick || (() => window.history.back()));
+      titleWrap.appendChild(backButton);
+    }
+
+    const titleEl = document.createElement("span");
+    titleEl.className = "navbar__title";
+    titleEl.textContent = title;
+    titleWrap.appendChild(titleEl);
+
+    const actions = document.createElement("div");
+    actions.className = "navbar__actions";
+
+    const notificationButton = document.createElement("button");
+    notificationButton.type = "button";
+    notificationButton.className = "navbar__notification-button";
+    notificationButton.setAttribute("aria-label", "Notifications");
+    notificationButton.innerHTML = `<img src="../../assets/icon-bell.svg" alt="" class="navbar__notification-icon">`;
+
+    if (hasNotification) {
+      const indicator = document.createElement("span");
+      indicator.className = "navbar__notification-indicator";
+      notificationButton.appendChild(indicator);
+    }
+
+    if (onNotificationClick) {
+      notificationButton.addEventListener("click", onNotificationClick);
+    }
+
+    const menuButton = document.createElement("button");
+    menuButton.type = "button";
+    menuButton.className = "navbar__menu-button";
+    menuButton.setAttribute("aria-label", "Menu");
+    menuButton.innerHTML = `<img src="../../assets/icon-menu.svg" alt="" class="navbar__menu-icon">`;
+
+    if (onMenuClick) {
+      menuButton.addEventListener("click", onMenuClick);
+    }
+
+    actions.appendChild(notificationButton);
+    actions.appendChild(menuButton);
+
+    navbar.appendChild(titleWrap);
+    navbar.appendChild(actions);
+
+    return navbar;
+  }
+
+  return { renderNavbar };
+})();

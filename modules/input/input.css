@@ -1,0 +1,30 @@
+.input-field {
+  width: 100%;
+}
+
+.input-field__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.input-field__control {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: var(--color-card-background);
+  color: var(--color-text-main);
+  font-size: 15px;
+}
+
+.input-field__control::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.input-field__control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}

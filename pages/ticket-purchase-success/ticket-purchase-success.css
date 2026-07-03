@@ -1,0 +1,41 @@
+#screen-content {
+  min-height: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-purchase-success-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  background: var(--color-background);
+}
+
+.ticket-purchase-success__icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 4px;
+}
+
+.ticket-purchase-success__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin: 0;
+}
+
+.ticket-purchase-success__description {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0 0 12px;
+}
+
+.ticket-purchase-success__action {
+  width: 100%;
+}

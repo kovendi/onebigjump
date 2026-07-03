@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Registration</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/input/input.css" />
+  <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="registration.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <img class="registration-bg-blob registration-bg-blob--teal" src="../../assets/blob-teal.svg" alt="" />
+    <img class="registration-bg-blob registration-bg-blob--pink" src="../../assets/blob-pink.svg" alt="" />
+    <div class="registration-page">
+      <img class="registration-logo" src="../../assets/onebigjump.png" alt="One Big Jump" />
+
+      <h1 class="registration-title" id="registration-title"></h1>
+
+      <form class="registration-form" id="registration-form">
+        <div id="email-input"></div>
+
+        <div id="username-input"></div>
+        <p class="registration-hint">
+          <img class="registration-hint-icon" src="../../assets/icon-info.svg" alt="" />
+          <span id="username-hint"></span>
+        </p>
+
+        <div id="name-input"></div>
+        <p class="registration-hint">
+          <img class="registration-hint-icon" src="../../assets/icon-info.svg" alt="" />
+          <span id="name-hint"></span>
+        </p>
+
+        <div id="password-input"></div>
+        <div id="password-confirm-input"></div>
+
+        <div class="registration-actions">
+          <div id="back-button"></div>
+          <div id="submit-button"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/input/input.js"></script>
+  <script src="../../modules/button/button.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    document.getElementById('registration-title').textContent = t('registration.title');
+    document.getElementById('username-hint').textContent = t('registration.username_hint');
+    document.getElementById('name-hint').textContent = t('registration.name_hint');
+
+    document.getElementById('email-input').replaceWith(
+      window.inputModule.renderInput({ type: 'email', name: 'email', label: t('registration.email_label'), placeholder: t('registration.email_placeholder'), id: 'email-input' })
+    );
+    document.getElementById('username-input').replaceWith(
+      window.inputModule.renderInput({ type: 'text', name: 'username', label: t('registration.username_label'), placeholder: t('registration.username_placeholder'), id: 'username-input' })
+    );
+    document.getElementById('name-input').replaceWith(
+      window.inputModule.renderInput({ type: 'text', name: 'name', label: t('registration.name_label'), placeholder: t('registration.name_placeholder'), id: 'name-input' })
+    );
+    document.getElementById('password-input').replaceWith(
+      window.inputModule.renderInput({ type: 'password', name: 'password', label: t('registration.password_label'), placeholder: t('registration.password_placeholder'), id: 'password-input' })
+    );
+    document.getElementById('password-confirm-input').replaceWith(
+      window.inputModule.renderInput({ type: 'password', name: 'password_confirm', label: t('registration.password_confirm_label'), placeholder: t('registration.password_confirm_placeholder'), id: 'password-confirm-input' })
+    );
+
+    document.querySelectorAll('#registration-form input').forEach((input) => input.required = true);
+
+    document.getElementById('back-button').replaceWith(
+      window.buttonModule.renderButton({ label: t('registration.back_button'), variant: 'secondary', onClick: () => { window.location.href = '../login/login.html'; } })
+    );
+    document.getElementById('submit-button').replaceWith(
+      window.buttonModule.renderButton({ label: t('registration.submit_button'), variant: 'primary', type: 'submit' })
+    );
+
+    document.getElementById('registration-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      window.location.href = '../events/events.html';
+    });
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

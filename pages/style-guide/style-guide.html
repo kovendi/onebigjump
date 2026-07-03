@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Style guide</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="../../modules/bottom-nav/bottom-nav.css" />
+  <link rel="stylesheet" href="../../modules/section-title/section-title.css" />
+  <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="../../modules/input/input.css" />
+  <link rel="stylesheet" href="../../modules/dropdown/dropdown.css" />
+  <link rel="stylesheet" href="../../modules/dog-card/dog-card.css" />
+  <link rel="stylesheet" href="../../modules/event-card/event-card.css" />
+  <link rel="stylesheet" href="../../modules/modal/modal.css" />
+  <link rel="stylesheet" href="../../modules/file-upload/file-upload.css" />
+  <link rel="stylesheet" href="../../modules/photo-picker/photo-picker.css" />
+  <link rel="stylesheet" href="../../modules/markdown/markdown.css" />
+  <link rel="stylesheet" href="style-guide.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="style-guide-page" id="style-guide-page">
+      <div class="style-guide-content">
+
+        <section class="style-guide-section" id="sg-colors"></section>
+
+        <section class="style-guide-section" id="sg-pages"></section>
+
+        <section class="style-guide-section" id="sg-components"></section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script src="../../modules/bottom-nav/bottom-nav.js"></script>
+  <script src="../../modules/section-title/section-title.js"></script>
+  <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/input/input.js"></script>
+  <script src="../../modules/dropdown/dropdown.js"></script>
+  <script src="../../modules/date/date.js"></script>
+  <script src="../../modules/dog-card/dog-card.js"></script>
+  <script src="../../modules/event-card/event-card.js"></script>
+  <script src="../../modules/modal/modal.js"></script>
+  <script src="../../modules/file-upload/file-upload.js"></script>
+  <script src="../../modules/photo-picker/photo-picker.js"></script>
+  <script src="../../modules/markdown/markdown.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    function addComponentDemo(container, labelKey, note, el) {
+      const wrap = document.createElement('div');
+      wrap.className = 'style-guide-component';
+
+      const label = document.createElement('p');
+      label.className = 'style-guide-component__label';
+      label.textContent = t(labelKey);
+      wrap.appendChild(label);
+
+      if (note) {
+        const noteEl = document.createElement('p');
+        noteEl.className = 'style-guide-component__note';
+        noteEl.textContent = note;
+        wrap.appendChild(noteEl);
+      }
+
+      const demo = document.createElement('div');
+      demo.className = 'style-guide-demo';
+      demo.appendChild(el);
+      wrap.appendChild(demo);
+
+      container.appendChild(wrap);
+    }
+
+    // --- Colors ---
+    const colorsSection = document.getElementById('sg-colors');
+    colorsSection.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('style_guide.colors_title') }));
+
+    const colorsGrid = document.createElement('div');
+    colorsGrid.className = 'style-guide-colors';
+    [
+      { varName: '--color-primary', labelKey: 'style_guide.color_primary' },
+      { varName: '--color-accent', labelKey: 'style_guide.color_accent' },
+      { varName: '--color-text-secondary', labelKey: 'style_guide.color_text_secondary' },
+      { varName: '--color-text-main', labelKey: 'style_guide.color_text_main' },
+      { varName: '--color-background', labelKey: 'style_guide.color_background' },
+      { varName: '--color-card-background', labelKey: 'style_guide.color_card_background' },
+    ].forEach(({ varName, labelKey }) => {
+      const hex = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+
+      const swatch = document.createElement('div');
+      swatch.className = 'style-guide-swatch';
+
+      const box = document.createElement('div');
+      box.className = 'style-guide-swatch__box';
+      box.style.background = hex;
+      swatch.appendChild(box);
+
+      const name = document.createElement('span');
+      name.className = 'style-guide-swatch__name';
+      name.textContent = t(labelKey);
+      swatch.appendChild(name);
+
+      const value = document.createElement('span');
+      value.className = 'style-guide-swatch__hex';
+      value.textContent = hex;
+      swatch.appendChild(value);
+
+      colorsGrid.appendChild(swatch);
+    });
+    colorsSection.appendChild(colorsGrid);
+
+    // --- Pages ---
+    const pagesSection = document.getElementById('sg-pages');
+    pagesSection.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('style_guide.pages_title') }));
+
+    const pagesList = document.createElement('ul');
+    pagesList.className = 'style-guide-pages';
+    [
+      { href: '../login/login.html', labelKey: 'style_guide.page_login' },
+      { href: '../registration/registration.html', labelKey: 'style_guide.page_registration' },
+      { href: '../events/events.html', labelKey: 'style_guide.page_events' },
+      { href: '../event-detail/event-detail.html?id=evt-001', labelKey: 'style_guide.page_event_detail' },
+      { href: '../ticket-purchase/ticket-purchase.html?id=evt-001', labelKey: 'style_guide.page_ticket_purchase' },
+      { href: '../ticket-purchase-success/ticket-purchase-success.html?eventName=Demo+Event&quantity=1', labelKey: 'style_guide.page_ticket_purchase_success' },
+      { href: '../dogs/dogs.html', labelKey: 'style_guide.page_dogs' },
+      { href: '../dog-profile/dog-profile.html', labelKey: 'style_guide.page_dog_profile' },
+      { href: '../add-dog/add-dog.html', labelKey: 'style_guide.page_add_dog' },
+      { href: '../wallet/wallet.html', labelKey: 'style_guide.page_wallet' },
+    ].forEach(({ href, labelKey }) => {
+      const item = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = href;
+      link.className = 'style-guide-pages__link';
+      link.textContent = t(labelKey);
+      item.appendChild(link);
+      pagesList.appendChild(item);
+    });
+    pagesSection.appendChild(pagesList);
+
+    // --- Components ---
+    const componentsSection = document.getElementById('sg-components');
+    componentsSection.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('style_guide.components_title') }));
+
+    const componentsGrid = document.createElement('div');
+    componentsGrid.className = 'style-guide-components';
+    componentsSection.appendChild(componentsGrid);
+
+    // navbar
+    const navbarDemo = window.navbarModule.renderNavbar({ title: t('style_guide.component_navbar'), showBack: true, hasNotification: true });
+    addComponentDemo(componentsGrid, 'style_guide.component_navbar', null, navbarDemo);
+
+    // section-title (already used for every heading on this page)
+    const sectionTitleDemo = window.sectionTitleModule.renderSectionTitle({ text: t('style_guide.component_section_title') });
+    addComponentDemo(componentsGrid, 'style_guide.component_section_title', t('style_guide.component_section_title_note'), sectionTitleDemo);
+
+    // button
+    const buttonGroup = document.createElement('div');
+    buttonGroup.className = 'style-guide-button-row';
+    buttonGroup.appendChild(window.buttonModule.renderButton({ label: 'Primary', variant: 'primary' }));
+    buttonGroup.appendChild(window.buttonModule.renderButton({ label: 'Secondary', variant: 'secondary', iconSrc: '../../assets/icon-plus-primary.svg' }));
+    buttonGroup.appendChild(window.buttonModule.renderButton({ label: 'Text accent', variant: 'text-accent', iconSrc: '../../assets/icon-heart-accent.svg' }));
+    addComponentDemo(componentsGrid, 'style_guide.component_button', null, buttonGroup);
+
+    // input
+    const inputDemo = window.inputModule.renderInput({ name: 'sg-input', label: t('login.email_label'), placeholder: t('login.email_placeholder') });
+    addComponentDemo(componentsGrid, 'style_guide.component_input', null, inputDemo);
+
+    // dropdown
+    const dropdownDemo = window.dropdownModule.renderDropdown({
+      name: 'sg-dropdown',
+      label: t('add_dog.breed_label') || 'Breed',
+      placeholder: t('style_guide.dropdown_placeholder'),
+      options: [
+        { value: 'labrador', label: t('style_guide.dropdown_option_labrador') },
+        { value: 'golden', label: t('style_guide.dropdown_option_golden') },
+        { value: 'mixed', label: t('style_guide.dropdown_option_mixed') },
+      ],
+    });
+    addComponentDemo(componentsGrid, 'style_guide.component_dropdown', null, dropdownDemo);
+
+    // date
+    const dateWrap = document.createElement('div');
+    dateWrap.className = 'style-guide-date';
+    const dateLine1 = document.createElement('p');
+    dateLine1.textContent = `${t('style_guide.date_single_label')} ${window.dateModule.formatDate('2026-08-15')}`;
+    const dateLine2 = document.createElement('p');
+    dateLine2.textContent = `${t('style_guide.date_range_label')} ${window.dateModule.formatDateRange('2026-08-15', '2026-08-17')}`;
+    dateWrap.appendChild(dateLine1);
+    dateWrap.appendChild(dateLine2);
+    addComponentDemo(componentsGrid, 'style_guide.component_date', null, dateWrap);
+
+    // dog-card
+    const dogCardDemo = window.dogCardModule.renderDogCard({
+      photo: '../../assets/icon-dogs.svg',
+      name: 'Buksi',
+      breed: t('style_guide.dropdown_option_labrador'),
+      birthdate: '2022-04-10',
+      microchip: '123456789012345',
+      goodDogCard: true,
+    });
+    addComponentDemo(componentsGrid, 'style_guide.component_dog_card', null, dogCardDemo);
+
+    // event-card
+    const eventCardDemo = window.eventCardModule.renderEventCard({
+      eventId: 'evt-001',
+      imageUrl: '../../assets/logo.jpeg',
+      name: 'Demo Event',
+      startDate: '2026-08-15',
+      endDate: '2026-08-17',
+      location: 'Budapest',
+      followers: 42,
+      isExam: true,
+      isPaid: true,
+    });
+    addComponentDemo(componentsGrid, 'style_guide.component_event_card', null, eventCardDemo);
+
+    // modal
+    const modalTrigger = window.buttonModule.renderButton({
+      label: t('style_guide.modal_open_action'),
+      variant: 'primary',
+      onClick: () => {
+        const content = document.createElement('div');
+        const title = document.createElement('h3');
+        title.textContent = t('style_guide.modal_demo_title');
+        const description = document.createElement('p');
+        description.textContent = t('style_guide.modal_demo_description');
+        content.appendChild(title);
+        content.appendChild(description);
+        window.modalModule.openModal(content);
+      },
+    });
+    addComponentDemo(componentsGrid, 'style_guide.component_modal', null, modalTrigger);
+
+    // file-upload
+    const fileUploadDemo = window.fileUploadModule.renderFileUpload({
+      name: 'sg-file-upload',
+      label: t('add_dog.health_book_label'),
+      buttonLabel: t('style_guide.file_upload_button'),
+      countLabel: (count) => t('style_guide.file_upload_count').replace('{count}', count),
+    });
+    addComponentDemo(componentsGrid, 'style_guide.component_file_upload', null, fileUploadDemo);
+
+    // photo-picker
+    const photoPickerDemo = window.photoPickerModule.renderPhotoPicker({ name: 'sg-photo-picker' });
+    addComponentDemo(componentsGrid, 'style_guide.component_photo_picker', null, photoPickerDemo);
+
+    // markdown
+    const markdownDemo = document.createElement('div');
+    markdownDemo.className = 'markdown';
+    markdownDemo.innerHTML = window.markdownModule.renderMarkdown(t('style_guide.markdown_demo'));
+    addComponentDemo(componentsGrid, 'style_guide.component_markdown', null, markdownDemo);
+
+    // bottom-nav
+    const bottomNavDemo = window.bottomNavModule.renderBottomNav({ active: 'dogs' });
+    addComponentDemo(componentsGrid, 'style_guide.component_bottom_nav', null, bottomNavDemo);
+  </script>
+</body>
+</html>

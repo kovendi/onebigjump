@@ -1,0 +1,216 @@
+#screen-content {
+  min-height: 100%;
+  overflow-x: clip;
+  display: flex;
+  flex-direction: column;
+}
+
+.dog-profile-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.dog-profile-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.dog-profile-content[hidden] {
+  display: none;
+}
+
+.dog-profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  align-self: center;
+  background: var(--color-background);
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+.dog-profile-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.dog-profile-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.dog-profile-edit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.dog-profile-edit-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.dog-profile-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.dog-profile-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.dog-profile-field-label {
+  color: var(--color-text-secondary);
+}
+
+.dog-profile-field-value {
+  color: var(--color-text-main);
+  font-weight: 600;
+  text-align: right;
+}
+
+.dog-profile-badges {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.dog-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(90deg, var(--color-accent), #ff6f91);
+  border-radius: 999px;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+.dog-profile-badge-icon {
+  width: 14px;
+  height: 14px;
+  filter: brightness(0) invert(1);
+}
+
+.dog-profile-no-badges {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.dog-profile-files {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.dog-profile-file {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--color-card-background);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.dog-profile-file-name {
+  font-size: 13px;
+  color: var(--color-text-main);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dog-profile-file .button {
+  width: auto;
+  flex-shrink: 0;
+  padding: 4px 6px;
+}
+
+.dog-profile-not-found {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 32px 16px;
+  text-align: center;
+}
+
+.dog-profile-not-found[hidden] {
+  display: none;
+}
+
+.dog-profile-not-found-icon {
+  width: 48px;
+  height: 48px;
+  opacity: 0.4;
+}
+
+.dog-profile-not-found-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.dog-profile-not-found-description {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.dog-profile-qr-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.dog-profile-qr-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.dog-profile-qr-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+}
+
+.dog-profile-qr-description {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Kutya hozzáadása</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="../../modules/bottom-nav/bottom-nav.css" />
+  <link rel="stylesheet" href="../../modules/input/input.css" />
+  <link rel="stylesheet" href="../../modules/dropdown/dropdown.css" />
+  <link rel="stylesheet" href="../../modules/photo-picker/photo-picker.css" />
+  <link rel="stylesheet" href="../../modules/file-upload/file-upload.css" />
+  <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="add-dog.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="add-dog-page" id="add-dog-page">
+      <form class="add-dog-content" id="add-dog-content"></form>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script src="../../modules/bottom-nav/bottom-nav.js"></script>
+  <script src="../../modules/input/input.js"></script>
+  <script src="../../modules/dropdown/dropdown.js"></script>
+  <script src="../../modules/photo-picker/photo-picker.js"></script>
+  <script src="../../modules/file-upload/file-upload.js"></script>
+  <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const addDogPage = document.getElementById('add-dog-page');
+    const form = document.getElementById('add-dog-content');
+    const searchParams = new URLSearchParams(window.location.search);
+    const returnTo = searchParams.get('returnTo');
+    const dogId = searchParams.get('dogId');
+    const existingDog = dogId ? window.storage.getDogs().find((dog) => dog.id === dogId) : null;
+    const redirectUrl = returnTo || '../dogs/dogs.html';
+
+    addDogPage.prepend(
+      window.navbarModule.renderNavbar({
+        title: t(existingDog ? 'add_dog.edit_title' : 'add_dog.title'),
+        showBack: true,
+        onBackClick: () => { window.location.href = redirectUrl; }
+      })
+    );
+
+    const formState = existingDog
+      ? { photo: existingDog.photo, name: existingDog.name, breed: existingDog.breed, birthdate: existingDog.birthdate, microchip: existingDog.microchip, healthBookFiles: null }
+      : { photo: null, name: '', breed: '', birthdate: '', microchip: '', healthBookFiles: null };
+
+    function updateSubmitState() {
+      const isComplete = formState.photo && formState.name && formState.breed
+        && /^\d{4}\/\d{2}\/\d{2}$/.test(formState.birthdate) && formState.microchip;
+      submitButton.disabled = !isComplete;
+    }
+
+    // photo
+    const photoField = window.photoPickerModule.renderPhotoPicker({
+      name: 'photo',
+      onChange: (file) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          formState.photo = reader.result;
+          updateSubmitState();
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    if (formState.photo) {
+      const circle = photoField.querySelector('.photo-picker__circle');
+      circle.innerHTML = '';
+      const preview = document.createElement('img');
+      preview.className = 'photo-picker__preview';
+      preview.src = formState.photo;
+      preview.alt = '';
+      circle.appendChild(preview);
+    }
+    form.appendChild(photoField);
+
+    // name
+    const nameField = window.inputModule.renderInput({
+      name: 'name',
+      label: t('add_dog.name_label'),
+      placeholder: t('add_dog.name_placeholder')
+    });
+    const nameInput = nameField.querySelector('input');
+    nameInput.value = formState.name;
+    nameInput.addEventListener('input', (e) => {
+      formState.name = e.target.value.trim();
+      updateSubmitState();
+    });
+    form.appendChild(nameField);
+
+    // breed
+    const breedOptions = [
+      'labrador', 'golden_retriever', 'border_collie', 'australian_shepherd',
+      'belgian_shepherd', 'german_shepherd', 'jack_russell', 'french_bulldog',
+      'poodle', 'beagle', 'mixed', 'other'
+    ].map((key) => ({ value: key, label: t(`add_dog.breed_${key}`) }));
+
+    const breedField = window.dropdownModule.renderDropdown({
+      name: 'breed',
+      label: t('add_dog.breed_label'),
+      placeholder: t('add_dog.breed_placeholder'),
+      options: breedOptions,
+      onChange: (value) => { formState.breed = value; updateSubmitState(); }
+    });
+    if (formState.breed) breedField.querySelector('select').value = formState.breed;
+    form.appendChild(breedField);
+
+    // birthdate (auto yyyy/mm/dd pattern)
+    const birthdateField = window.inputModule.renderInput({
+      name: 'birthdate',
+      label: t('add_dog.birthdate_label'),
+      placeholder: t('add_dog.birthdate_placeholder')
+    });
+    const birthdateInput = birthdateField.querySelector('input');
+    birthdateInput.inputMode = 'numeric';
+    birthdateInput.maxLength = 10;
+    birthdateInput.value = formState.birthdate;
+    birthdateInput.addEventListener('input', (e) => {
+      const digits = e.target.value.replace(/\D/g, '').slice(0, 8);
+      let formatted = digits.slice(0, 4);
+      if (digits.length > 4) formatted += '/' + digits.slice(4, 6);
+      if (digits.length > 6) formatted += '/' + digits.slice(6, 8);
+      e.target.value = formatted;
+      formState.birthdate = formatted;
+      updateSubmitState();
+    });
+    form.appendChild(birthdateField);
+
+    // microchip
+    const microchipField = window.inputModule.renderInput({
+      name: 'microchip',
+      label: t('add_dog.microchip_label'),
+      placeholder: t('add_dog.microchip_placeholder')
+    });
+    const microchipInput = microchipField.querySelector('input');
+    microchipInput.inputMode = 'numeric';
+    microchipInput.value = formState.microchip;
+    microchipInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 15);
+      formState.microchip = e.target.value;
+      updateSubmitState();
+    });
+    form.appendChild(microchipField);
+
+    // health book / passport files
+    form.appendChild(
+      window.fileUploadModule.renderFileUpload({
+        name: 'health-book',
+        label: t('add_dog.health_book_label'),
+        buttonLabel: t('add_dog.health_book_button'),
+        countLabel: (count) => t('add_dog.health_book_count').replace('{count}', count),
+        onChange: (files) => { formState.healthBookFiles = files; updateSubmitState(); }
+      })
+    );
+
+    const submitButton = window.buttonModule.renderButton({
+      label: t(existingDog ? 'add_dog.save_action' : 'add_dog.submit'),
+      type: 'submit',
+      variant: 'primary'
+    });
+    submitButton.disabled = !existingDog;
+    submitButton.classList.add('add-dog-submit');
+    form.appendChild(submitButton);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const dogData = {
+        photo: formState.photo,
+        name: formState.name,
+        breed: formState.breed,
+        birthdate: formState.birthdate,
+        microchip: formState.microchip
+      };
+      if (existingDog) {
+        window.storage.updateDog(existingDog.id, dogData);
+      } else {
+        window.storage.addDog(Object.assign({ id: Date.now().toString() }, dogData));
+      }
+      window.location.href = redirectUrl;
+    });
+
+    addDogPage.appendChild(
+      window.bottomNavModule.renderBottomNav({ active: 'dogs' })
+    );
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

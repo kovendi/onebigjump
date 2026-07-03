@@ -1,0 +1,150 @@
+#screen-content {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-bg-blob {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(30px);
+}
+
+.login-bg-blob--teal {
+  top: -60px;
+  left: -80px;
+  width: 260px;
+  height: 260px;
+  opacity: 0.28;
+}
+
+.login-bg-blob--pink {
+  bottom: -90px;
+  right: -70px;
+  width: 220px;
+  height: 220px;
+  opacity: 0.18;
+}
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  gap: 20px;
+  padding: 0px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.login-logo {
+  display: block;
+  width: 150px;
+  margin: 0 auto;
+}
+
+.login-stats {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.login-stat-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 16px;
+  background: rgba(0, 210, 196, 0.12);
+  color: var(--color-primary);
+}
+
+.login-stat-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.login-stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.login-stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.login-title {
+  font-size: 22px;
+  margin: 0;
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(100, 116, 139, 0.25);
+}
+
+.login-social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(100, 116, 139, 0.25);
+  background: var(--color-card-background);
+  color: var(--color-text-main);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-social-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.login-signup-hint {
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.login-signup-hint a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+}

@@ -1,0 +1,42 @@
+.file-upload {
+  width: 100%;
+}
+
+.file-upload__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.file-upload__control {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px dashed #e2e8f0;
+  border-radius: 10px;
+  background: var(--color-card-background);
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.file-upload__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.file-upload__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-upload__input {
+  display: none;
+}

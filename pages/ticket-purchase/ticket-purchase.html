@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Jegyvásárlás</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="../../modules/bottom-nav/bottom-nav.css" />
+  <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="../../modules/section-title/section-title.css" />
+  <link rel="stylesheet" href="ticket-purchase.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="ticket-purchase-page" id="ticket-purchase-page">
+      <div class="ticket-purchase-content" id="ticket-purchase-content" hidden>
+        <div class="ticket-purchase-event">
+          <img class="ticket-purchase-event__image" id="ticket-purchase-event-image" alt="" />
+          <div class="ticket-purchase-event__body">
+            <h1 class="ticket-purchase-event__name" id="ticket-purchase-event-name"></h1>
+            <div class="ticket-purchase-event__meta-row">
+              <span class="ticket-purchase-event__meta-icon-wrap">
+                <img class="ticket-purchase-event__meta-icon" src="../../assets/icon-calendar.svg" alt="" />
+              </span>
+              <span id="ticket-purchase-event-date"></span>
+            </div>
+            <div class="ticket-purchase-event__meta-row">
+              <span class="ticket-purchase-event__meta-icon-wrap">
+                <img class="ticket-purchase-event__meta-icon ticket-purchase-event__meta-icon--ticket" src="../../assets/icon-nav-tickets.svg" alt="" />
+              </span>
+              <span id="ticket-purchase-event-price"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ticket-purchase-quantity" id="ticket-purchase-quantity">
+          <span class="ticket-purchase-quantity__label" id="ticket-purchase-quantity-label"></span>
+          <div class="ticket-purchase-stepper">
+            <button type="button" class="ticket-purchase-stepper__button" id="ticket-purchase-decrease" aria-label="-">−</button>
+            <span class="ticket-purchase-stepper__value" id="ticket-purchase-quantity-value">0</span>
+            <button type="button" class="ticket-purchase-stepper__button" id="ticket-purchase-increase" aria-label="+">+</button>
+          </div>
+        </div>
+
+        <div class="ticket-purchase-participants" id="ticket-purchase-participants">
+          <div class="ticket-purchase-participants__list" id="ticket-purchase-participants-list"></div>
+          <p class="ticket-purchase-participants__empty" id="ticket-purchase-participants-empty" hidden></p>
+          <div id="ticket-purchase-add-dog-action"></div>
+        </div>
+
+        <div class="ticket-purchase-summary">
+          <div class="ticket-purchase-summary__total">
+            <span class="ticket-purchase-summary__total-label" id="ticket-purchase-total-label"></span>
+            <span class="ticket-purchase-summary__total-value" id="ticket-purchase-total-value"></span>
+          </div>
+          <div id="ticket-purchase-purchase-action"></div>
+        </div>
+      </div>
+
+      <div class="ticket-purchase-empty" id="ticket-purchase-empty" hidden>
+        <img class="ticket-purchase-empty-icon" src="../../assets/icon-info.svg" alt="" />
+        <p class="ticket-purchase-empty-title" id="ticket-purchase-empty-title"></p>
+        <p class="ticket-purchase-empty-description" id="ticket-purchase-empty-description"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script src="../../modules/bottom-nav/bottom-nav.js"></script>
+  <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/section-title/section-title.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
+  <script src="../../modules/date/date.js"></script>
+  <script src="../events/events-data.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const ticketPurchasePage = document.getElementById('ticket-purchase-page');
+    const eventId = new URLSearchParams(window.location.search).get('id');
+    const event = window.EVENTS_DATA.find((item) => item.id === eventId);
+
+    ticketPurchasePage.prepend(
+      window.navbarModule.renderNavbar({ title: t('ticket_purchase.title'), showBack: true })
+    );
+
+    if (event) {
+      document.getElementById('ticket-purchase-content').hidden = false;
+
+      document.getElementById('ticket-purchase-event-image').src = event.image_url;
+      document.getElementById('ticket-purchase-event-name').textContent = event.name;
+      document.getElementById('ticket-purchase-event-date').textContent = window.dateModule.formatDateRange(event.start_date, event.end_date);
+      document.getElementById('ticket-purchase-event-price').textContent = event.is_paid
+        ? `${event.price} ${event.currency}`
+        : t('event_detail.free_label');
+
+      document.getElementById('ticket-purchase-quantity-label').textContent = t('ticket_purchase.quantity_title');
+
+      const MIN_QUANTITY = 1;
+      const MAX_QUANTITY = 20;
+      let quantity = MIN_QUANTITY;
+      const quantityValueEl = document.getElementById('ticket-purchase-quantity-value');
+      const totalValueEl = document.getElementById('ticket-purchase-total-value');
+
+      const decreaseButton = document.getElementById('ticket-purchase-decrease');
+      const increaseButton = document.getElementById('ticket-purchase-increase');
+
+      function updateTotal() {
+        quantityValueEl.textContent = quantity;
+        totalValueEl.textContent = event.is_paid
+          ? `${quantity * event.price} ${event.currency}`
+          : t('event_detail.free_label');
+        decreaseButton.disabled = quantity <= MIN_QUANTITY;
+        increaseButton.disabled = quantity >= MAX_QUANTITY;
+      }
+
+      decreaseButton.addEventListener('click', () => {
+        if (quantity > MIN_QUANTITY) {
+          quantity -= 1;
+          updateTotal();
+        }
+      });
+      increaseButton.addEventListener('click', () => {
+        if (quantity < MAX_QUANTITY) {
+          quantity += 1;
+          updateTotal();
+        }
+      });
+      updateTotal();
+
+      document.getElementById('ticket-purchase-participants').prepend(
+        window.sectionTitleModule.renderSectionTitle({ text: t('ticket_purchase.participants_title') })
+      );
+
+      const participantsList = document.getElementById('ticket-purchase-participants-list');
+      const participantsEmpty = document.getElementById('ticket-purchase-participants-empty');
+      const dogs = window.storage.getDogs();
+      const selectedDogIds = [];
+
+      if (dogs.length === 0) {
+        participantsEmpty.hidden = false;
+        participantsEmpty.textContent = t('ticket_purchase.no_dogs_description');
+      } else {
+        dogs.forEach((dog) => {
+          const row = document.createElement('button');
+          row.type = 'button';
+          row.className = 'ticket-purchase-dog-row';
+
+          const photo = document.createElement('img');
+          photo.className = 'ticket-purchase-dog-row__photo';
+          photo.src = dog.photo || '../../assets/icon-dogs.svg';
+          photo.alt = '';
+          row.appendChild(photo);
+
+          const name = document.createElement('span');
+          name.className = 'ticket-purchase-dog-row__name';
+          name.textContent = dog.name;
+          row.appendChild(name);
+
+          const check = document.createElement('span');
+          check.className = 'ticket-purchase-dog-row__check';
+          row.appendChild(check);
+
+          row.addEventListener('click', () => {
+            row.classList.toggle('ticket-purchase-dog-row--selected');
+            const index = selectedDogIds.indexOf(dog.id);
+            if (row.classList.contains('ticket-purchase-dog-row--selected')) {
+              if (index === -1) {
+                selectedDogIds.push(dog.id);
+              }
+            } else if (index !== -1) {
+              selectedDogIds.splice(index, 1);
+            }
+          });
+
+          participantsList.appendChild(row);
+        });
+      }
+
+      const returnUrl = `../ticket-purchase/ticket-purchase.html?id=${encodeURIComponent(event.id)}`;
+      document.getElementById('ticket-purchase-add-dog-action').appendChild(
+        window.buttonModule.renderButton({
+          label: t('ticket_purchase.add_dog_action'),
+          variant: 'secondary',
+          iconSrc: '../../assets/icon-plus-primary.svg',
+          onClick: () => { window.location.href = `../add-dog/add-dog.html?returnTo=${encodeURIComponent(returnUrl)}`; }
+        })
+      );
+
+      document.getElementById('ticket-purchase-total-label').textContent = t('ticket_purchase.total_label');
+      document.getElementById('ticket-purchase-purchase-action').appendChild(
+        window.buttonModule.renderButton({
+          label: t('ticket_purchase.purchase_action'),
+          variant: 'primary',
+          onClick: () => {
+            window.storage.addTicket({
+              id: Date.now().toString(),
+              eventId: event.id,
+              eventName: event.name,
+              quantity: quantity,
+              dogIds: selectedDogIds.slice(),
+              unitPrice: event.is_paid ? event.price : 0,
+              currency: event.currency,
+              totalPrice: event.is_paid ? quantity * event.price : 0,
+              purchasedAt: new Date().toISOString()
+            });
+            window.location.href = `../ticket-purchase-success/ticket-purchase-success.html?eventName=${encodeURIComponent(event.name)}&quantity=${encodeURIComponent(quantity)}`;
+          }
+        })
+      );
+    } else {
+      document.getElementById('ticket-purchase-empty').hidden = false;
+      document.getElementById('ticket-purchase-empty-title').textContent = t('ticket_purchase.not_found_title');
+      document.getElementById('ticket-purchase-empty-description').textContent = t('ticket_purchase.not_found_description');
+    }
+
+    ticketPurchasePage.appendChild(
+      window.bottomNavModule.renderBottomNav({ active: 'events' })
+    );
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

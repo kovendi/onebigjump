@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Events</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="../../modules/bottom-nav/bottom-nav.css" />
+  <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="../../modules/event-card/event-card.css" />
+  <link rel="stylesheet" href="events.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="events-page" id="events-page">
+      <div class="events-list" id="events-list"></div>
+
+      <div class="events-empty" id="events-empty" hidden>
+        <img class="events-empty-icon" src="../../assets/icon-info.svg" alt="" />
+        <p class="events-empty-title" id="events-empty-title"></p>
+        <p class="events-empty-description" id="events-empty-description"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script src="../../modules/bottom-nav/bottom-nav.js"></script>
+  <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/date/date.js"></script>
+  <script src="../../modules/event-card/event-card.js"></script>
+  <script src="events-data.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const eventsPage = document.getElementById('events-page');
+
+    eventsPage.prepend(
+      window.navbarModule.renderNavbar({ title: t('events.title'), hasNotification: true })
+    );
+
+    const eventsList = document.getElementById('events-list');
+    const eventsEmpty = document.getElementById('events-empty');
+
+    if (window.EVENTS_DATA.length === 0) {
+      eventsList.hidden = true;
+      eventsEmpty.hidden = false;
+      document.getElementById('events-empty-title').textContent = t('events.empty_title');
+      document.getElementById('events-empty-description').textContent = t('events.empty_description');
+    } else {
+      window.EVENTS_DATA.forEach((event) => {
+        const card = window.eventCardModule.renderEventCard({
+          eventId: event.id,
+          imageUrl: event.image_url,
+          name: event.name,
+          startDate: event.start_date,
+          endDate: event.end_date,
+          location: event.location,
+          followers: event.followers_count,
+          isExam: event.is_exam,
+          isPaid: event.is_paid
+        });
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.event-card__actions')) return;
+          window.location.href = `../event-detail/event-detail.html?id=${encodeURIComponent(event.id)}`;
+        });
+        card.style.cursor = 'pointer';
+        eventsList.appendChild(card);
+      });
+    }
+
+    eventsPage.appendChild(
+      window.bottomNavModule.renderBottomNav({ active: 'events' })
+    );
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

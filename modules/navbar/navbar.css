@@ -1,0 +1,71 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--color-card-background);
+  border-bottom: 1px solid #e5e9e8;
+}
+
+.has-iphone-frame .navbar {
+  padding-top: 52px;
+}
+
+.navbar__title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.navbar__title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-text-main);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.navbar__back-button,
+.navbar__menu-button,
+.navbar__notification-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.navbar__back-icon,
+.navbar__menu-icon,
+.navbar__notification-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.navbar__notification-indicator {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 1.5px solid var(--color-card-background);
+}

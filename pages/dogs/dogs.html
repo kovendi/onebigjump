@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Kutyáim</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="../../modules/bottom-nav/bottom-nav.css" />
+  <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="../../modules/dog-card/dog-card.css" />
+  <link rel="stylesheet" href="../../modules/modal/modal.css" />
+  <link rel="stylesheet" href="dogs.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="dogs-page" id="dogs-page">
+      <div class="dogs-content" id="dogs-content"></div>
+
+      <div class="dogs-empty" id="dogs-empty" hidden>
+        <img class="dogs-empty-icon" src="../../assets/icon-dogs.svg" alt="" />
+        <p class="dogs-empty-title" id="dogs-empty-title"></p>
+        <p class="dogs-empty-description" id="dogs-empty-description"></p>
+        <div class="dogs-empty-action" id="dogs-empty-action"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script src="../../modules/bottom-nav/bottom-nav.js"></script>
+  <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/modal/modal.js"></script>
+  <script src="../../modules/date/date.js"></script>
+  <script src="../../modules/dog-card/dog-card.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const dogsPage = document.getElementById('dogs-page');
+
+    dogsPage.prepend(
+      window.navbarModule.renderNavbar({ title: t('nav.dogs'), hasNotification: true })
+    );
+
+    const DOGS_DATA = window.storage.getDogs();
+    const dogsContent = document.getElementById('dogs-content');
+    const dogsEmpty = document.getElementById('dogs-empty');
+
+    if (DOGS_DATA.length === 0) {
+      dogsContent.hidden = true;
+      dogsEmpty.hidden = false;
+      document.getElementById('dogs-empty-title').textContent = t('dogs.empty_title');
+      document.getElementById('dogs-empty-description').textContent = t('dogs.empty_description');
+      document.getElementById('dogs-empty-action').appendChild(
+        window.buttonModule.renderButton({
+          label: t('dogs.add_action'),
+          variant: 'primary',
+          onClick: () => { window.location.href = '../add-dog/add-dog.html'; }
+        })
+      );
+    } else {
+      DOGS_DATA.forEach((dog, index) => {
+        dogsContent.appendChild(
+          window.dogCardModule.renderDogCard({
+            photo: dog.photo,
+            name: dog.name,
+            breed: t(`add_dog.breed_${dog.breed}`),
+            birthdate: dog.birthdate,
+            microchip: dog.microchip,
+            goodDogCard: index % 2 === 0,
+            onProfileClick: () => { window.location.href = `../dog-profile/dog-profile.html?id=${dog.id}`; }
+          })
+        );
+      });
+
+      dogsContent.appendChild(
+        window.buttonModule.renderButton({
+          label: t('dogs.add_action'),
+          variant: 'primary',
+          onClick: () => { window.location.href = '../add-dog/add-dog.html'; }
+        })
+      );
+    }
+
+    dogsPage.appendChild(
+      window.bottomNavModule.renderBottomNav({ active: 'dogs' })
+    );
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>
