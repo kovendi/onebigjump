@@ -180,6 +180,7 @@ window.LOCALES.hu = {
   "style_guide.page_add_dog": "Kutya hozzáadása",
   "style_guide.page_wallet": "Tárca",
   "style_guide.page_profile": "Profil",
+  "style_guide.page_search": "Keresés",
   "style_guide.component_button": "Button",
   "style_guide.component_input": "Input",
   "style_guide.component_dropdown": "Dropdown",
@@ -193,6 +194,7 @@ window.LOCALES.hu = {
   "style_guide.component_photo_picker": "Photo picker",
   "style_guide.component_markdown": "Markdown",
   "style_guide.component_navbar": "Navbar",
+  "style_guide.component_search_navbar": "Navbar (keresés)",
   "style_guide.component_bottom_nav": "Bottom nav",
   "style_guide.component_language_switcher": "Nyelvválasztó",
   "style_guide.dropdown_placeholder": "Válassz fajtát",
@@ -209,5 +211,8 @@ window.LOCALES.hu = {
   "style_guide.markdown_demo": "## Demó cím\nEz egy **félkövér** és egy *dőlt* szó.\n- Első pont\n- Második pont",
   "members.title": "Tagok",
   "members.dog_count": "{count} kutya",
-  "members.no_dogs": "Nincs kutyája"
+  "members.no_dogs": "Nincs kutyája",
+  "search.placeholder_members": "Tagok keresése",
+  "search.placeholder_events": "Események keresése",
+  "search.no_results": "Nincs találat"
 };

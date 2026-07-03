@@ -180,6 +180,7 @@ window.LOCALES.en = {
   "style_guide.page_add_dog": "Add dog",
   "style_guide.page_wallet": "Wallet",
   "style_guide.page_profile": "Profile",
+  "style_guide.page_search": "Search",
   "style_guide.component_button": "Button",
   "style_guide.component_input": "Input",
   "style_guide.component_dropdown": "Dropdown",
@@ -193,6 +194,7 @@ window.LOCALES.en = {
   "style_guide.component_photo_picker": "Photo picker",
   "style_guide.component_markdown": "Markdown",
   "style_guide.component_navbar": "Navbar",
+  "style_guide.component_search_navbar": "Navbar (search)",
   "style_guide.component_bottom_nav": "Bottom nav",
   "style_guide.component_language_switcher": "Language switcher",
   "style_guide.dropdown_placeholder": "Choose a breed",
@@ -209,5 +211,8 @@ window.LOCALES.en = {
   "style_guide.markdown_demo": "## Demo heading\nThis is a **bold** and an *italic* word.\n- First item\n- Second item",
   "members.title": "Members",
   "members.dog_count": "{count} dogs",
-  "members.no_dogs": "No dogs"
+  "members.no_dogs": "No dogs",
+  "search.placeholder_members": "Search members",
+  "search.placeholder_events": "Search events",
+  "search.no_results": "No results"
 };

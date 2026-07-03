@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Search</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="../../modules/event-card/event-card.css" />
+  <link rel="stylesheet" href="search.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="search-page" id="search-page">
+      <div class="search-results" id="search-results"></div>
+
+      <div class="search-empty" id="search-empty" hidden>
+        <img class="search-empty-icon" src="../../assets/icon-info.svg" alt="" />
+        <p class="search-empty-title" id="search-empty-title"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/date/date.js"></script>
+  <script src="../../modules/event-card/event-card.js"></script>
+  <script src="../events/events-data.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
+  <script>
+    window.i18n.initI18n();
+    window.storage.getDb();
+    const t = window.i18n.t;
+
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type') === 'events' ? 'events' : 'members';
+    const backUrl = type === 'events' ? '../events/events.html' : '../members/members.html';
+
+    const searchPage = document.getElementById('search-page');
+    const results = document.getElementById('search-results');
+    const empty = document.getElementById('search-empty');
+
+    searchPage.prepend(
+      window.navbarModule.renderSearchNavbar({
+        placeholder: t(type === 'events' ? 'search.placeholder_events' : 'search.placeholder_members'),
+        onBackClick: () => { window.location.href = backUrl; },
+        onInput: (value) => renderResults(value)
+      })
+    );
+
+    function renderMemberItem(user) {
+      const dogs = window.storage.getDogsByUserId(user.id);
+
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'member-item';
+      item.addEventListener('click', () => {
+        window.location.href = `../profile/profile.html?id=${user.id}`;
+      });
+
+      const photo = document.createElement('img');
+      photo.className = 'member-photo';
+      photo.src = user.photo || '../../assets/icon-nav-profile.svg';
+      photo.alt = '';
+      item.appendChild(photo);
+
+      const info = document.createElement('div');
+      info.className = 'member-info';
+
+      const name = document.createElement('span');
+      name.className = 'member-name';
+      name.textContent = user.name;
+      info.appendChild(name);
+
+      const dogsRow = document.createElement('div');
+      dogsRow.className = 'member-dogs';
+
+      if (dogs.length === 0) {
+        const noDogs = document.createElement('span');
+        noDogs.className = 'member-no-dogs';
+        noDogs.textContent = t('members.no_dogs');
+        dogsRow.appendChild(noDogs);
+      } else {
+        const bubbles = document.createElement('div');
+        bubbles.className = 'member-dog-bubbles';
+        dogs.forEach((dog) => {
+          const bubble = document.createElement('img');
+          bubble.className = 'member-dog-bubble';
+          bubble.src = dog.photo || '../../assets/icon-dogs.svg';
+          bubble.alt = '';
+          bubbles.appendChild(bubble);
+        });
+        dogsRow.appendChild(bubbles);
+
+        const count = document.createElement('span');
+        count.className = 'member-dog-count';
+        count.textContent = t('members.dog_count').replace('{count}', dogs.length);
+        dogsRow.appendChild(count);
+      }
+
+      info.appendChild(dogsRow);
+      item.appendChild(info);
+      return item;
+    }
+
+    function renderEventItem(event) {
+      const card = window.eventCardModule.renderEventCard({
+        eventId: event.id,
+        imageUrl: event.image_url,
+        name: event.name,
+        startDate: event.start_date,
+        endDate: event.end_date,
+        location: event.location,
+        followers: event.followers_count,
+        isExam: event.is_exam,
+        isPaid: event.is_paid
+      });
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.event-card__actions')) return;
+        window.location.href = `../event-detail/event-detail.html?id=${encodeURIComponent(event.id)}`;
+      });
+      card.style.cursor = 'pointer';
+      return card;
+    }
+
+    function getAllItems() {
+      return type === 'events' ? window.EVENTS_DATA : window.storage.getUsers();
+    }
+
+    function renderResults(query) {
+      results.innerHTML = '';
+      const normalizedQuery = query.trim().toLowerCase();
+      const items = getAllItems().filter((item) => item.name.toLowerCase().includes(normalizedQuery));
+
+      if (items.length === 0) {
+        results.hidden = true;
+        empty.hidden = false;
+        document.getElementById('search-empty-title').textContent = t('search.no_results');
+        return;
+      }
+
+      results.hidden = false;
+      empty.hidden = true;
+
+      items.forEach((item) => {
+        results.appendChild(type === 'events' ? renderEventItem(item) : renderMemberItem(item));
+      });
+    }
+
+    renderResults('');
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

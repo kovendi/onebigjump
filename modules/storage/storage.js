@@ -11,11 +11,65 @@ window.storage = (function () {
     };
   }
 
+  function extraDemoUsers() {
+    var names = [
+      'Anna Johnson', 'Peter Smith', 'Esther Clark', 'Ben Turner', 'Sophie Reed',
+      'Gabriel Cooper', 'Dora Bennett', 'Leon Brooks', 'Kate Morgan', 'Adam Foster',
+      'Nora Bailey', 'Mark Hughes', 'Lucy Parker', 'Daniel Ward', 'Rachel Hunt',
+      'Zoltan Fisher', 'Hannah Reeves', 'Balint Wood', 'Petra Simmons', 'Chris Ellis',
+      'Vivien Marsh', 'Thomas Price', 'Bori Sanders', 'Gregory Ross', 'Emma Hayes',
+      'Matt Coleman', 'Kinga Powell', 'Norbert Long', 'Blanka Curtis', 'Attila Barnes'
+    ];
+
+    return names.map(function (name, index) {
+      var n = index + 2;
+      return {
+        id: 'demo-user-' + n,
+        email: 'demo' + n + '@onebigjump.com',
+        username: 'demo' + n,
+        name: name,
+        photo: 'https://i.pravatar.cc/300?img=' + n
+      };
+    });
+  }
+
+  function extraDemoDogs() {
+    var dogNames = [
+      'Bella', 'Max', 'Charlie', 'Luna', 'Cooper', 'Daisy', 'Rocky', 'Molly',
+      'Buddy', 'Sadie', 'Duke', 'Zoe', 'Bear', 'Lucy', 'Milo', 'Chloe',
+      'Jack', 'Ruby', 'Leo', 'Coco', 'Oscar', 'Maggie', 'Teddy', 'Rosie',
+      'Finn', 'Ellie', 'Zeus', 'Penny', 'Bruno', 'Nala'
+    ];
+    var breeds = [
+      'labrador', 'golden_retriever', 'border_collie', 'australian_shepherd',
+      'belgian_shepherd', 'german_shepherd', 'jack_russell', 'french_bulldog',
+      'poodle', 'beagle', 'mixed', 'other'
+    ];
+    var birthdates = [
+      '2019/03/12', '2020/07/22', '2021/01/05', '2018/11/30', '2022/05/17',
+      '2017/09/09', '2023/02/14', '2020/12/01', '2021/06/25', '2019/08/19'
+    ];
+
+    return dogNames.map(function (dogName, index) {
+      var n = index + 2;
+      return {
+        id: 'demo-dog-' + n,
+        userId: 'demo-user-' + n,
+        name: dogName,
+        breed: breeds[index % breeds.length],
+        birthdate: birthdates[index % birthdates.length],
+        microchip: '9001234567890' + (n % 10),
+        photo: 'https://placedog.net/500/500?id=' + n,
+        goodDogCard: index % 2 === 0
+      };
+    });
+  }
+
   function defaultDb() {
     return {
-      dogs: [],
+      dogs: extraDemoDogs(),
       tickets: [],
-      users: [demoUser()],
+      users: [demoUser()].concat(extraDemoUsers()),
       currentUserId: null
     };
   }

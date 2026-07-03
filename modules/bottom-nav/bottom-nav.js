@@ -42,15 +42,13 @@ window.bottomNavModule = (function () {
       button.appendChild(icon);
       button.appendChild(label);
 
-      if (!isActive) {
-        button.addEventListener("click", () => {
-          if (onNavigate) {
-            onNavigate(item.id);
-          } else if (item.href) {
-            window.location.href = item.href;
-          }
-        });
-      }
+      button.addEventListener("click", () => {
+        if (onNavigate) {
+          onNavigate(item.id);
+        } else if (item.href) {
+          window.location.href = item.href;
+        }
+      });
 
       nav.appendChild(button);
     });

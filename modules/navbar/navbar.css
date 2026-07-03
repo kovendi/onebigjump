@@ -61,6 +61,24 @@
   height: 24px;
 }
 
+.navbar__search-input {
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #e5e9e8;
+  border-radius: 10px;
+  background: var(--color-background);
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-text-main);
+}
+
+.navbar__search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
 .navbar__notification-indicator {
   position: absolute;
   top: 4px;

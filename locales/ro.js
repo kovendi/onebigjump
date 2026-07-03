@@ -180,6 +180,7 @@ window.LOCALES.ro = {
   "style_guide.page_add_dog": "Adaugă câine",
   "style_guide.page_wallet": "Portofel",
   "style_guide.page_profile": "Profil",
+  "style_guide.page_search": "Căutare",
   "style_guide.component_button": "Button",
   "style_guide.component_input": "Input",
   "style_guide.component_dropdown": "Dropdown",
@@ -193,6 +194,7 @@ window.LOCALES.ro = {
   "style_guide.component_photo_picker": "Photo picker",
   "style_guide.component_markdown": "Markdown",
   "style_guide.component_navbar": "Navbar",
+  "style_guide.component_search_navbar": "Navbar (căutare)",
   "style_guide.component_bottom_nav": "Bottom nav",
   "style_guide.component_language_switcher": "Selector de limbă",
   "style_guide.dropdown_placeholder": "Alege o rasă",
@@ -209,5 +211,8 @@ window.LOCALES.ro = {
   "style_guide.markdown_demo": "## Titlu demonstrativ\nAceasta este o **bold** și o *italic* text.\n- Primul punct\n- Al doilea punct",
   "members.title": "Membri",
   "members.dog_count": "{count} câini",
-  "members.no_dogs": "Fără câini"
+  "members.no_dogs": "Fără câini",
+  "search.placeholder_members": "Caută membri",
+  "search.placeholder_events": "Caută evenimente",
+  "search.no_results": "Niciun rezultat"
 };

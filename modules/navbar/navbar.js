@@ -4,6 +4,11 @@
 // onNotificationClick: called when the bell icon is tapped; hasNotification: shows a red indicator dot on the bell
 // showBack: shows a back arrow before the title instead of empty space; onBackClick: called when tapped (defaults to history.back())
 // showSearch: shows a search icon to the left of the bell (per-page opt-in, off by default); onSearchClick: called when tapped
+//
+// window.navbarModule.renderSearchNavbar({ placeholder, onBackClick, onInput }) -> HTMLElement
+// A back button plus a full-width text input, for dedicated search pages (see pages/search).
+// placeholder: already-translated string; onBackClick: called when the back arrow is tapped (defaults to history.back())
+// onInput: called with the input's current value on every keystroke
 
 window.navbarModule = (function () {
   function renderNavbar({ title = "", onMenuClick, onNotificationClick, hasNotification = false, showBack = false, onBackClick, showSearch = false, onSearchClick } = {}) {
@@ -80,5 +85,32 @@ window.navbarModule = (function () {
     return navbar;
   }
 
-  return { renderNavbar };
+  function renderSearchNavbar({ placeholder = "", onBackClick, onInput } = {}) {
+    const navbar = document.createElement("div");
+    navbar.className = "navbar";
+
+    const backButton = document.createElement("button");
+    backButton.type = "button";
+    backButton.className = "navbar__back-button";
+    backButton.setAttribute("aria-label", "Back");
+    backButton.innerHTML = `<img src="../../assets/icon-back.svg" alt="" class="navbar__back-icon">`;
+    backButton.addEventListener("click", onBackClick || (() => window.history.back()));
+    navbar.appendChild(backButton);
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "navbar__search-input";
+    input.placeholder = placeholder;
+    input.autofocus = true;
+
+    if (onInput) {
+      input.addEventListener("input", () => onInput(input.value));
+    }
+
+    navbar.appendChild(input);
+
+    return navbar;
+  }
+
+  return { renderNavbar, renderSearchNavbar };
 })();

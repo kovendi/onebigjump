@@ -31,7 +31,7 @@
 
     const membersPage = document.getElementById('members-page');
     membersPage.prepend(
-      window.navbarModule.renderNavbar({ title: t('members.title'), showSearch: true })
+      window.navbarModule.renderNavbar({ title: t('members.title'), showSearch: true, onSearchClick: () => { window.location.href = '../search/search.html?type=members'; } })
     );
 
     const content = document.getElementById('members-content');

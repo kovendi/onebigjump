@@ -137,6 +137,7 @@
       { href: '../add-dog/add-dog.html', labelKey: 'style_guide.page_add_dog' },
       { href: '../wallet/wallet.html', labelKey: 'style_guide.page_wallet' },
       { href: '../profile/profile.html', labelKey: 'style_guide.page_profile' },
+      { href: '../search/search.html?type=members', labelKey: 'style_guide.page_search' },
     ].forEach(({ href, labelKey }) => {
       const item = document.createElement('li');
       const link = document.createElement('a');
@@ -159,6 +160,10 @@
     // navbar
     const navbarDemo = window.navbarModule.renderNavbar({ title: t('style_guide.component_navbar'), showBack: true, hasNotification: true, showSearch: true });
     addComponentDemo(componentsGrid, 'style_guide.component_navbar', null, navbarDemo);
+
+    // search navbar
+    const searchNavbarDemo = window.navbarModule.renderSearchNavbar({ placeholder: t('search.placeholder_members') });
+    addComponentDemo(componentsGrid, 'style_guide.component_search_navbar', null, searchNavbarDemo);
 
     // section-title (already used for every heading on this page)
     const sectionTitleDemo = window.sectionTitleModule.renderSectionTitle({ text: t('style_guide.component_section_title') });
