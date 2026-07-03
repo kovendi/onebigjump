@@ -39,7 +39,6 @@
 }
 
 .navbar__back-button,
-.navbar__menu-button,
 .navbar__notification-button,
 .navbar__search-button {
   position: relative;
@@ -54,7 +53,6 @@
 }
 
 .navbar__back-icon,
-.navbar__menu-icon,
 .navbar__notification-icon,
 .navbar__search-icon {
   width: 24px;

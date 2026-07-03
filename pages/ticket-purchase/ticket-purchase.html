@@ -43,6 +43,7 @@
             <button type="button" class="ticket-purchase-stepper__button" id="ticket-purchase-increase" aria-label="+">+</button>
           </div>
         </div>
+        <p class="ticket-purchase-quantity-note" id="ticket-purchase-quantity-note" hidden></p>
 
         <div class="ticket-purchase-participants" id="ticket-purchase-participants">
           <div class="ticket-purchase-participants__list" id="ticket-purchase-participants-list"></div>
@@ -104,13 +105,23 @@
       document.getElementById('ticket-purchase-quantity-label').textContent = t('ticket_purchase.quantity_title');
 
       const MIN_QUANTITY = 1;
-      const MAX_QUANTITY = 20;
+      const MAX_QUANTITY = event.is_paid ? 20 : 1;
       let quantity = MIN_QUANTITY;
       const quantityValueEl = document.getElementById('ticket-purchase-quantity-value');
       const totalValueEl = document.getElementById('ticket-purchase-total-value');
 
       const decreaseButton = document.getElementById('ticket-purchase-decrease');
       const increaseButton = document.getElementById('ticket-purchase-increase');
+
+      const quantityNote = document.getElementById('ticket-purchase-quantity-note');
+      if (!event.is_paid) {
+        document.getElementById('ticket-purchase-quantity').hidden = true;
+        quantityNote.hidden = false;
+        quantityNote.textContent = t('ticket_purchase.free_quantity_note');
+      } else {
+        quantityNote.hidden = false;
+        quantityNote.textContent = t('ticket_purchase.paid_quantity_note');
+      }
 
       function updateTotal() {
         quantityValueEl.textContent = quantity;
@@ -135,82 +146,89 @@
       });
       updateTotal();
 
-      document.getElementById('ticket-purchase-participants').prepend(
-        window.sectionTitleModule.renderSectionTitle({ text: t('ticket_purchase.participants_title') })
-      );
-
-      const participantsList = document.getElementById('ticket-purchase-participants-list');
-      const participantsEmpty = document.getElementById('ticket-purchase-participants-empty');
-      const dogs = window.storage.getDogs();
       const selectedDogIds = [];
 
-      if (dogs.length === 0) {
-        participantsEmpty.hidden = false;
-        participantsEmpty.textContent = t('ticket_purchase.no_dogs_description');
+      if (!event.is_exam) {
+        document.getElementById('ticket-purchase-participants').hidden = true;
       } else {
-        dogs.forEach((dog) => {
-          const row = document.createElement('button');
-          row.type = 'button';
-          row.className = 'ticket-purchase-dog-row';
+        document.getElementById('ticket-purchase-participants').prepend(
+          window.sectionTitleModule.renderSectionTitle({ text: t('ticket_purchase.participants_title') })
+        );
 
-          const photo = document.createElement('img');
-          photo.className = 'ticket-purchase-dog-row__photo';
-          photo.src = dog.photo || '../../assets/icon-dogs.svg';
-          photo.alt = '';
-          row.appendChild(photo);
+        const participantsList = document.getElementById('ticket-purchase-participants-list');
+        const participantsEmpty = document.getElementById('ticket-purchase-participants-empty');
+        const dogs = window.storage.getDogs().filter((dog) => !dog.goodDogCard);
 
-          const name = document.createElement('span');
-          name.className = 'ticket-purchase-dog-row__name';
-          name.textContent = dog.name;
-          row.appendChild(name);
+        if (dogs.length === 0) {
+          participantsEmpty.hidden = false;
+          participantsEmpty.textContent = t('ticket_purchase.no_dogs_description');
+        } else {
+          dogs.forEach((dog) => {
+            const row = document.createElement('button');
+            row.type = 'button';
+            row.className = 'ticket-purchase-dog-row';
 
-          const check = document.createElement('span');
-          check.className = 'ticket-purchase-dog-row__check';
-          row.appendChild(check);
+            const photo = document.createElement('img');
+            photo.className = 'ticket-purchase-dog-row__photo';
+            photo.src = dog.photo || '../../assets/icon-dogs.svg';
+            photo.alt = '';
+            row.appendChild(photo);
 
-          row.addEventListener('click', () => {
-            row.classList.toggle('ticket-purchase-dog-row--selected');
-            const index = selectedDogIds.indexOf(dog.id);
-            if (row.classList.contains('ticket-purchase-dog-row--selected')) {
-              if (index === -1) {
-                selectedDogIds.push(dog.id);
+            const name = document.createElement('span');
+            name.className = 'ticket-purchase-dog-row__name';
+            name.textContent = dog.name;
+            row.appendChild(name);
+
+            const check = document.createElement('span');
+            check.className = 'ticket-purchase-dog-row__check';
+            row.appendChild(check);
+
+            row.addEventListener('click', () => {
+              row.classList.toggle('ticket-purchase-dog-row--selected');
+              const index = selectedDogIds.indexOf(dog.id);
+              if (row.classList.contains('ticket-purchase-dog-row--selected')) {
+                if (index === -1) {
+                  selectedDogIds.push(dog.id);
+                }
+              } else if (index !== -1) {
+                selectedDogIds.splice(index, 1);
               }
-            } else if (index !== -1) {
-              selectedDogIds.splice(index, 1);
-            }
+            });
+
+            participantsList.appendChild(row);
           });
+        }
 
-          participantsList.appendChild(row);
-        });
+        const returnUrl = `../ticket-purchase/ticket-purchase.html?id=${encodeURIComponent(event.id)}`;
+        document.getElementById('ticket-purchase-add-dog-action').appendChild(
+          window.buttonModule.renderButton({
+            label: t('ticket_purchase.add_dog_action'),
+            variant: 'secondary',
+            iconSrc: '../../assets/icon-plus-primary.svg',
+            onClick: () => { window.location.href = `../add-dog/add-dog.html?returnTo=${encodeURIComponent(returnUrl)}`; }
+          })
+        );
       }
-
-      const returnUrl = `../ticket-purchase/ticket-purchase.html?id=${encodeURIComponent(event.id)}`;
-      document.getElementById('ticket-purchase-add-dog-action').appendChild(
-        window.buttonModule.renderButton({
-          label: t('ticket_purchase.add_dog_action'),
-          variant: 'secondary',
-          iconSrc: '../../assets/icon-plus-primary.svg',
-          onClick: () => { window.location.href = `../add-dog/add-dog.html?returnTo=${encodeURIComponent(returnUrl)}`; }
-        })
-      );
 
       document.getElementById('ticket-purchase-total-label').textContent = t('ticket_purchase.total_label');
       document.getElementById('ticket-purchase-purchase-action').appendChild(
         window.buttonModule.renderButton({
-          label: t('ticket_purchase.purchase_action'),
+          label: event.is_paid ? t('ticket_purchase.purchase_action') : t('event_detail.register_action'),
           variant: 'primary',
           onClick: () => {
-            window.storage.addTicket({
-              id: Date.now().toString(),
-              eventId: event.id,
-              eventName: event.name,
-              quantity: quantity,
-              dogIds: selectedDogIds.slice(),
-              unitPrice: event.is_paid ? event.price : 0,
-              currency: event.currency,
-              totalPrice: event.is_paid ? quantity * event.price : 0,
-              purchasedAt: new Date().toISOString()
-            });
+            const purchasedAt = new Date().toISOString();
+            for (let i = 0; i < quantity; i += 1) {
+              window.storage.addTicket({
+                id: `${Date.now().toString()}-${i}`,
+                eventId: event.id,
+                eventName: event.name,
+                dogIds: selectedDogIds.slice(),
+                unitPrice: event.is_paid ? event.price : 0,
+                currency: event.currency,
+                totalPrice: event.is_paid ? event.price : 0,
+                purchasedAt: purchasedAt
+              });
+            }
             window.location.href = `../ticket-purchase-success/ticket-purchase-success.html?eventName=${encodeURIComponent(event.name)}&quantity=${encodeURIComponent(quantity)}`;
           }
         })

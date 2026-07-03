@@ -1,6 +1,6 @@
 // Classic script (not a module) — see iphone-frame.js for why.
-// window.navbarModule.renderNavbar({ title, onMenuClick, onNotificationClick, hasNotification, showBack, onBackClick, showSearch, onSearchClick }) -> HTMLElement
-// title: already-translated string (caller resolves via i18n.t()); onMenuClick: called when the hamburger icon is tapped
+// window.navbarModule.renderNavbar({ title, onNotificationClick, hasNotification, showBack, onBackClick, showSearch, onSearchClick }) -> HTMLElement
+// title: already-translated string (caller resolves via i18n.t())
 // onNotificationClick: called when the bell icon is tapped; hasNotification: shows a red indicator dot on the bell
 // showBack: shows a back arrow before the title instead of empty space; onBackClick: called when tapped (defaults to history.back())
 // showSearch: shows a search icon to the left of the bell (per-page opt-in, off by default); onSearchClick: called when tapped
@@ -11,7 +11,7 @@
 // onInput: called with the input's current value on every keystroke
 
 window.navbarModule = (function () {
-  function renderNavbar({ title = "", onMenuClick, onNotificationClick, hasNotification = false, showBack = false, onBackClick, showSearch = false, onSearchClick } = {}) {
+  function renderNavbar({ title = "", onNotificationClick, hasNotification = false, showBack = false, onBackClick, showSearch = false, onSearchClick } = {}) {
     const navbar = document.createElement("div");
     navbar.className = "navbar";
 
@@ -66,18 +66,7 @@ window.navbarModule = (function () {
       notificationButton.addEventListener("click", onNotificationClick);
     }
 
-    const menuButton = document.createElement("button");
-    menuButton.type = "button";
-    menuButton.className = "navbar__menu-button";
-    menuButton.setAttribute("aria-label", "Menu");
-    menuButton.innerHTML = `<img src="../../assets/icon-menu.svg" alt="" class="navbar__menu-icon">`;
-
-    if (onMenuClick) {
-      menuButton.addEventListener("click", onMenuClick);
-    }
-
     actions.appendChild(notificationButton);
-    actions.appendChild(menuButton);
 
     navbar.appendChild(titleWrap);
     navbar.appendChild(actions);

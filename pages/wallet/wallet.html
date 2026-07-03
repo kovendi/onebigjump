@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../../modules/button/button.css" />
   <link rel="stylesheet" href="../../modules/section-title/section-title.css" />
   <link rel="stylesheet" href="../../modules/dog-card/dog-card.css" />
+  <link rel="stylesheet" href="../../modules/ticket-card/ticket-card.css" />
   <link rel="stylesheet" href="../../modules/modal/modal.css" />
   <link rel="stylesheet" href="wallet.css" />
 </head>
@@ -43,6 +44,7 @@
   <script src="../../modules/modal/modal.js"></script>
   <script src="../../modules/date/date.js"></script>
   <script src="../../modules/dog-card/dog-card.js"></script>
+  <script src="../../modules/ticket-card/ticket-card.js"></script>
   <script src="../../modules/storage/storage.js"></script>
   <script src="../events/events-data.js"></script>
   <script>
@@ -58,7 +60,7 @@
     // Dogs section
     const dogsSection = document.getElementById('wallet-dogs-section');
     dogsSection.prepend(
-      window.sectionTitleModule.renderSectionTitle({ text: t('dogs.title') })
+      window.sectionTitleModule.renderSectionTitle({ text: t('wallet.dogs_title') })
     );
 
     const ALL_DOGS = window.storage.getDogs();
@@ -90,11 +92,12 @@
       window.sectionTitleModule.renderSectionTitle({ text: t('wallet.tickets_title') })
     );
 
-    const TICKETS = window.storage.getTickets();
     const ticketsList = document.getElementById('wallet-tickets-list');
     const ticketsEmpty = document.getElementById('wallet-tickets-empty');
+    const QR_SCAN_DELAY = 3000;
+    const QR_AUTO_CLOSE_DELAY = 2000;
 
-    function openTicketQrModal() {
+    function openTicketQrModal(ticket) {
       const content = document.createElement('div');
       content.className = 'wallet-qr-modal';
 
@@ -103,11 +106,11 @@
       title.textContent = t('wallet.qr_modal_title');
       content.appendChild(title);
 
-      const qr = document.createElement('img');
-      qr.className = 'wallet-qr-modal__image';
-      qr.src = '../../assets/qr-placeholder.svg';
-      qr.alt = '';
-      content.appendChild(qr);
+      const image = document.createElement('img');
+      image.className = 'wallet-qr-modal__image';
+      image.src = '../../assets/qr-placeholder.svg';
+      image.alt = '';
+      content.appendChild(image);
 
       const description = document.createElement('p');
       description.className = 'wallet-qr-modal__description';
@@ -115,95 +118,48 @@
       content.appendChild(description);
 
       window.modalModule.openModal(content);
+
+      setTimeout(() => {
+        title.textContent = t('wallet.qr_scanned_title');
+        image.src = '../../assets/icon-success.svg';
+        description.textContent = t('wallet.qr_scanned_description');
+
+        window.storage.updateTicket(ticket.id, { used: true });
+        renderTicketsList();
+
+        setTimeout(() => {
+          window.modalModule.closeModal();
+        }, QR_AUTO_CLOSE_DELAY);
+      }, QR_SCAN_DELAY);
     }
 
-    function renderTicketDogRow(dog) {
-      const row = document.createElement('div');
-      row.className = 'wallet-ticket-dog';
+    function renderTicketsList() {
+      const tickets = window.storage.getTickets();
+      ticketsList.innerHTML = '';
 
-      const photo = document.createElement('img');
-      photo.className = 'wallet-ticket-dog__photo';
-      photo.src = dog.photo || '../../assets/icon-dogs.svg';
-      photo.alt = '';
-      row.appendChild(photo);
-
-      const name = document.createElement('span');
-      name.className = 'wallet-ticket-dog__name';
-      name.textContent = dog.name;
-      row.appendChild(name);
-
-      return row;
-    }
-
-    function renderTicketCard(ticket) {
-      const event = window.EVENTS_DATA.find((item) => item.id === ticket.eventId);
-      const card = document.createElement('div');
-      card.className = 'wallet-ticket-card';
-
-      const image = document.createElement('img');
-      image.className = 'wallet-ticket-card__image';
-      image.src = event ? event.image_url : '../../assets/icon-nav-tickets.svg';
-      image.alt = '';
-      card.appendChild(image);
-
-      const body = document.createElement('div');
-      body.className = 'wallet-ticket-card__body';
-
-      const name = document.createElement('div');
-      name.className = 'wallet-ticket-card__name';
-      name.textContent = ticket.eventName;
-      body.appendChild(name);
-
-      const quantity = document.createElement('div');
-      quantity.className = 'wallet-ticket-card__meta';
-      quantity.textContent = t('wallet.ticket_quantity').replace('{count}', ticket.quantity);
-      body.appendChild(quantity);
-
-      if (ticket.dogIds && ticket.dogIds.length > 0) {
-        const dogsRow = document.createElement('div');
-        dogsRow.className = 'wallet-ticket-card__dogs';
-        ticket.dogIds.forEach((dogId) => {
-          const dog = ALL_DOGS.find((item) => item.id === dogId);
-          if (dog) dogsRow.appendChild(renderTicketDogRow(dog));
-        });
-        if (dogsRow.childElementCount > 0) body.appendChild(dogsRow);
+      if (tickets.length === 0) {
+        ticketsEmpty.hidden = false;
+        ticketsEmpty.textContent = t('wallet.tickets_empty');
+        return;
       }
 
-      const price = document.createElement('div');
-      price.className = 'wallet-ticket-card__meta';
-      price.textContent = `${t('wallet.ticket_price_label')}: ${ticket.totalPrice > 0 ? `${ticket.totalPrice} ${ticket.currency}` : t('event_detail.free_label')}`;
-      body.appendChild(price);
-
-      const purchased = document.createElement('div');
-      purchased.className = 'wallet-ticket-card__meta';
-      purchased.textContent = `${t('wallet.ticket_purchased_label')}: ${window.dateModule.formatDate(ticket.purchasedAt)}`;
-      body.appendChild(purchased);
-
-      card.appendChild(body);
-
-      const actions = document.createElement('div');
-      actions.className = 'wallet-ticket-card__actions';
-      actions.appendChild(
-        window.buttonModule.renderButton({
-          label: t('wallet.qr_action'),
-          variant: 'secondary',
-          iconSrc: '../../assets/icon-qr.svg',
-          onClick: () => openTicketQrModal()
-        })
-      );
-      card.appendChild(actions);
-
-      return card;
-    }
-
-    if (TICKETS.length === 0) {
-      ticketsEmpty.hidden = false;
-      ticketsEmpty.textContent = t('wallet.tickets_empty');
-    } else {
-      TICKETS.forEach((ticket) => {
-        ticketsList.appendChild(renderTicketCard(ticket));
+      ticketsEmpty.hidden = true;
+      const sortedTickets = [...tickets].sort((a, b) => (a.used ? 1 : 0) - (b.used ? 1 : 0));
+      sortedTickets.forEach((ticket) => {
+        const event = window.EVENTS_DATA.find((item) => item.id === ticket.eventId);
+        ticketsList.appendChild(
+          window.ticketCardModule.renderTicketCard({
+            imageUrl: event ? event.image_url : '../../assets/icon-nav-tickets.svg',
+            eventName: ticket.eventName,
+            ticketNumber: ticket.ticketNumber,
+            used: !!ticket.used,
+            onQrClick: () => openTicketQrModal(ticket)
+          })
+        );
       });
     }
+
+    renderTicketsList();
 
     walletPage.appendChild(
       window.bottomNavModule.renderBottomNav({ active: 'wallet' })

@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="../../modules/dropdown/dropdown.css" />
   <link rel="stylesheet" href="../../modules/dog-card/dog-card.css" />
   <link rel="stylesheet" href="../../modules/event-card/event-card.css" />
+  <link rel="stylesheet" href="../../modules/ticket-card/ticket-card.css" />
   <link rel="stylesheet" href="../../modules/modal/modal.css" />
   <link rel="stylesheet" href="../../modules/file-upload/file-upload.css" />
   <link rel="stylesheet" href="../../modules/photo-picker/photo-picker.css" />
@@ -48,6 +49,7 @@
   <script src="../../modules/date/date.js"></script>
   <script src="../../modules/dog-card/dog-card.js"></script>
   <script src="../../modules/event-card/event-card.js"></script>
+  <script src="../../modules/ticket-card/ticket-card.js"></script>
   <script src="../../modules/modal/modal.js"></script>
   <script src="../../modules/file-upload/file-upload.js"></script>
   <script src="../../modules/photo-picker/photo-picker.js"></script>
@@ -226,9 +228,18 @@
       location: 'Budapest',
       followers: 42,
       isExam: true,
-      isPaid: true,
+      isFree: true,
     });
     addComponentDemo(componentsGrid, 'style_guide.component_event_card', null, eventCardDemo);
+
+    // ticket-card
+    const ticketCardDemo = window.ticketCardModule.renderTicketCard({
+      imageUrl: '../../assets/logo.jpeg',
+      eventName: 'Demo Event',
+      ticketNumber: 'A-0042',
+      onQrClick: () => {},
+    });
+    addComponentDemo(componentsGrid, 'style_guide.component_ticket_card', null, ticketCardDemo);
 
     // modal
     const modalTrigger = window.buttonModule.renderButton({

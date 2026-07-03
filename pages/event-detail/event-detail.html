@@ -105,11 +105,11 @@
         examBadge.textContent = t('event_card.exam_badge');
         document.querySelector('.event-detail__image-wrap').appendChild(examBadge);
       }
-      if (event.is_paid) {
-        const paidBadge = document.createElement('div');
-        paidBadge.className = 'event-detail__badge event-detail__badge--paid';
-        paidBadge.textContent = t('event_card.paid_badge');
-        document.querySelector('.event-detail__image-wrap').appendChild(paidBadge);
+      if (!event.is_paid) {
+        const freeBadge = document.createElement('div');
+        freeBadge.className = 'event-detail__badge event-detail__badge--free';
+        freeBadge.textContent = t('event_card.free_badge');
+        document.querySelector('.event-detail__image-wrap').appendChild(freeBadge);
       }
       document.getElementById('event-detail-name').textContent = event.name;
       document.getElementById('event-detail-date').textContent = window.dateModule.formatDateRange(event.start_date, event.end_date);
@@ -146,26 +146,38 @@
       });
 
       const actions = document.getElementById('event-detail-actions');
-      if (event.is_paid) {
-        actions.classList.add('event-detail__actions--row');
-      }
-      actions.appendChild(
+
+      const secondaryActions = document.createElement('div');
+      secondaryActions.className = 'event-detail__actions-secondary';
+      secondaryActions.appendChild(
         window.buttonModule.renderButton({
           label: t('event_detail.add_to_calendar_action'),
           variant: 'secondary',
           iconSrc: '../../assets/icon-calendar.svg'
         })
       );
-      if (event.is_paid) {
-        actions.appendChild(
-          window.buttonModule.renderButton({
-            label: t('event_detail.buy_ticket_action'),
-            variant: 'primary',
-            iconSrc: '../../assets/icon-nav-tickets.svg',
-            onClick: () => { window.location.href = `../ticket-purchase/ticket-purchase.html?id=${event.id}`; }
-          })
-        );
-      }
+      const followButton = window.buttonModule.renderButton({
+        label: t('event_card.follow_action'),
+        variant: 'text-accent',
+        iconSrc: '../../assets/icon-heart-outline.svg'
+      });
+      let isFollowing = false;
+      followButton.addEventListener('click', () => {
+        isFollowing = !isFollowing;
+        followButton.querySelector('span').textContent = t(isFollowing ? 'event_card.unfollow_action' : 'event_card.follow_action');
+        followButton.querySelector('img').src = isFollowing ? '../../assets/icon-heart-accent.svg' : '../../assets/icon-heart-outline.svg';
+      });
+      secondaryActions.appendChild(followButton);
+      actions.appendChild(secondaryActions);
+
+      actions.appendChild(
+        window.buttonModule.renderButton({
+          label: event.is_paid ? t('event_detail.buy_ticket_action') : t('event_detail.register_action'),
+          variant: 'primary',
+          iconSrc: '../../assets/icon-nav-tickets.svg',
+          onClick: () => { window.location.href = `../ticket-purchase/ticket-purchase.html?id=${event.id}`; }
+        })
+      );
 
       if (event.sub_events && event.sub_events.length > 0) {
         const timeline = document.getElementById('event-detail-timeline');

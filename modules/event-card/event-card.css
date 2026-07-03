@@ -29,9 +29,9 @@
   background: var(--color-primary);
 }
 
-.event-card__badge--paid {
+.event-card__badge--free {
   right: 18px;
-  background: var(--color-accent);
+  background: var(--color-primary);
 }
 
 .event-card__name {
@@ -94,4 +94,14 @@
 .event-card__actions .button {
   width: auto;
   padding: 6px 8px;
+}
+
+.event-card__calendar-prompt-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.event-card__calendar-prompt-actions .button {
+  flex: 1;
 }

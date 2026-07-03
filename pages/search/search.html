@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
   <link rel="stylesheet" href="../../modules/button/button.css" />
   <link rel="stylesheet" href="../../modules/event-card/event-card.css" />
+  <link rel="stylesheet" href="../../modules/modal/modal.css" />
   <link rel="stylesheet" href="search.css" />
 </head>
 <body>
@@ -32,6 +33,7 @@
   <script src="../../modules/button/button.js"></script>
   <script src="../../modules/date/date.js"></script>
   <script src="../../modules/event-card/event-card.js"></script>
+  <script src="../../modules/modal/modal.js"></script>
   <script src="../events/events-data.js"></script>
   <script src="../../modules/storage/storage.js"></script>
   <script>
@@ -120,7 +122,7 @@
         location: event.location,
         followers: event.followers_count,
         isExam: event.is_exam,
-        isPaid: event.is_paid
+        isFree: !event.is_paid
       });
       card.addEventListener('click', (e) => {
         if (e.target.closest('.event-card__actions')) return;

@@ -186,7 +186,18 @@ window.storage = (function () {
       db.tickets = [];
     }
     ticket.userId = db.currentUserId;
+    var ticketsForEvent = db.tickets.filter(function (t) { return t.eventId === ticket.eventId; });
+    ticket.ticketNumber = ticketsForEvent.length + 1;
     db.tickets.push(ticket);
+    saveDb(db);
+    return ticket;
+  }
+
+  function updateTicket(id, updates) {
+    var db = getDb();
+    var ticket = (db.tickets || []).find(function (t) { return t.id === id; });
+    if (!ticket) return null;
+    Object.assign(ticket, updates);
     saveDb(db);
     return ticket;
   }
@@ -217,6 +228,7 @@ window.storage = (function () {
     updateDog: updateDog,
     getTickets: getTickets,
     addTicket: addTicket,
+    updateTicket: updateTicket,
     getUsers: getUsers,
     addUser: addUser,
     getCurrentUser: getCurrentUser,
