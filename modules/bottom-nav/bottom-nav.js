@@ -11,7 +11,7 @@ window.bottomNavModule = (function () {
     { id: "events", labelKey: "nav.events", icon: "icon-nav-events", href: "../events/events.html" },
     { id: "dogs", labelKey: "nav.dogs", icon: "icon-nav-dogs", href: "../dogs/dogs.html" },
     { id: "wallet", labelKey: "nav.wallet", icon: "icon-nav-wallet", elevated: true, href: "../wallet/wallet.html" },
-    { id: "members", labelKey: "nav.members", icon: "icon-nav-members", href: null },
+    { id: "members", labelKey: "nav.members", icon: "icon-nav-members", href: "../members/members.html" },
     { id: "profile", labelKey: "nav.profile", icon: "icon-nav-profile", href: "../profile/profile.html" },
   ];
 

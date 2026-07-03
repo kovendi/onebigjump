@@ -40,7 +40,8 @@
 
 .navbar__back-button,
 .navbar__menu-button,
-.navbar__notification-button {
+.navbar__notification-button,
+.navbar__search-button {
   position: relative;
   display: flex;
   align-items: center;
@@ -54,7 +55,8 @@
 
 .navbar__back-icon,
 .navbar__menu-icon,
-.navbar__notification-icon {
+.navbar__notification-icon,
+.navbar__search-icon {
   width: 24px;
   height: 24px;
 }

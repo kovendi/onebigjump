@@ -206,5 +206,8 @@ window.LOCALES.hu = {
   "style_guide.modal_demo_description": "Ez egy dummy tartalom a modal komponens bemutatásához.",
   "style_guide.file_upload_button": "Fájlok feltöltése",
   "style_guide.file_upload_count": "{count} fájl kiválasztva",
-  "style_guide.markdown_demo": "## Demó cím\nEz egy **félkövér** és egy *dőlt* szó.\n- Első pont\n- Második pont"
+  "style_guide.markdown_demo": "## Demó cím\nEz egy **félkövér** és egy *dőlt* szó.\n- Első pont\n- Második pont",
+  "members.title": "Tagok",
+  "members.dog_count": "{count} kutya",
+  "members.no_dogs": "Nincs kutyája"
 };

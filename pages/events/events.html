@@ -45,7 +45,7 @@
     const eventsPage = document.getElementById('events-page');
 
     eventsPage.prepend(
-      window.navbarModule.renderNavbar({ title: t('events.title'), hasNotification: true })
+      window.navbarModule.renderNavbar({ title: t('events.title'), hasNotification: true, showSearch: true })
     );
 
     const eventsList = document.getElementById('events-list');

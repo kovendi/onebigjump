@@ -206,5 +206,8 @@ window.LOCALES.ro = {
   "style_guide.modal_demo_description": "Acesta este conținut fictiv pentru a demonstra componenta modal.",
   "style_guide.file_upload_button": "Încarcă fișiere",
   "style_guide.file_upload_count": "{count} fișiere selectate",
-  "style_guide.markdown_demo": "## Titlu demonstrativ\nAceasta este o **bold** și o *italic* text.\n- Primul punct\n- Al doilea punct"
+  "style_guide.markdown_demo": "## Titlu demonstrativ\nAceasta este o **bold** și o *italic* text.\n- Primul punct\n- Al doilea punct",
+  "members.title": "Membri",
+  "members.dog_count": "{count} câini",
+  "members.no_dogs": "Fără câini"
 };

@@ -37,35 +37,54 @@
     window.i18n.initI18n();
     const t = window.i18n.t;
 
+    const params = new URLSearchParams(window.location.search);
+    const viewedId = params.get('id');
+    const currentUser = window.storage.getCurrentUser();
+    const user = viewedId ? window.storage.getUserById(viewedId) : currentUser;
+    const isOwnProfile = !viewedId || (currentUser && viewedId === currentUser.id);
+
     const profilePage = document.getElementById('profile-page');
     profilePage.prepend(
-      window.navbarModule.renderNavbar({ title: t('profile.title') })
+      window.navbarModule.renderNavbar({ title: isOwnProfile ? t('profile.title') : user.name })
     );
 
     const content = document.getElementById('profile-content');
-    const user = window.storage.getCurrentUser();
 
     // photo
-    const photoPicker = window.photoPickerModule.renderPhotoPicker({
-      name: 'profile-photo',
-      onChange: (file) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          window.storage.updateUser({ photo: reader.result });
-        };
-        reader.readAsDataURL(file);
+    if (isOwnProfile) {
+      const photoPicker = window.photoPickerModule.renderPhotoPicker({
+        name: 'profile-photo',
+        onChange: (file) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            window.storage.updateUser({ photo: reader.result });
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      if (user.photo) {
+        const circle = photoPicker.querySelector('.photo-picker__circle');
+        circle.innerHTML = '';
+        const preview = document.createElement('img');
+        preview.className = 'photo-picker__preview';
+        preview.src = user.photo;
+        preview.alt = '';
+        circle.appendChild(preview);
       }
-    });
-    if (user.photo) {
-      const circle = photoPicker.querySelector('.photo-picker__circle');
-      circle.innerHTML = '';
+      content.appendChild(photoPicker);
+    } else {
+      const photoWrap = document.createElement('div');
+      photoWrap.className = 'photo-picker';
+      const circle = document.createElement('div');
+      circle.className = 'photo-picker__circle';
       const preview = document.createElement('img');
       preview.className = 'photo-picker__preview';
-      preview.src = user.photo;
+      preview.src = user.photo || '../../assets/icon-nav-profile.svg';
       preview.alt = '';
       circle.appendChild(preview);
+      photoWrap.appendChild(circle);
+      content.appendChild(photoWrap);
     }
-    content.appendChild(photoPicker);
 
     // basics
     content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('profile.basics_title') }));
@@ -87,79 +106,85 @@
       return row;
     }
 
-    basics.appendChild(renderStaticField(t('profile.email_label'), user.email));
-    basics.appendChild(renderStaticField(t('profile.username_label'), user.username));
+    if (isOwnProfile) {
+      basics.appendChild(renderStaticField(t('profile.email_label'), user.email));
+      basics.appendChild(renderStaticField(t('profile.username_label'), user.username));
+    }
 
-    // editable full name
-    const nameRow = document.createElement('div');
-    nameRow.className = 'profile-field';
+    if (isOwnProfile) {
+      // editable full name
+      const nameRow = document.createElement('div');
+      nameRow.className = 'profile-field';
 
-    const nameLabel = document.createElement('span');
-    nameLabel.className = 'profile-field-label';
-    nameLabel.textContent = t('profile.name_label');
-    nameRow.appendChild(nameLabel);
+      const nameLabel = document.createElement('span');
+      nameLabel.className = 'profile-field-label';
+      nameLabel.textContent = t('profile.name_label');
+      nameRow.appendChild(nameLabel);
 
-    const nameEditWrap = document.createElement('div');
-    nameEditWrap.className = 'profile-name-edit';
+      const nameEditWrap = document.createElement('div');
+      nameEditWrap.className = 'profile-name-edit';
 
-    const nameValue = document.createElement('span');
-    nameValue.className = 'profile-field-value';
-    nameValue.textContent = user.name;
+      const nameValue = document.createElement('span');
+      nameValue.className = 'profile-field-value';
+      nameValue.textContent = user.name;
 
-    const nameInput = document.createElement('input');
-    nameInput.type = 'text';
-    nameInput.className = 'profile-name-input';
-    nameInput.value = user.name;
-    nameInput.hidden = true;
-
-    const editButton = document.createElement('button');
-    editButton.type = 'button';
-    editButton.className = 'profile-name-action-button';
-    editButton.setAttribute('aria-label', t('dog_profile.edit_action'));
-    const editIcon = document.createElement('img');
-    editIcon.className = 'profile-name-action-icon';
-    editIcon.src = '../../assets/icon-edit.svg';
-    editIcon.alt = '';
-    editButton.appendChild(editIcon);
-
-    function enterEditMode() {
-      nameValue.hidden = true;
-      nameInput.hidden = false;
+      const nameInput = document.createElement('input');
+      nameInput.type = 'text';
+      nameInput.className = 'profile-name-input';
       nameInput.value = user.name;
-      nameInput.focus();
-      editIcon.src = '../../assets/icon-check.svg';
-    }
-
-    function saveName() {
-      const newName = nameInput.value.trim();
-      if (newName) {
-        user.name = newName;
-        window.storage.updateUser({ name: newName });
-        nameValue.textContent = newName;
-      }
-      nameValue.hidden = false;
       nameInput.hidden = true;
+
+      const editButton = document.createElement('button');
+      editButton.type = 'button';
+      editButton.className = 'profile-name-action-button';
+      editButton.setAttribute('aria-label', t('dog_profile.edit_action'));
+      const editIcon = document.createElement('img');
+      editIcon.className = 'profile-name-action-icon';
       editIcon.src = '../../assets/icon-edit.svg';
-    }
+      editIcon.alt = '';
+      editButton.appendChild(editIcon);
 
-    editButton.addEventListener('click', () => {
-      if (nameInput.hidden) {
-        enterEditMode();
-      } else {
-        saveName();
+      function enterEditMode() {
+        nameValue.hidden = true;
+        nameInput.hidden = false;
+        nameInput.value = user.name;
+        nameInput.focus();
+        editIcon.src = '../../assets/icon-check.svg';
       }
-    });
 
-    nameInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') saveName();
-    });
+      function saveName() {
+        const newName = nameInput.value.trim();
+        if (newName) {
+          user.name = newName;
+          window.storage.updateUser({ name: newName });
+          nameValue.textContent = newName;
+        }
+        nameValue.hidden = false;
+        nameInput.hidden = true;
+        editIcon.src = '../../assets/icon-edit.svg';
+      }
 
-    nameEditWrap.appendChild(nameValue);
-    nameEditWrap.appendChild(nameInput);
-    nameEditWrap.appendChild(editButton);
-    nameRow.appendChild(nameEditWrap);
+      editButton.addEventListener('click', () => {
+        if (nameInput.hidden) {
+          enterEditMode();
+        } else {
+          saveName();
+        }
+      });
 
-    basics.appendChild(nameRow);
+      nameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') saveName();
+      });
+
+      nameEditWrap.appendChild(nameValue);
+      nameEditWrap.appendChild(nameInput);
+      nameEditWrap.appendChild(editButton);
+      nameRow.appendChild(nameEditWrap);
+
+      basics.appendChild(nameRow);
+    } else {
+      basics.appendChild(renderStaticField(t('profile.name_label'), user.name));
+    }
     content.appendChild(basics);
 
     // dogs
@@ -168,7 +193,7 @@
     const dogsList = document.createElement('div');
     dogsList.className = 'profile-dogs';
 
-    const dogs = window.storage.getDogs();
+    const dogs = isOwnProfile ? window.storage.getDogs() : window.storage.getDogsByUserId(user.id);
     if (dogs.length === 0) {
       const empty = document.createElement('p');
       empty.className = 'profile-dogs-empty';
@@ -214,91 +239,93 @@
     content.appendChild(dogsList);
 
     // account
-    content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('profile.account_title') }));
+    if (isOwnProfile) {
+      content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('profile.account_title') }));
 
-    function openConfirmModal({ title, message, actionLabel, onConfirm }) {
-      const wrap = document.createElement('div');
-      wrap.className = 'profile-confirm';
+      var openConfirmModal = function ({ title, message, actionLabel, onConfirm }) {
+        const wrap = document.createElement('div');
+        wrap.className = 'profile-confirm';
 
-      const titleEl = document.createElement('h3');
-      titleEl.className = 'profile-confirm-title';
-      titleEl.textContent = title;
-      wrap.appendChild(titleEl);
+        const titleEl = document.createElement('h3');
+        titleEl.className = 'profile-confirm-title';
+        titleEl.textContent = title;
+        wrap.appendChild(titleEl);
 
-      const messageEl = document.createElement('p');
-      messageEl.className = 'profile-confirm-message';
-      messageEl.textContent = message;
-      wrap.appendChild(messageEl);
+        const messageEl = document.createElement('p');
+        messageEl.className = 'profile-confirm-message';
+        messageEl.textContent = message;
+        wrap.appendChild(messageEl);
 
-      const actions = document.createElement('div');
-      actions.className = 'profile-confirm-actions';
+        const actions = document.createElement('div');
+        actions.className = 'profile-confirm-actions';
 
-      actions.appendChild(window.buttonModule.renderButton({
-        label: t('common.cancel'),
-        variant: 'secondary',
-        onClick: () => window.modalModule.closeModal()
-      }));
+        actions.appendChild(window.buttonModule.renderButton({
+          label: t('common.cancel'),
+          variant: 'secondary',
+          onClick: () => window.modalModule.closeModal()
+        }));
 
-      actions.appendChild(window.buttonModule.renderButton({
-        label: actionLabel,
-        variant: 'primary',
-        onClick: () => {
-          window.modalModule.closeModal();
-          onConfirm();
+        actions.appendChild(window.buttonModule.renderButton({
+          label: actionLabel,
+          variant: 'primary',
+          onClick: () => {
+            window.modalModule.closeModal();
+            onConfirm();
+          }
+        }));
+
+        wrap.appendChild(actions);
+        window.modalModule.openModal(wrap);
+      };
+
+      const renderAccountRow = (label, extraClass, onClick) => {
+        const row = document.createElement('button');
+        row.type = 'button';
+        row.className = `profile-account-row ${extraClass}`;
+        row.textContent = label;
+        row.addEventListener('click', onClick);
+        return row;
+      };
+
+      const accountActions = document.createElement('div');
+      accountActions.className = 'profile-account-actions';
+
+      accountActions.appendChild(renderAccountRow(
+        t('profile.logout_button'),
+        'profile-account-row--default',
+        () => {
+          openConfirmModal({
+            title: t('profile.logout_confirm_title'),
+            message: t('profile.logout_confirm_message'),
+            actionLabel: t('profile.logout_confirm_action'),
+            onConfirm: () => {
+              window.location.href = '../login/login.html';
+            }
+          });
         }
-      }));
+      ));
 
-      wrap.appendChild(actions);
-      window.modalModule.openModal(wrap);
+      accountActions.appendChild(renderAccountRow(
+        t('profile.delete_account_button'),
+        'profile-account-row--danger',
+        () => {
+          openConfirmModal({
+            title: t('profile.delete_account_confirm_title'),
+            message: t('profile.delete_account_confirm_message'),
+            actionLabel: t('profile.delete_account_confirm_action'),
+            onConfirm: () => {
+              window.storage.deleteCurrentUser();
+              window.location.href = '../login/login.html';
+            }
+          });
+        }
+      ));
+
+      content.appendChild(accountActions);
     }
-
-    function renderAccountRow(label, extraClass, onClick) {
-      const row = document.createElement('button');
-      row.type = 'button';
-      row.className = `profile-account-row ${extraClass}`;
-      row.textContent = label;
-      row.addEventListener('click', onClick);
-      return row;
-    }
-
-    const accountActions = document.createElement('div');
-    accountActions.className = 'profile-account-actions';
-
-    accountActions.appendChild(renderAccountRow(
-      t('profile.logout_button'),
-      'profile-account-row--default',
-      () => {
-        openConfirmModal({
-          title: t('profile.logout_confirm_title'),
-          message: t('profile.logout_confirm_message'),
-          actionLabel: t('profile.logout_confirm_action'),
-          onConfirm: () => {
-            window.location.href = '../login/login.html';
-          }
-        });
-      }
-    ));
-
-    accountActions.appendChild(renderAccountRow(
-      t('profile.delete_account_button'),
-      'profile-account-row--danger',
-      () => {
-        openConfirmModal({
-          title: t('profile.delete_account_confirm_title'),
-          message: t('profile.delete_account_confirm_message'),
-          actionLabel: t('profile.delete_account_confirm_action'),
-          onConfirm: () => {
-            window.storage.deleteCurrentUser();
-            window.location.href = '../login/login.html';
-          }
-        });
-      }
-    ));
-
-    content.appendChild(accountActions);
 
     profilePage.appendChild(
-      window.bottomNavModule.renderBottomNav({ active: 'profile' })
+      window.bottomNavModule.renderBottomNav({ active: isOwnProfile ? 'profile' : 'members' })
     );
 
     if (!window.iphoneFrame.isRealMobileDevice()) {

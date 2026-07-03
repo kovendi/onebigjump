@@ -64,6 +64,11 @@ window.storage = (function () {
     return db.users.find(function (u) { return u.id === db.currentUserId; }) || null;
   }
 
+  function getUserById(userId) {
+    var db = getDb();
+    return db.users.find(function (u) { return u.id === userId; }) || null;
+  }
+
   function setCurrentUser(userId) {
     var db = getDb();
     db.currentUserId = userId;
@@ -90,6 +95,11 @@ window.storage = (function () {
   function getDogs() {
     var db = getDb();
     return db.dogs.filter(function (d) { return d.userId === db.currentUserId; });
+  }
+
+  function getDogsByUserId(userId) {
+    var db = getDb();
+    return db.dogs.filter(function (d) { return d.userId === userId; });
   }
 
   function addDog(dog) {
@@ -148,6 +158,7 @@ window.storage = (function () {
     getDb: getDb,
     saveDb: saveDb,
     getDogs: getDogs,
+    getDogsByUserId: getDogsByUserId,
     addDog: addDog,
     updateDog: updateDog,
     getTickets: getTickets,
@@ -155,6 +166,7 @@ window.storage = (function () {
     getUsers: getUsers,
     addUser: addUser,
     getCurrentUser: getCurrentUser,
+    getUserById: getUserById,
     setCurrentUser: setCurrentUser,
     loginUser: loginUser,
     updateUser: updateUser,

@@ -206,5 +206,8 @@ window.LOCALES.en = {
   "style_guide.modal_demo_description": "This is dummy content to demonstrate the modal component.",
   "style_guide.file_upload_button": "Upload files",
   "style_guide.file_upload_count": "{count} files selected",
-  "style_guide.markdown_demo": "## Demo heading\nThis is a **bold** and an *italic* word.\n- First item\n- Second item"
+  "style_guide.markdown_demo": "## Demo heading\nThis is a **bold** and an *italic* word.\n- First item\n- Second item",
+  "members.title": "Members",
+  "members.dog_count": "{count} dogs",
+  "members.no_dogs": "No dogs"
 };

@@ -1,11 +1,12 @@
 // Classic script (not a module) — see iphone-frame.js for why.
-// window.navbarModule.renderNavbar({ title, onMenuClick, onNotificationClick, hasNotification, showBack, onBackClick }) -> HTMLElement
+// window.navbarModule.renderNavbar({ title, onMenuClick, onNotificationClick, hasNotification, showBack, onBackClick, showSearch, onSearchClick }) -> HTMLElement
 // title: already-translated string (caller resolves via i18n.t()); onMenuClick: called when the hamburger icon is tapped
 // onNotificationClick: called when the bell icon is tapped; hasNotification: shows a red indicator dot on the bell
 // showBack: shows a back arrow before the title instead of empty space; onBackClick: called when tapped (defaults to history.back())
+// showSearch: shows a search icon to the left of the bell (per-page opt-in, off by default); onSearchClick: called when tapped
 
 window.navbarModule = (function () {
-  function renderNavbar({ title = "", onMenuClick, onNotificationClick, hasNotification = false, showBack = false, onBackClick } = {}) {
+  function renderNavbar({ title = "", onMenuClick, onNotificationClick, hasNotification = false, showBack = false, onBackClick, showSearch = false, onSearchClick } = {}) {
     const navbar = document.createElement("div");
     navbar.className = "navbar";
 
@@ -29,6 +30,20 @@ window.navbarModule = (function () {
 
     const actions = document.createElement("div");
     actions.className = "navbar__actions";
+
+    if (showSearch) {
+      const searchButton = document.createElement("button");
+      searchButton.type = "button";
+      searchButton.className = "navbar__search-button";
+      searchButton.setAttribute("aria-label", "Search");
+      searchButton.innerHTML = `<img src="../../assets/icon-search.svg" alt="" class="navbar__search-icon">`;
+
+      if (onSearchClick) {
+        searchButton.addEventListener("click", onSearchClick);
+      }
+
+      actions.appendChild(searchButton);
+    }
 
     const notificationButton = document.createElement("button");
     notificationButton.type = "button";
