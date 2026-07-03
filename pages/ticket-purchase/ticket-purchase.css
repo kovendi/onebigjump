@@ -16,7 +16,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 12px 16px 20px;
+  padding: 12px 16px 32px;
 }
 
 .ticket-purchase-content[hidden] {
