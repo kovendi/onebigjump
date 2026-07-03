@@ -73,6 +73,38 @@
   margin-top: 1px;
 }
 
+.registration-social-email {
+  width: 100%;
+}
+
+.registration-social-email__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.registration-social-email__value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: var(--color-background);
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.registration-social-email__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
 .registration-actions {
   display: flex;
   flex-direction: column;

@@ -109,10 +109,10 @@
     });
 
     document.getElementById('google-login-button').addEventListener('click', () => {
-      window.location.href = '../events/events.html';
+      window.location.href = '../registration/registration.html?social=google&email=' + encodeURIComponent('google.user@gmail.com');
     });
     document.getElementById('apple-login-button').addEventListener('click', () => {
-      window.location.href = '../events/events.html';
+      window.location.href = '../registration/registration.html?social=apple&email=' + encodeURIComponent('apple.user@icloud.com');
     });
 
     if (!window.iphoneFrame.isRealMobileDevice()) {

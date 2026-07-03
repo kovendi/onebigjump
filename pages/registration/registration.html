@@ -34,8 +34,10 @@
           <span id="name-hint"></span>
         </p>
 
-        <div id="password-input"></div>
-        <div id="password-confirm-input"></div>
+        <div id="password-fields">
+          <div id="password-input"></div>
+          <div id="password-confirm-input"></div>
+        </div>
 
         <div class="registration-actions">
           <div id="back-button"></div>
@@ -58,27 +60,50 @@
     window.storage.getDb();
     const t = window.i18n.t;
 
+    const params = new URLSearchParams(window.location.search);
+    const socialProvider = params.get('social');
+    const socialEmail = params.get('email') || '';
+
     document.getElementById('registration-title').textContent = t('registration.title');
     document.getElementById('username-hint').textContent = t('registration.username_hint');
     document.getElementById('name-hint').textContent = t('registration.name_hint');
 
-    document.getElementById('email-input').replaceWith(
-      window.inputModule.renderInput({ type: 'email', name: 'email', label: t('registration.email_label'), placeholder: t('registration.email_placeholder'), id: 'email-input' })
-    );
+    if (socialProvider) {
+      const display = document.createElement('div');
+      display.className = 'registration-social-email';
+      display.innerHTML = `
+        <span class="registration-social-email__label">${t('registration.email_label')}</span>
+        <span class="registration-social-email__value">
+          <img class="registration-social-email__icon" src="../../assets/icon-${socialProvider}.svg" alt="" />
+          ${socialEmail}
+        </span>
+        <input type="hidden" name="email" value="${socialEmail}" />
+      `;
+      document.getElementById('email-input').replaceWith(display);
+    } else {
+      document.getElementById('email-input').replaceWith(
+        window.inputModule.renderInput({ type: 'email', name: 'email', label: t('registration.email_label'), placeholder: t('registration.email_placeholder'), id: 'email-input' })
+      );
+    }
     document.getElementById('username-input').replaceWith(
       window.inputModule.renderInput({ type: 'text', name: 'username', label: t('registration.username_label'), placeholder: t('registration.username_placeholder'), id: 'username-input' })
     );
     document.getElementById('name-input').replaceWith(
       window.inputModule.renderInput({ type: 'text', name: 'name', label: t('registration.name_label'), placeholder: t('registration.name_placeholder'), id: 'name-input' })
     );
-    document.getElementById('password-input').replaceWith(
-      window.inputModule.renderInput({ type: 'password', name: 'password', label: t('registration.password_label'), placeholder: t('registration.password_placeholder'), id: 'password-input' })
-    );
-    document.getElementById('password-confirm-input').replaceWith(
-      window.inputModule.renderInput({ type: 'password', name: 'password_confirm', label: t('registration.password_confirm_label'), placeholder: t('registration.password_confirm_placeholder'), id: 'password-confirm-input' })
-    );
 
-    document.querySelectorAll('#registration-form input').forEach((input) => input.required = true);
+    if (socialProvider) {
+      document.getElementById('password-fields').remove();
+    } else {
+      document.getElementById('password-input').replaceWith(
+        window.inputModule.renderInput({ type: 'password', name: 'password', label: t('registration.password_label'), placeholder: t('registration.password_placeholder'), id: 'password-input' })
+      );
+      document.getElementById('password-confirm-input').replaceWith(
+        window.inputModule.renderInput({ type: 'password', name: 'password_confirm', label: t('registration.password_confirm_label'), placeholder: t('registration.password_confirm_placeholder'), id: 'password-confirm-input' })
+      );
+    }
+
+    document.querySelectorAll('#registration-form input:not([type="hidden"])').forEach((input) => { input.required = true; });
 
     document.getElementById('back-button').replaceWith(
       window.buttonModule.renderButton({ label: t('registration.back_button'), variant: 'secondary', onClick: () => { window.location.href = '../login/login.html'; } })
