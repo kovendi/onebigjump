@@ -124,6 +124,7 @@ window.LOCALES.en = {
 
   "dog_profile.edit_action": "Edit",
   "dog_profile.basics_title": "Basics",
+  "dog_profile.owner_label": "Owner",
   "dog_profile.breed_label": "Breed",
   "dog_profile.birthdate_label": "Date of birth",
   "dog_profile.microchip_label": "Microchip number",
@@ -133,6 +134,14 @@ window.LOCALES.en = {
   "dog_profile.download_action": "Download",
   "dog_profile.not_found_title": "Dog not found",
   "dog_profile.not_found_description": "It may have been deleted, or the link is broken.",
+
+  "profile.title": "Profile",
+  "profile.basics_title": "Basics",
+  "profile.email_label": "Email address",
+  "profile.username_label": "Username",
+  "profile.name_label": "Full name",
+  "profile.dogs_title": "My dogs",
+  "profile.dogs_empty": "You don't have any registered dogs yet.",
 
   "nav.events": "Events",
   "nav.dogs": "My dogs",
@@ -160,6 +169,7 @@ window.LOCALES.en = {
   "style_guide.page_dog_profile": "Dog profile",
   "style_guide.page_add_dog": "Add dog",
   "style_guide.page_wallet": "Wallet",
+  "style_guide.page_profile": "Profile",
   "style_guide.component_button": "Button",
   "style_guide.component_input": "Input",
   "style_guide.component_dropdown": "Dropdown",

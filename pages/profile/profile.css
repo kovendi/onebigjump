@@ -1,0 +1,142 @@
+#screen-content {
+  min-height: 100%;
+  overflow-x: clip;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.profile-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.profile-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.profile-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.profile-field-label {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.profile-field-value {
+  color: var(--color-text-main);
+  font-weight: 600;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-name-edit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.profile-name-input {
+  width: 140px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-main);
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-family: inherit;
+}
+
+.profile-name-action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.profile-name-action-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.profile-dogs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.profile-dogs-empty {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.profile-dog-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--color-card-background);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+}
+
+.profile-dog-photo-wrap {
+  position: relative;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.profile-dog-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-dog-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-card-background);
+  box-shadow: 0 0 0 1px var(--color-card-background);
+}
+
+.profile-dog-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-main);
+}

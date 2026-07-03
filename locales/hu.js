@@ -124,6 +124,7 @@ window.LOCALES.hu = {
 
   "dog_profile.edit_action": "Szerkesztés",
   "dog_profile.basics_title": "Alapadatok",
+  "dog_profile.owner_label": "Gazda",
   "dog_profile.breed_label": "Fajta",
   "dog_profile.birthdate_label": "Születési dátum",
   "dog_profile.microchip_label": "Mikrochip szám",
@@ -133,6 +134,14 @@ window.LOCALES.hu = {
   "dog_profile.download_action": "Letöltés",
   "dog_profile.not_found_title": "A kutya nem található",
   "dog_profile.not_found_description": "Lehet, hogy törölték, vagy hibás a link.",
+
+  "profile.title": "Profil",
+  "profile.basics_title": "Alapadatok",
+  "profile.email_label": "Email cím",
+  "profile.username_label": "Felhasználónév",
+  "profile.name_label": "Teljes név",
+  "profile.dogs_title": "Kutyáim",
+  "profile.dogs_empty": "Még nincs regisztrált kutyád.",
 
   "nav.events": "Események",
   "nav.dogs": "Kutyáim",
@@ -160,6 +169,7 @@ window.LOCALES.hu = {
   "style_guide.page_dog_profile": "Kutya profil",
   "style_guide.page_add_dog": "Kutya hozzáadása",
   "style_guide.page_wallet": "Tárca",
+  "style_guide.page_profile": "Profil",
   "style_guide.component_button": "Button",
   "style_guide.component_input": "Input",
   "style_guide.component_dropdown": "Dropdown",

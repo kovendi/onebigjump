@@ -90,6 +90,20 @@
   text-align: right;
 }
 
+.dog-profile-owner-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dog-profile-owner-photo {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
 .dog-profile-badges {
   display: flex;
   align-items: center;

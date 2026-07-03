@@ -62,7 +62,7 @@
     );
 
     const ALL_DOGS = window.storage.getDogs();
-    const GOOD_DOG_CARD_DOGS = ALL_DOGS.filter((dog, index) => index % 2 === 0);
+    const GOOD_DOG_CARD_DOGS = ALL_DOGS.filter((dog) => dog.goodDogCard);
     const dogsList = document.getElementById('wallet-dogs-list');
     const dogsEmpty = document.getElementById('wallet-dogs-empty');
 

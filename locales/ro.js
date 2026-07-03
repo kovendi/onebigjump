@@ -124,6 +124,7 @@ window.LOCALES.ro = {
 
   "dog_profile.edit_action": "Editează",
   "dog_profile.basics_title": "Date de bază",
+  "dog_profile.owner_label": "Proprietar",
   "dog_profile.breed_label": "Rasă",
   "dog_profile.birthdate_label": "Data nașterii",
   "dog_profile.microchip_label": "Număr microcip",
@@ -133,6 +134,14 @@ window.LOCALES.ro = {
   "dog_profile.download_action": "Descarcă",
   "dog_profile.not_found_title": "Câinele nu a fost găsit",
   "dog_profile.not_found_description": "Este posibil să fi fost șters sau linkul este greșit.",
+
+  "profile.title": "Profil",
+  "profile.basics_title": "Date de bază",
+  "profile.email_label": "Adresă de email",
+  "profile.username_label": "Nume de utilizator",
+  "profile.name_label": "Nume complet",
+  "profile.dogs_title": "Câinii mei",
+  "profile.dogs_empty": "Încă nu ai niciun câine înregistrat.",
 
   "nav.events": "Evenimente",
   "nav.dogs": "Câinii mei",
@@ -160,6 +169,7 @@ window.LOCALES.ro = {
   "style_guide.page_dog_profile": "Profil câine",
   "style_guide.page_add_dog": "Adaugă câine",
   "style_guide.page_wallet": "Portofel",
+  "style_guide.page_profile": "Profil",
   "style_guide.component_button": "Button",
   "style_guide.component_input": "Input",
   "style_guide.component_dropdown": "Dropdown",

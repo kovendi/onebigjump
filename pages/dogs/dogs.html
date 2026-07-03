@@ -66,7 +66,7 @@
         })
       );
     } else {
-      DOGS_DATA.forEach((dog, index) => {
+      DOGS_DATA.forEach((dog) => {
         dogsContent.appendChild(
           window.dogCardModule.renderDogCard({
             photo: dog.photo,
@@ -74,7 +74,7 @@
             breed: t(`add_dog.breed_${dog.breed}`),
             birthdate: dog.birthdate,
             microchip: dog.microchip,
-            goodDogCard: index % 2 === 0,
+            goodDogCard: !!dog.goodDogCard,
             onProfileClick: () => { window.location.href = `../dog-profile/dog-profile.html?id=${dog.id}`; }
           })
         );

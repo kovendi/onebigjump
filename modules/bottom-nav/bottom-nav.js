@@ -12,7 +12,7 @@ window.bottomNavModule = (function () {
     { id: "dogs", labelKey: "nav.dogs", icon: "icon-nav-dogs", href: "../dogs/dogs.html" },
     { id: "wallet", labelKey: "nav.wallet", icon: "icon-nav-wallet", elevated: true, href: "../wallet/wallet.html" },
     { id: "members", labelKey: "nav.members", icon: "icon-nav-members", href: null },
-    { id: "profile", labelKey: "nav.profile", icon: "icon-nav-profile", href: null },
+    { id: "profile", labelKey: "nav.profile", icon: "icon-nav-profile", href: "../profile/profile.html" },
   ];
 
   function renderBottomNav({ active, onNavigate } = {}) {

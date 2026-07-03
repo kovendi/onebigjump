@@ -61,7 +61,7 @@
       document.getElementById('dog-profile-not-found-title').textContent = t('dog_profile.not_found_title');
       document.getElementById('dog-profile-not-found-description').textContent = t('dog_profile.not_found_description');
     } else {
-      const goodDogCard = dogIndex % 2 === 0;
+      const goodDogCard = !!dog.goodDogCard;
 
       // photo
       const photo = document.createElement('img');
@@ -113,6 +113,34 @@
         row.appendChild(labelEl);
         row.appendChild(valueEl);
         return row;
+      }
+
+      const owner = window.storage.getUsers().find((u) => u.id === dog.userId);
+      if (owner) {
+        const ownerRow = document.createElement('div');
+        ownerRow.className = 'dog-profile-field';
+
+        const ownerLabel = document.createElement('span');
+        ownerLabel.className = 'dog-profile-field-label';
+        ownerLabel.textContent = t('dog_profile.owner_label');
+        ownerRow.appendChild(ownerLabel);
+
+        const ownerValue = document.createElement('div');
+        ownerValue.className = 'dog-profile-owner-value';
+
+        const ownerPhoto = document.createElement('img');
+        ownerPhoto.className = 'dog-profile-owner-photo';
+        ownerPhoto.src = owner.photo || '../../assets/icon-nav-profile.svg';
+        ownerPhoto.alt = '';
+        ownerValue.appendChild(ownerPhoto);
+
+        const ownerName = document.createElement('span');
+        ownerName.className = 'dog-profile-field-value';
+        ownerName.textContent = owner.name;
+        ownerValue.appendChild(ownerName);
+
+        ownerRow.appendChild(ownerValue);
+        basics.appendChild(ownerRow);
       }
 
       basics.appendChild(renderField(t('dog_profile.breed_label'), t(`add_dog.breed_${dog.breed}`)));
