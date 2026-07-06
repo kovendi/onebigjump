@@ -72,6 +72,8 @@ window.LOCALES.en = {
   "ticket_purchase.not_found_description": "It may have been removed, or the link is incorrect.",
   "ticket_purchase_success.title": "Purchase successful!",
   "ticket_purchase_success.description": "{quantity} ticket(s) — {eventName}",
+  "ticket_purchase_success.title_free": "Registration successful!",
+  "ticket_purchase_success.description_free": "{quantity} ticket(s) — {eventName}",
   "ticket_purchase_success.wallet_action": "Go to wallet",
 
   "wallet.dogs_title": "My Good Dog Cards",
@@ -223,5 +225,8 @@ window.LOCALES.en = {
   "members.no_dogs": "No dogs",
   "search.placeholder_members": "Search members",
   "search.placeholder_events": "Search events",
-  "search.no_results": "No results"
+  "search.no_results": "No results",
+
+  "good_dog_card.title": "What is the Good Dog Card (GDC)?",
+  "good_dog_card.content": "The Good Dog Card (GDC) is a digital certification system and credential within the app that officially guarantees your dog is properly socialized, obedient, and able to behave safely and confidently in the company of other dogs and people.\n\n### The three levels\nThe card has three progressively more demanding levels, each of which can be earned separately:\n- 🥉 **Bronze level:** Certifies basic obedience and everyday socialization.\n- 🥈 **Silver level:** Intermediate, more complex tasks and a higher level of discipline in a distracting environment.\n- 🥇 **Gold level:** The highest level of professional obedience and cooperation certification.\n\n### Why is it worth getting?\nAfter a successful exam, the digital card and its matching colored Badge instantly become active on your dog's profile. In the future, having a GDC card will be a prerequisite for registering to certain premium or special dog events!\n\n### How can you get it?\nThe Good Dog Card certification cannot be purchased — your dog has to earn it in a practical exam. The steps of the process:\n\n**1. Register your dog!**\nGo to the My Dogs section and add your dog's details. To apply for the exam, you must provide the microchip number and upload a photo of a valid vaccination booklet or passport.\n\n**2. Apply for an exam!**\nFind the official GDC exam event that suits you (for example, a Bronze-level one) in the Events list.\n\n**3. Buy the exam ticket!**\nTap to apply and pay the exam fee through the secure payment interface. After a successful purchase, your ticket and its unique QR code immediately appear in your Wallet.\n\n**4. Complete the practical test!**\nCome to the chosen event, where your QR code will be scanned at the entrance. At the event, you and your dog must demonstrate the obedience tasks required for the level in front of a qualified instructor or judge.\n\n**5. Claim your recognition!**\nAs soon as the examiner confirms a successful performance, the digital Good Dog Card and the shiny new badge automatically appear on your dog's profile page!"
 };

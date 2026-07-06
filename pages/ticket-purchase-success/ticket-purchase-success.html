@@ -34,10 +34,13 @@
     const params = new URLSearchParams(window.location.search);
     const eventName = params.get('eventName') || '';
     const quantity = params.get('quantity') || '1';
+    const isFree = params.get('isFree') === '1';
 
-    document.getElementById('ticket-purchase-success-title').textContent = t('ticket_purchase_success.title');
+    document.getElementById('ticket-purchase-success-title').textContent =
+      t(isFree ? 'ticket_purchase_success.title_free' : 'ticket_purchase_success.title');
     document.getElementById('ticket-purchase-success-description').textContent =
-      t('ticket_purchase_success.description').replace('{quantity}', quantity).replace('{eventName}', eventName);
+      t(isFree ? 'ticket_purchase_success.description_free' : 'ticket_purchase_success.description')
+        .replace('{quantity}', quantity).replace('{eventName}', eventName);
 
     document.getElementById('ticket-purchase-success-action').appendChild(
       window.buttonModule.renderButton({

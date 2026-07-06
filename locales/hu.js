@@ -72,9 +72,11 @@ window.LOCALES.hu = {
   "ticket_purchase.not_found_description": "Lehet, hogy törölték, vagy hibás a link.",
   "ticket_purchase_success.title": "Sikeresen megvásároltad!",
   "ticket_purchase_success.description": "{quantity} jegy — {eventName}",
+  "ticket_purchase_success.title_free": "Sikeresen regisztráltál!",
+  "ticket_purchase_success.description_free": "{quantity} jegy — {eventName}",
   "ticket_purchase_success.wallet_action": "Ugrás a tárcára",
 
-  "wallet.dogs_title": "Good Dog Card kártyáim",
+  "wallet.dogs_title": "„Good Dog Card” kártyáim",
   "dogs.empty_title": "Még nincs regisztrált kutyád",
   "dogs.empty_description": "Regisztráld a kutyádat, hogy megjelenjen itt.",
   "dogs.add_action": "Kutya hozzáadása",
@@ -223,5 +225,8 @@ window.LOCALES.hu = {
   "members.no_dogs": "Nincs kutyája",
   "search.placeholder_members": "Tagok keresése",
   "search.placeholder_events": "Események keresése",
-  "search.no_results": "Nincs találat"
+  "search.no_results": "Nincs találat",
+
+  "good_dog_card.title": "Mi az a Good Dog Card (GDC)?",
+  "good_dog_card.content": "A Good Dog Card (GDC) egy olyan digitális minősítési rendszer és igazolvány az alkalmazásban, amely hivatalos garanciát nyújt arra, hogy a kutyád megfelelően szocializált, engedelmes, valamint biztonságosan és magabiztosan tud viselkedni közösségben, más kutyák és emberek társaságában.\n\n### A három fokozat\nA kártyának három egymásra épülő, egyre komolyabb tudást igénylő szintje van, melyeket külön-külön tudtok megszerezni:\n- 🥉 **Bronz fokozat:** Az alapfokú engedelmesség és a mindennapi szocializáció igazolása.\n- 🥈 **Ezüst fokozat:** Középfokú, összetettebb feladatok és magasabb szintű fegyelem zavaró környezetben.\n- 🥇 **Arany fokozat:** A legmagasabb szintű, professzionális engedelmességi és együttműködési minősítés.\n\n### Miért éri meg megszerezni?\nA sikeres vizsga után a digitális kártya és a hozzá tartozó színes Badge (Kitüntetés) azonnal aktívvá válik a kutyád profilján. A jövőben bizonyos prémium vagy speciális kutyás eseményeken a GDC kártya megléte lesz a jelentkezés előfeltétele!\n\n### Hogyan tudod beszerezni?\nA Good Dog Card minősítést nem lehet megvásárolni, azt a kutyusodnak egy gyakorlati vizsgán kell kiérdemelnie. A folyamat lépései:\n\n**1. Regisztráld a kutyádat!**\nLépj a Kutyáim menüpontba, és add meg a kutyusod adatait. A vizsgára való jelentkezéshez kötelező megadni a mikrochip számot, és feltölteni az érvényes oltási könyv vagy útlevél fotóját.\n\n**2. Jelentkezz egy vizsgára!**\nKeresd meg az Események listájában a számodra megfelelő (például Bronz szintű) hivatalos GDC vizsgaalkalmat.\n\n**3. Vásárold meg a vizsgajegyet!**\nKattints a jelentkezésre, és fizesd ki a vizsgadíjat a biztonságos fizetési felületen keresztül. A sikeres vásárlás után a jegyed és a hozzá tartozó egyedi QR-kód azonnal bekerül a Tárca menüpontodba.\n\n**4. Teljesítsd a gyakorlati tesztet!**\nGyere el a kiválasztott eseményre, ahol a bejáratnál leolvassák a QR-kódodat. A rendezvényen egy szakképzett oktató vagy bíró előtt kell bemutatnotok a szintnek megfelelő engedelmességi feladatokat.\n\n**5. Zsebeld be az elismerést!**\nAmint a vizsgáztató jóváhagyja a sikeres teljesítést, a digitális Good Dog Card és a csillogó új jelvény automatikusan megjelenik a kutyád profiloldalán!"
 };

@@ -72,6 +72,8 @@ window.LOCALES.ro = {
   "ticket_purchase.not_found_description": "Este posibil să fi fost șters sau linkul este incorect.",
   "ticket_purchase_success.title": "Achiziție reușită!",
   "ticket_purchase_success.description": "{quantity} bilet(e) — {eventName}",
+  "ticket_purchase_success.title_free": "Înregistrare reușită!",
+  "ticket_purchase_success.description_free": "{quantity} bilet(e) — {eventName}",
   "ticket_purchase_success.wallet_action": "Mergi la portofel",
 
   "wallet.dogs_title": "Cardurile mele Good Dog Card",
@@ -223,5 +225,8 @@ window.LOCALES.ro = {
   "members.no_dogs": "Fără câini",
   "search.placeholder_members": "Caută membri",
   "search.placeholder_events": "Caută evenimente",
-  "search.no_results": "Niciun rezultat"
+  "search.no_results": "Niciun rezultat",
+
+  "good_dog_card.title": "Ce este Good Dog Card (GDC)?",
+  "good_dog_card.content": "Good Dog Card (GDC) este un sistem digital de certificare și un atestat în aplicație, care garantează oficial faptul că câinele tău este socializat corespunzător, ascultător și se poate comporta în siguranță și cu încredere în compania altor câini și oameni.\n\n### Cele trei niveluri\nCardul are trei niveluri progresive, tot mai avansate, pe care le puteți obține separat:\n- 🥉 **Nivel Bronz:** Atestă ascultarea de bază și socializarea de zi cu zi.\n- 🥈 **Nivel Argint:** Sarcini intermediare, mai complexe și un nivel mai ridicat de disciplină într-un mediu cu factori perturbatori.\n- 🥇 **Nivel Aur:** Cea mai înaltă certificare profesională de ascultare și cooperare.\n\n### De ce merită să îl obții?\nDupă un examen reușit, cardul digital și insigna colorată aferentă devin imediat active pe profilul câinelui tău. Pe viitor, deținerea cardului GDC va fi o condiție obligatorie pentru înscrierea la anumite evenimente canine premium sau speciale!\n\n### Cum îl poți obține?\nCertificarea Good Dog Card nu poate fi cumpărată, câinele tău trebuie să o câștige la un examen practic. Pașii procesului:\n\n**1. Înregistrează-ți câinele!**\nMergi la secțiunea Câinii mei și completează datele câinelui tău. Pentru înscrierea la examen este obligatoriu să introduci numărul de microcip și să încarci o fotografie a carnetului de vaccinări sau a pașaportului valabil.\n\n**2. Înscrie-te la un examen!**\nCaută în lista de Evenimente examenul oficial GDC potrivit pentru tine (de exemplu, de nivel Bronz).\n\n**3. Cumpără biletul de examen!**\nApasă pe înscriere și achită taxa de examen prin interfața de plată securizată. După achiziția reușită, biletul tău și codul QR unic aferent apar imediat în secțiunea Portofel.\n\n**4. Susține testul practic!**\nVino la evenimentul ales, unde codul tău QR va fi scanat la intrare. La eveniment, trebuie să demonstrați, în fața unui instructor sau judecător calificat, sarcinile de ascultare corespunzătoare nivelului.\n\n**5. Bucură-te de recunoaștere!**\nDe îndată ce examinatorul confirmă performanța reușită, Good Dog Card digital și noua insignă strălucitoare apar automat pe pagina de profil a câinelui tău!"
 };

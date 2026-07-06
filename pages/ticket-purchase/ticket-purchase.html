@@ -229,7 +229,7 @@
                 purchasedAt: purchasedAt
               });
             }
-            window.location.href = `../ticket-purchase-success/ticket-purchase-success.html?eventName=${encodeURIComponent(event.name)}&quantity=${encodeURIComponent(quantity)}`;
+            window.location.href = `../ticket-purchase-success/ticket-purchase-success.html?eventName=${encodeURIComponent(event.name)}&quantity=${encodeURIComponent(quantity)}&isFree=${event.is_paid ? '0' : '1'}`;
           }
         })
       );

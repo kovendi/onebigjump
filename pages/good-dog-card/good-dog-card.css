@@ -1,0 +1,20 @@
+#screen-content {
+  min-height: 100%;
+  overflow-x: clip;
+  display: flex;
+  flex-direction: column;
+}
+
+.good-dog-card-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.good-dog-card__body {
+  padding: 16px;
+  padding-bottom: 32px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
