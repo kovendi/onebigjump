@@ -108,7 +108,122 @@
 
     if (isOwnProfile) {
       basics.appendChild(renderStaticField(t('profile.email_label'), user.email));
-      basics.appendChild(renderStaticField(t('profile.username_label'), user.username));
+
+      // editable username (only once)
+      const usernameRow = document.createElement('div');
+      usernameRow.className = 'profile-field';
+
+      const usernameLabel = document.createElement('span');
+      usernameLabel.className = 'profile-field-label';
+      usernameLabel.textContent = t('profile.username_label');
+      usernameRow.appendChild(usernameLabel);
+
+      const usernameEditWrap = document.createElement('div');
+      usernameEditWrap.className = 'profile-name-edit';
+
+      const usernameValue = document.createElement('span');
+      usernameValue.className = 'profile-field-value';
+      usernameValue.textContent = user.username;
+
+      const usernameInput = document.createElement('input');
+      usernameInput.type = 'text';
+      usernameInput.className = 'profile-name-input';
+      usernameInput.value = user.username;
+      usernameInput.hidden = true;
+
+      usernameEditWrap.appendChild(usernameValue);
+      usernameEditWrap.appendChild(usernameInput);
+
+      const usernameWarning = document.createElement('p');
+      usernameWarning.className = 'profile-username-warning';
+      usernameWarning.textContent = t('profile.username_change_warning_message');
+      usernameWarning.hidden = true;
+
+      if (!user.usernameChanged) {
+        const usernameEditButton = document.createElement('button');
+        usernameEditButton.type = 'button';
+        usernameEditButton.className = 'profile-name-action-button';
+        usernameEditButton.setAttribute('aria-label', t('dog_profile.edit_action'));
+        const usernameEditIcon = document.createElement('img');
+        usernameEditIcon.className = 'profile-name-action-icon';
+        usernameEditIcon.src = '../../assets/icon-edit.svg';
+        usernameEditIcon.alt = '';
+        usernameEditButton.appendChild(usernameEditIcon);
+
+        const usernameCancelButton = document.createElement('button');
+        usernameCancelButton.type = 'button';
+        usernameCancelButton.className = 'profile-name-action-button';
+        usernameCancelButton.setAttribute('aria-label', t('common.cancel'));
+        usernameCancelButton.hidden = true;
+        const usernameCancelIcon = document.createElement('img');
+        usernameCancelIcon.className = 'profile-name-action-icon';
+        usernameCancelIcon.src = '../../assets/icon-close.svg';
+        usernameCancelIcon.alt = '';
+        usernameCancelButton.appendChild(usernameCancelIcon);
+
+        function enterUsernameEditMode() {
+          usernameValue.hidden = true;
+          usernameInput.hidden = false;
+          usernameInput.value = user.username;
+          usernameInput.focus();
+          usernameEditIcon.src = '../../assets/icon-check.svg';
+          usernameEditButton.disabled = true;
+          usernameCancelButton.hidden = false;
+          usernameWarning.hidden = false;
+        }
+
+        function exitUsernameEditMode() {
+          usernameValue.hidden = false;
+          usernameInput.hidden = true;
+          usernameEditIcon.src = '../../assets/icon-edit.svg';
+          usernameEditButton.disabled = false;
+          usernameCancelButton.hidden = true;
+          usernameWarning.hidden = true;
+        }
+
+        function saveUsername() {
+          const newUsername = usernameInput.value.trim();
+          if (newUsername) {
+            user.username = newUsername;
+            user.usernameChanged = true;
+            window.storage.updateUser({ username: newUsername, usernameChanged: true });
+            usernameValue.textContent = newUsername;
+          }
+          exitUsernameEditMode();
+          usernameEditButton.remove();
+          usernameCancelButton.remove();
+        }
+
+        function cancelUsernameEdit() {
+          usernameInput.value = user.username;
+          exitUsernameEditMode();
+        }
+
+        usernameInput.addEventListener('input', () => {
+          usernameEditButton.disabled = usernameInput.value.trim() === user.username;
+        });
+
+        usernameEditButton.addEventListener('click', () => {
+          if (usernameInput.hidden) {
+            enterUsernameEditMode();
+          } else {
+            saveUsername();
+          }
+        });
+
+        usernameCancelButton.addEventListener('click', cancelUsernameEdit);
+
+        usernameInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' && !usernameEditButton.disabled) saveUsername();
+        });
+
+        usernameEditWrap.appendChild(usernameEditButton);
+        usernameEditWrap.appendChild(usernameCancelButton);
+      }
+
+      usernameRow.appendChild(usernameEditWrap);
+      basics.appendChild(usernameRow);
+      basics.appendChild(usernameWarning);
     }
 
     if (isOwnProfile) {
@@ -144,12 +259,33 @@
       editIcon.alt = '';
       editButton.appendChild(editIcon);
 
+      const nameCancelButton = document.createElement('button');
+      nameCancelButton.type = 'button';
+      nameCancelButton.className = 'profile-name-action-button';
+      nameCancelButton.setAttribute('aria-label', t('common.cancel'));
+      nameCancelButton.hidden = true;
+      const nameCancelIcon = document.createElement('img');
+      nameCancelIcon.className = 'profile-name-action-icon';
+      nameCancelIcon.src = '../../assets/icon-close.svg';
+      nameCancelIcon.alt = '';
+      nameCancelButton.appendChild(nameCancelIcon);
+
       function enterEditMode() {
         nameValue.hidden = true;
         nameInput.hidden = false;
         nameInput.value = user.name;
         nameInput.focus();
         editIcon.src = '../../assets/icon-check.svg';
+        editButton.disabled = true;
+        nameCancelButton.hidden = false;
+      }
+
+      function exitEditMode() {
+        nameValue.hidden = false;
+        nameInput.hidden = true;
+        editIcon.src = '../../assets/icon-edit.svg';
+        editButton.disabled = false;
+        nameCancelButton.hidden = true;
       }
 
       function saveName() {
@@ -159,10 +295,17 @@
           window.storage.updateUser({ name: newName });
           nameValue.textContent = newName;
         }
-        nameValue.hidden = false;
-        nameInput.hidden = true;
-        editIcon.src = '../../assets/icon-edit.svg';
+        exitEditMode();
       }
+
+      function cancelNameEdit() {
+        nameInput.value = user.name;
+        exitEditMode();
+      }
+
+      nameInput.addEventListener('input', () => {
+        editButton.disabled = nameInput.value.trim() === user.name;
+      });
 
       editButton.addEventListener('click', () => {
         if (nameInput.hidden) {
@@ -172,13 +315,16 @@
         }
       });
 
+      nameCancelButton.addEventListener('click', cancelNameEdit);
+
       nameInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') saveName();
+        if (e.key === 'Enter' && !editButton.disabled) saveName();
       });
 
       nameEditWrap.appendChild(nameValue);
       nameEditWrap.appendChild(nameInput);
       nameEditWrap.appendChild(editButton);
+      nameEditWrap.appendChild(nameCancelButton);
       nameRow.appendChild(nameEditWrap);
 
       basics.appendChild(nameRow);
@@ -289,6 +435,14 @@
 
       const accountActions = document.createElement('div');
       accountActions.className = 'profile-account-actions';
+
+      accountActions.appendChild(renderAccountRow(
+        t('profile.change_password_button'),
+        'profile-account-row--default',
+        () => {
+          window.location.href = '../change-password/change-password.html';
+        }
+      ));
 
       accountActions.appendChild(renderAccountRow(
         t('profile.logout_button'),

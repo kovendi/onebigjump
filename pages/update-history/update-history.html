@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Update History</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="update-history.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="update-history-header">
+      <button type="button" class="update-history-back" id="update-history-back">
+        <img src="../../assets/icon-back.svg" alt="" class="update-history-back-icon" />
+        <span id="update-history-back-label"></span>
+      </button>
+      <span class="update-history-version" id="update-history-version"></span>
+    </div>
+    <h1 class="update-history-title" id="update-history-title"></h1>
+    <table class="update-history-table">
+      <thead>
+        <tr>
+          <th id="update-history-date-column"></th>
+          <th id="update-history-version-column"></th>
+          <th id="update-history-change-column"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2026-07-06 14:00</td>
+          <td>v1.0.0</td>
+          <td>Added Update History page.</td>
+        </tr>
+        <tr>
+          <td>2026-07-06 15:00</td>
+          <td>v1.1.0</td>
+          <td>Added one-time username editing and a change-password page to profile.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="../../version.js"></script>
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    document.getElementById('update-history-title').textContent = t('update_history.title');
+    document.getElementById('update-history-date-column').textContent = t('update_history.date_column');
+    document.getElementById('update-history-version-column').textContent = t('update_history.version_column');
+    document.getElementById('update-history-change-column').textContent = t('update_history.change_column');
+    document.getElementById('update-history-back-label').textContent = t('update_history.back');
+    document.getElementById('update-history-version').textContent = window.APP_VERSION;
+
+    document.getElementById('update-history-back').addEventListener('click', () => {
+      window.location.href = '../../index.html';
+    });
+  </script>
+</body>
+</html>

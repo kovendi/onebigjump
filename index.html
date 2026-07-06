@@ -18,6 +18,7 @@
     </div>
   </div>
 
+  <script src="version.js"></script>
   <script src="locales/hu.js"></script>
   <script src="locales/en.js"></script>
   <script src="locales/ro.js"></script>
@@ -41,6 +42,19 @@
       variant: 'secondary',
       onClick: () => { window.location.href = 'pages/style-guide/style-guide.html'; },
     }));
+
+    const updateHistoryRow = document.createElement('div');
+    updateHistoryRow.className = 'landing-update-history-row';
+    updateHistoryRow.appendChild(window.buttonModule.renderButton({
+      label: t('landing.update_history_action'),
+      variant: 'secondary',
+      onClick: () => { window.location.href = 'pages/update-history/update-history.html'; },
+    }));
+    const versionLabel = document.createElement('span');
+    versionLabel.className = 'landing-version-label';
+    versionLabel.textContent = window.APP_VERSION;
+    updateHistoryRow.appendChild(versionLabel);
+    actions.appendChild(updateHistoryRow);
   </script>
 </body>
 </html>

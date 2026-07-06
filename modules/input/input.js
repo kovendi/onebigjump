@@ -2,7 +2,7 @@
 // window.inputModule.renderInput({ type, name, placeholder, id, label }) -> HTMLElement
 
 window.inputModule = (function () {
-  function renderInput({ type = "text", name, placeholder = "", id, label } = {}) {
+  function renderInput({ type = "text", name, placeholder = "", id, label, required = false } = {}) {
     const wrapper = document.createElement("div");
     wrapper.className = "input-field";
 
@@ -23,6 +23,9 @@ window.inputModule = (function () {
     input.placeholder = placeholder;
     input.autocomplete = "off";
     input.className = "input-field__control";
+    if (required) {
+      input.required = true;
+    }
 
     wrapper.appendChild(input);
     return wrapper;

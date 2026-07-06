@@ -41,3 +41,19 @@
   width: 100%;
   max-width: 320px;
 }
+
+.landing-update-history-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.landing-update-history-row > button {
+  flex: 1;
+}
+
+.landing-version-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}

@@ -1,0 +1,68 @@
+#screen-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.update-history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.update-history-back {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px 0;
+  color: var(--color-text-main);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.update-history-back-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.update-history-version {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.update-history-title {
+  color: var(--color-text-main);
+  margin-bottom: 16px;
+}
+
+.update-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-card-background);
+}
+
+.update-history-table th,
+.update-history-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 14px;
+}
+
+.update-history-table th {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.update-history-table td:first-child {
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.update-history-table td {
+  color: var(--color-text-main);
+}

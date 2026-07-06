@@ -37,6 +37,7 @@
       <form class="login-form" id="login-form">
         <div id="email-input"></div>
         <div id="password-input"></div>
+        <p class="login-error" id="login-error" hidden></p>
         <div id="submit-button"></div>
       </form>
 
@@ -92,10 +93,10 @@
     document.getElementById('apple-login-text').textContent = t('login.apple');
 
     document.getElementById('email-input').replaceWith(
-      window.inputModule.renderInput({ type: 'email', name: 'email', label: t('login.email_label'), placeholder: t('login.email_placeholder'), id: 'email-input' })
+      window.inputModule.renderInput({ type: 'email', name: 'email', label: t('login.email_label'), placeholder: t('login.email_placeholder'), id: 'email-input', required: true })
     );
     document.getElementById('password-input').replaceWith(
-      window.inputModule.renderInput({ type: 'password', name: 'password', label: t('login.password_label'), placeholder: t('login.password_placeholder'), id: 'password-input' })
+      window.inputModule.renderInput({ type: 'password', name: 'password', label: t('login.password_label'), placeholder: t('login.password_placeholder'), id: 'password-input', required: true })
     );
     document.getElementById('submit-button').replaceWith(
       window.buttonModule.renderButton({ label: t('login.submit'), variant: 'primary', type: 'submit' })
@@ -104,7 +105,14 @@
     document.getElementById('login-form').addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
-      window.storage.loginUser(formData.get('email'), formData.get('password'));
+      const errorEl = document.getElementById('login-error');
+      const user = window.storage.loginUser(formData.get('email'), formData.get('password'));
+      if (!user) {
+        errorEl.textContent = t('login.error_invalid');
+        errorEl.hidden = false;
+        return;
+      }
+      errorEl.hidden = true;
       window.location.href = '../events/events.html';
     });
 

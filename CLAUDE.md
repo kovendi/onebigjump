@@ -90,7 +90,7 @@ Every form input needs a `<label>`, not just a `placeholder` — placeholders di
 
 ### File length
 
-Keep files short. If a file is approaching 500 lines, flag it to the user and suggest splitting it (e.g. extracting a sub-component into its own module) instead of letting it keep growing.
+Keep files short. If a file is approaching 500 lines, flag it to the user and suggest splitting it (e.g. extracting a sub-component into its own module) instead of letting it keep growing. Exception: `pages/update-history/update-history.html` has no line limit.
 
 ### No horizontal scroll
 
@@ -124,7 +124,19 @@ Page template:
 
 Also link `modules/iphone-frame/iphone-frame.css` in `<head>`.
 
-Exception: `index.html` (root landing page) and `pages/style-guide/style-guide.html` are meta/overview pages, not app screens — they render full-width and must NOT be wrapped in `iphone-frame`.
+Exception: `index.html` (root landing page), `pages/style-guide/style-guide.html`, and `pages/update-history/update-history.html` are meta/overview pages, not app screens — they render full-width and must NOT be wrapped in `iphone-frame`.
+
+### Update history
+
+`pages/update-history/update-history.html` is a table (Date, Version, Change) listing every change made to the codebase, newest entries added at the bottom. It is a meta/overview page (no `iphone-frame`, see exception above) and is exempt from the [File length](#file-length) line limit — never split or trim it. The page chrome (title, column headers, back button) is translated via `t()` like any other page; the Change column's text stays hardcoded in English regardless of language, since it's a developer-facing log.
+
+Before every `git push`, add one row to this table: the current date and time (not just date — hour and minute too), the new `APP_VERSION`, and a one-line summary of what changed. Do not add a row on plain `git commit` — only when pushing. Treat this as part of the push itself, not a follow-up task.
+
+The page has a back button that always navigates to `index.html` (not `history.back()`).
+
+### App version
+
+`version.js` (project root) assigns `window.APP_VERSION` (e.g. `"v1.0.0"`), loaded via classic `<script>` before any script that reads it. `index.html` shows it next to the Update History link, and `update-history.html` shows it near its header. Bump it alongside the update-history row on every push that changes app behavior.
 
 ## Color Palette
 
