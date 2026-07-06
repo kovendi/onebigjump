@@ -52,6 +52,12 @@
   color: var(--color-text-main);
 }
 
+.wallet-qr-modal__ticket-number {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: -8px;
+}
+
 .wallet-qr-modal__image {
   width: 200px;
   height: 200px;
