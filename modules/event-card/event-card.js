@@ -31,9 +31,14 @@ window.eventCardModule = (function () {
     card.appendChild(image);
 
     if (isExam) {
-      const badge = document.createElement("div");
+      const badge = document.createElement("button");
+      badge.type = "button";
       badge.className = "event-card__badge event-card__badge--exam";
       badge.textContent = window.i18n.t("event_card.exam_badge");
+      badge.addEventListener("click", (e) => {
+        e.stopPropagation();
+        window.location.href = "../good-dog-card/good-dog-card.html";
+      });
       card.appendChild(badge);
     }
 

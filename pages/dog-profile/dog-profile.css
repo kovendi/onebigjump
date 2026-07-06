@@ -119,11 +119,14 @@
   gap: 5px;
   font-size: 12px;
   font-weight: 700;
+  font-family: inherit;
   color: #ffffff;
   background: linear-gradient(90deg, var(--color-accent), #ff6f91);
+  border: none;
   border-radius: 999px;
   padding: 4px 12px;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .dog-profile-badge-icon {

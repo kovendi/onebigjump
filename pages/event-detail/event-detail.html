@@ -100,9 +100,13 @@
       document.getElementById('event-detail').hidden = false;
       document.getElementById('event-detail-image').src = event.image_url;
       if (event.is_exam) {
-        const examBadge = document.createElement('div');
+        const examBadge = document.createElement('button');
+        examBadge.type = 'button';
         examBadge.className = 'event-detail__badge event-detail__badge--exam';
         examBadge.textContent = t('event_card.exam_badge');
+        examBadge.addEventListener('click', () => {
+          window.location.href = '../good-dog-card/good-dog-card.html';
+        });
         document.querySelector('.event-detail__image-wrap').appendChild(examBadge);
       }
       if (!event.is_paid) {

@@ -132,6 +132,8 @@ Exception: `index.html` (root landing page), `pages/style-guide/style-guide.html
 
 Before every `git push`, add one row to this table: the current date and time (not just date — hour and minute too), the new `APP_VERSION`, and a one-line summary of what changed. Do not add a row on plain `git commit` — only when pushing. Treat this as part of the push itself, not a follow-up task.
 
+The system only provides today's date, not the current time — never guess the time. Ask the user for the current hour and minute right before adding the row, and use exactly what they provide.
+
 The page has a back button that always navigates to `index.html` (not `history.back()`).
 
 ### App version

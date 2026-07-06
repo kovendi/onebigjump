@@ -155,7 +155,8 @@
       badges.className = 'dog-profile-badges';
 
       if (goodDogCard) {
-        const badge = document.createElement('span');
+        const badge = document.createElement('button');
+        badge.type = 'button';
         badge.className = 'dog-profile-badge';
         const badgeIcon = document.createElement('img');
         badgeIcon.className = 'dog-profile-badge-icon';
@@ -163,6 +164,9 @@
         badgeIcon.alt = '';
         badge.appendChild(badgeIcon);
         badge.appendChild(document.createTextNode(t('dog_card.good_dog_badge')));
+        badge.addEventListener('click', () => {
+          window.location.href = '../good-dog-card/good-dog-card.html';
+        });
         badges.appendChild(badge);
 
         badges.appendChild(

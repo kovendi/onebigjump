@@ -72,7 +72,7 @@
           isFree: !event.is_paid
         });
         card.addEventListener('click', (e) => {
-          if (e.target.closest('.event-card__actions')) return;
+          if (e.target.closest('.event-card__actions') || e.target.closest('.event-card__badge--exam')) return;
           window.location.href = `../event-detail/event-detail.html?id=${encodeURIComponent(event.id)}`;
         });
         card.style.cursor = 'pointer';

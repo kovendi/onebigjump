@@ -88,7 +88,8 @@ window.dogCardModule = (function () {
     photoCol.appendChild(photoEl);
 
     if (goodDogCard) {
-      const badge = document.createElement("span");
+      const badge = document.createElement("button");
+      badge.type = "button";
       badge.className = "dog-card__badge";
       const badgeIcon = document.createElement("img");
       badgeIcon.className = "dog-card__badge-icon";
@@ -96,6 +97,10 @@ window.dogCardModule = (function () {
       badgeIcon.alt = "";
       badge.appendChild(badgeIcon);
       badge.appendChild(document.createTextNode(window.i18n.t("dog_card.good_dog_badge")));
+      badge.addEventListener("click", (e) => {
+        e.stopPropagation();
+        window.location.href = "../good-dog-card/good-dog-card.html";
+      });
       photoCol.appendChild(badge);
     }
 
