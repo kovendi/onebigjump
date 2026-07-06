@@ -60,7 +60,12 @@ window.storage = (function () {
         birthdate: birthdates[index % birthdates.length],
         microchip: '9001234567890' + (n % 10),
         photo: 'https://placedog.net/500/500?id=' + n,
-        goodDogCard: index % 2 === 0
+        goodDogCard: index % 2 === 0,
+        gdcBronze: index % 2 === 0,
+        gdcSilver: index % 4 === 0,
+        gdcGold: index % 8 === 0,
+        festivalVisitor: index % 3 === 0,
+        healthChecked: index % 2 === 1
       };
     });
   }
@@ -161,6 +166,11 @@ window.storage = (function () {
     dog.userId = db.currentUserId;
     var dogIndex = db.dogs.filter(function (d) { return d.userId === db.currentUserId; }).length;
     dog.goodDogCard = dogIndex % 2 === 0;
+    dog.gdcBronze = dogIndex % 2 === 0;
+    dog.gdcSilver = dogIndex % 4 === 0;
+    dog.gdcGold = dogIndex % 8 === 0;
+    dog.festivalVisitor = dogIndex % 3 === 0;
+    dog.healthChecked = dogIndex % 2 === 1;
     db.dogs.push(dog);
     saveDb(db);
     return dog;
@@ -178,6 +188,11 @@ window.storage = (function () {
   function getTickets() {
     var db = getDb();
     return (db.tickets || []).filter(function (t) { return t.userId === db.currentUserId; });
+  }
+
+  function getTicketsByUserId(userId) {
+    var db = getDb();
+    return (db.tickets || []).filter(function (t) { return t.userId === userId; });
   }
 
   function addTicket(ticket) {
@@ -227,6 +242,7 @@ window.storage = (function () {
     addDog: addDog,
     updateDog: updateDog,
     getTickets: getTickets,
+    getTicketsByUserId: getTicketsByUserId,
     addTicket: addTicket,
     updateTicket: updateTicket,
     getUsers: getUsers,

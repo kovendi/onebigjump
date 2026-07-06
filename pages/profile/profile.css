@@ -101,6 +101,10 @@
   text-align: right;
 }
 
+.badge-grid {
+  margin-top: 12px;
+}
+
 .profile-dogs {
   display: flex;
   flex-direction: column;

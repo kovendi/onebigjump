@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Jelvény</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="../../modules/bottom-nav/bottom-nav.css" />
+  <link rel="stylesheet" href="../../modules/section-title/section-title.css" />
+  <link rel="stylesheet" href="../../modules/badge-grid/badge-grid.css" />
+  <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="../../modules/modal/modal.css" />
+  <link rel="stylesheet" href="badge-detail.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="badge-detail-page" id="badge-detail-page">
+      <div class="badge-detail-content" id="badge-detail-content" hidden>
+        <img class="badge-detail-icon" id="badge-detail-icon" alt="" />
+        <p class="badge-detail-name" id="badge-detail-name"></p>
+        <p class="badge-detail-status" id="badge-detail-status"></p>
+        <div class="badge-detail-qr-action" id="badge-detail-qr-action" hidden></div>
+
+        <div id="badge-detail-description-section">
+          <div class="badge-detail-description" id="badge-detail-description"></div>
+          <button type="button" class="badge-detail-description-toggle" id="badge-detail-description-toggle" hidden></button>
+        </div>
+
+        <div id="badge-detail-requirement-section">
+          <p class="badge-detail-requirement" id="badge-detail-requirement"></p>
+        </div>
+      </div>
+
+      <div class="badge-detail-not-found" id="badge-detail-not-found" hidden>
+        <img class="badge-detail-not-found-icon" src="../../assets/icon-dogs.svg" alt="" />
+        <p class="badge-detail-not-found-title" id="badge-detail-not-found-title"></p>
+        <p class="badge-detail-not-found-description" id="badge-detail-not-found-description"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script src="../../modules/bottom-nav/bottom-nav.js"></script>
+  <script src="../../modules/section-title/section-title.js"></script>
+  <script src="../../modules/badge-grid/badge-grid.js"></script>
+  <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/modal/modal.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
+  <script src="badges-data.js"></script>
+  <script src="user-badges-data.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const badgeDetailPage = document.getElementById('badge-detail-page');
+    const params = new URLSearchParams(window.location.search);
+    const badgeId = params.get('badge');
+    const dogId = params.get('dogId');
+    const userId = params.get('userId');
+    const dogBadge = window.BADGES_DATA.find((item) => item.id === badgeId);
+    const userBadge = window.USER_BADGES_DATA.find((item) => item.id === badgeId);
+    const badge = dogBadge || userBadge;
+    const isUserBadge = !dogBadge && !!userBadge;
+    const dog = dogId ? window.storage.getDogs().find((item) => item.id === dogId) : null;
+    const user = userId ? window.storage.getUserById(userId) : null;
+
+    badgeDetailPage.prepend(
+      window.navbarModule.renderNavbar({ title: badge ? t(badge.nameKey) : t('badge_detail.not_found_title'), showBack: true })
+    );
+
+    const content = document.getElementById('badge-detail-content');
+    const notFound = document.getElementById('badge-detail-not-found');
+
+    if (!badge) {
+      notFound.hidden = false;
+      document.getElementById('badge-detail-not-found-title').textContent = t('badge_detail.not_found_title');
+      document.getElementById('badge-detail-not-found-description').textContent = t('badge_detail.not_found_description');
+    } else {
+      const active = isUserBadge
+        ? (user ? badge.isEarned({ user, dogs: window.storage.getDogsByUserId(user.id), tickets: window.storage.getTicketsByUserId(user.id) }) : true)
+        : (dog ? !!dog[badge.dogField] : true);
+
+      content.hidden = false;
+
+      const icon = document.getElementById('badge-detail-icon');
+      icon.src = window.badgeGridModule.icons[badge.icon];
+      icon.classList.toggle('badge-detail-icon--inactive', !active);
+
+      document.getElementById('badge-detail-name').textContent = t(badge.nameKey);
+
+      if (dog || user) {
+        const status = document.getElementById('badge-detail-status');
+        status.textContent = t(active ? 'badge_detail.status_earned' : 'badge_detail.status_locked');
+        status.classList.toggle('badge-detail-status--earned', active);
+      }
+
+      if (active && badge.id.startsWith('gdc_')) {
+        const qrAction = document.getElementById('badge-detail-qr-action');
+        qrAction.hidden = false;
+        qrAction.appendChild(
+          window.buttonModule.renderButton({
+            label: t('dog_card.qr_action'),
+            variant: 'secondary',
+            iconSrc: '../../assets/icon-qr.svg',
+            onClick: () => {
+              const qrContent = document.createElement('div');
+              qrContent.className = 'badge-detail-qr-modal';
+
+              const title = document.createElement('div');
+              title.className = 'badge-detail-qr-title';
+              title.textContent = t('dog_card.qr_modal_title');
+              qrContent.appendChild(title);
+
+              const qr = document.createElement('img');
+              qr.className = 'badge-detail-qr-image';
+              qr.src = '../../assets/qr-placeholder.svg';
+              qr.alt = '';
+              qrContent.appendChild(qr);
+
+              const description = document.createElement('p');
+              description.className = 'badge-detail-qr-description';
+              description.textContent = t('dog_card.qr_modal_description');
+              qrContent.appendChild(description);
+
+              window.modalModule.openModal(qrContent);
+            }
+          })
+        );
+      }
+
+      document.getElementById('badge-detail-description-section').prepend(
+        window.sectionTitleModule.renderSectionTitle({ text: t('event_detail.description_title') })
+      );
+      const descriptionEl = document.getElementById('badge-detail-description');
+      const descriptionToggle = document.getElementById('badge-detail-description-toggle');
+      descriptionEl.textContent = t(badge.descriptionKey);
+
+      const descriptionToggleIcon = document.createElement('img');
+      descriptionToggleIcon.className = 'badge-detail-description-toggle-icon';
+      descriptionToggleIcon.src = '../../assets/icon-chevron-down.svg';
+      descriptionToggleIcon.alt = '';
+      const descriptionToggleLabel = document.createElement('span');
+      descriptionToggle.appendChild(descriptionToggleIcon);
+      descriptionToggle.appendChild(descriptionToggleLabel);
+
+      requestAnimationFrame(() => {
+        if (descriptionEl.scrollHeight > descriptionEl.clientHeight + 1) {
+          descriptionToggle.hidden = false;
+          descriptionToggleLabel.textContent = t('event_detail.description_more');
+          descriptionToggle.addEventListener('click', () => {
+            const expanded = descriptionEl.classList.toggle('badge-detail-description--expanded');
+            descriptionToggle.classList.toggle('badge-detail-description-toggle--expanded', expanded);
+            descriptionToggleLabel.textContent = t(expanded ? 'event_detail.description_less' : 'event_detail.description_more');
+          });
+        }
+      });
+
+      document.getElementById('badge-detail-requirement-section').prepend(
+        window.sectionTitleModule.renderSectionTitle({ text: t('badge_detail.requirement_title') })
+      );
+      document.getElementById('badge-detail-requirement').textContent = t(badge.requirementKey);
+    }
+
+    badgeDetailPage.appendChild(
+      window.bottomNavModule.renderBottomNav({ active: isUserBadge ? 'profile' : 'dogs' })
+    );
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

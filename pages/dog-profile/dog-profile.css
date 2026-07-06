@@ -105,40 +105,8 @@
   flex-shrink: 0;
 }
 
-.dog-profile-badges {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+.badge-grid {
   margin-top: 12px;
-}
-
-.dog-profile-badge {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  font-weight: 700;
-  font-family: inherit;
-  color: #ffffff;
-  background: linear-gradient(90deg, var(--color-accent), #ff6f91);
-  border: none;
-  border-radius: 999px;
-  padding: 4px 12px;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.dog-profile-badge-icon {
-  width: 14px;
-  height: 14px;
-  filter: brightness(0) invert(1);
-}
-
-.dog-profile-no-badges {
-  margin: 0;
-  font-size: 13px;
-  color: var(--color-text-secondary);
 }
 
 .dog-profile-files {
@@ -202,32 +170,6 @@
 }
 
 .dog-profile-not-found-description {
-  margin: 0;
-  font-size: 13px;
-  color: var(--color-text-secondary);
-}
-
-.dog-profile-qr-modal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 12px;
-}
-
-.dog-profile-qr-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--color-text-main);
-}
-
-.dog-profile-qr-image {
-  width: 200px;
-  height: 200px;
-  border-radius: 8px;
-}
-
-.dog-profile-qr-description {
   margin: 0;
   font-size: 13px;
   color: var(--color-text-secondary);

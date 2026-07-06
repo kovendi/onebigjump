@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="../../modules/dog-card/dog-card.css" />
   <link rel="stylesheet" href="../../modules/event-card/event-card.css" />
   <link rel="stylesheet" href="../../modules/ticket-card/ticket-card.css" />
+  <link rel="stylesheet" href="../../modules/badge-grid/badge-grid.css" />
   <link rel="stylesheet" href="../../modules/modal/modal.css" />
   <link rel="stylesheet" href="../../modules/file-upload/file-upload.css" />
   <link rel="stylesheet" href="../../modules/photo-picker/photo-picker.css" />
@@ -50,6 +51,7 @@
   <script src="../../modules/dog-card/dog-card.js"></script>
   <script src="../../modules/event-card/event-card.js"></script>
   <script src="../../modules/ticket-card/ticket-card.js"></script>
+  <script src="../../modules/badge-grid/badge-grid.js"></script>
   <script src="../../modules/modal/modal.js"></script>
   <script src="../../modules/file-upload/file-upload.js"></script>
   <script src="../../modules/photo-picker/photo-picker.js"></script>
@@ -240,6 +242,18 @@
       onQrClick: () => {},
     });
     addComponentDemo(componentsGrid, 'style_guide.component_ticket_card', null, ticketCardDemo);
+
+    // badge-grid
+    const badgeGridDemo = window.badgeGridModule.renderBadgeGrid({
+      badges: [
+        { id: 'gdc_bronze', icon: 'gdcBronze', label: t('dog_profile.badge_gdc_bronze'), active: true },
+        { id: 'gdc_silver', icon: 'gdcSilver', label: t('dog_profile.badge_gdc_silver'), active: false },
+        { id: 'gdc_gold', icon: 'gdcGold', label: t('dog_profile.badge_gdc_gold'), active: false },
+        { id: 'festival_visitor', icon: 'festivalVisitor', label: t('dog_profile.badge_festival_visitor'), active: true },
+        { id: 'health_checked', icon: 'healthChecked', label: t('dog_profile.badge_health_checked'), active: false },
+      ],
+    });
+    addComponentDemo(componentsGrid, 'style_guide.component_badge_grid', null, badgeGridDemo);
 
     // modal
     const modalTrigger = window.buttonModule.renderButton({

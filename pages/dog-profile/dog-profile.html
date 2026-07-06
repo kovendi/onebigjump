@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../../modules/bottom-nav/bottom-nav.css" />
   <link rel="stylesheet" href="../../modules/section-title/section-title.css" />
   <link rel="stylesheet" href="../../modules/button/button.css" />
-  <link rel="stylesheet" href="../../modules/modal/modal.css" />
+  <link rel="stylesheet" href="../../modules/badge-grid/badge-grid.css" />
   <link rel="stylesheet" href="dog-profile.css" />
 </head>
 <body>
@@ -35,9 +35,10 @@
   <script src="../../modules/bottom-nav/bottom-nav.js"></script>
   <script src="../../modules/section-title/section-title.js"></script>
   <script src="../../modules/button/button.js"></script>
-  <script src="../../modules/modal/modal.js"></script>
+  <script src="../../modules/badge-grid/badge-grid.js"></script>
   <script src="../../modules/date/date.js"></script>
   <script src="../../modules/storage/storage.js"></script>
+  <script src="../badge-detail/badges-data.js"></script>
   <script>
     window.i18n.initI18n();
     const t = window.i18n.t;
@@ -61,8 +62,6 @@
       document.getElementById('dog-profile-not-found-title').textContent = t('dog_profile.not_found_title');
       document.getElementById('dog-profile-not-found-description').textContent = t('dog_profile.not_found_description');
     } else {
-      const goodDogCard = !!dog.goodDogCard;
-
       // photo
       const photo = document.createElement('img');
       photo.className = 'dog-profile-photo';
@@ -151,61 +150,19 @@
       // badges
       content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('dog_profile.badges_title') }));
 
-      const badges = document.createElement('div');
-      badges.className = 'dog-profile-badges';
-
-      if (goodDogCard) {
-        const badge = document.createElement('button');
-        badge.type = 'button';
-        badge.className = 'dog-profile-badge';
-        const badgeIcon = document.createElement('img');
-        badgeIcon.className = 'dog-profile-badge-icon';
-        badgeIcon.src = '../../assets/icon-badge-good-dog.svg';
-        badgeIcon.alt = '';
-        badge.appendChild(badgeIcon);
-        badge.appendChild(document.createTextNode(t('dog_card.good_dog_badge')));
-        badge.addEventListener('click', () => {
-          window.location.href = '../good-dog-card/good-dog-card.html';
-        });
-        badges.appendChild(badge);
-
-        badges.appendChild(
-          window.buttonModule.renderButton({
-            label: t('dog_card.qr_action'),
-            variant: 'secondary',
-            iconSrc: '../../assets/icon-qr.svg',
+      content.appendChild(
+        window.badgeGridModule.renderBadgeGrid({
+          badges: window.BADGES_DATA.map((badgeInfo) => ({
+            id: badgeInfo.id,
+            icon: badgeInfo.icon,
+            label: t(badgeInfo.nameKey),
+            active: !!dog[badgeInfo.dogField],
             onClick: () => {
-              const qrContent = document.createElement('div');
-              qrContent.className = 'dog-profile-qr-modal';
-
-              const title = document.createElement('div');
-              title.className = 'dog-profile-qr-title';
-              title.textContent = t('dog_card.qr_modal_title');
-              qrContent.appendChild(title);
-
-              const qr = document.createElement('img');
-              qr.className = 'dog-profile-qr-image';
-              qr.src = '../../assets/qr-placeholder.svg';
-              qr.alt = '';
-              qrContent.appendChild(qr);
-
-              const description = document.createElement('p');
-              description.className = 'dog-profile-qr-description';
-              description.textContent = t('dog_card.qr_modal_description');
-              qrContent.appendChild(description);
-
-              window.modalModule.openModal(qrContent);
+              window.location.href = `../badge-detail/badge-detail.html?badge=${badgeInfo.id}&dogId=${dog.id}`;
             }
-          })
-        );
-      } else {
-        const noBadges = document.createElement('p');
-        noBadges.className = 'dog-profile-no-badges';
-        noBadges.textContent = t('dog_profile.no_badges');
-        badges.appendChild(noBadges);
-      }
-
-      content.appendChild(badges);
+          }))
+        })
+      );
 
       // health book / passport
       content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('dog_profile.health_book_title') }));
