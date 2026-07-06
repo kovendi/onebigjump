@@ -35,6 +35,8 @@
   <script src="../../modules/file-upload/file-upload.js"></script>
   <script src="../../modules/button/button.js"></script>
   <script src="../../modules/storage/storage.js"></script>
+  <script src="../../modules/badge-grid/badge-grid.js"></script>
+  <script src="../badge-detail/badges-data.js"></script>
   <script>
     window.i18n.initI18n();
     const t = window.i18n.t;
@@ -188,7 +190,33 @@
       if (existingDog) {
         window.storage.updateDog(existingDog.id, dogData);
       } else {
-        window.storage.addDog(Object.assign({ id: Date.now().toString() }, dogData));
+        const newDog = window.storage.addDog(Object.assign({ id: Date.now().toString() }, dogData));
+
+        window.storage.addNotification({
+          icon: '../../assets/icon-dogs.svg',
+          title: t('notifications.dog_added_title').replace('{name}', newDog.name),
+          text: t('notifications.dog_added_text')
+        });
+
+        const dogProfileLink = `../dog-profile/dog-profile.html?id=${newDog.id}`;
+
+        window.BADGES_DATA.filter((badgeInfo) => !!newDog[badgeInfo.dogField]).forEach((badgeInfo) => {
+          window.storage.addNotification({
+            icon: window.badgeGridModule.icons[badgeInfo.icon],
+            title: t('notifications.badge_earned_title').replace('{badge}', t(badgeInfo.nameKey)),
+            text: t('notifications.badge_earned_text').replace('{name}', newDog.name).replace('{badge}', t(badgeInfo.nameKey)),
+            link: dogProfileLink
+          });
+        });
+
+        if (newDog.goodDogCard) {
+          window.storage.addNotification({
+            icon: '../../assets/icon-badge-good-dog.svg',
+            title: t('notifications.gdc_earned_title'),
+            text: t('notifications.gdc_earned_text').replace('{name}', newDog.name),
+            link: dogProfileLink
+          });
+        }
       }
       window.location.href = redirectUrl;
     });

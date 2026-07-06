@@ -169,7 +169,7 @@ window.storage = (function () {
     dog.gdcBronze = dogIndex % 2 === 0;
     dog.gdcSilver = dogIndex % 4 === 0;
     dog.gdcGold = dogIndex % 8 === 0;
-    dog.festivalVisitor = dogIndex % 3 === 0;
+    dog.festivalVisitor = false;
     dog.healthChecked = dogIndex % 2 === 1;
     db.dogs.push(dog);
     saveDb(db);
@@ -217,11 +217,54 @@ window.storage = (function () {
     return ticket;
   }
 
+  function getNotifications() {
+    var db = getDb();
+    return (db.notifications || [])
+      .filter(function (n) { return n.userId === db.currentUserId; })
+      .sort(function (a, b) { return b.createdAt - a.createdAt; });
+  }
+
+  function addNotification(notification) {
+    var db = getDb();
+    if (!db.notifications) {
+      db.notifications = [];
+    }
+    notification.userId = db.currentUserId;
+    notification.id = Date.now().toString() + Math.random().toString(36).slice(2);
+    notification.createdAt = Date.now();
+    notification.read = false;
+    db.notifications.push(notification);
+    saveDb(db);
+    return notification;
+  }
+
+  function markNotificationRead(id) {
+    var db = getDb();
+    var notification = (db.notifications || []).find(function (n) { return n.id === id; });
+    if (!notification) return;
+    notification.read = true;
+    saveDb(db);
+  }
+
+  function markAllNotificationsRead() {
+    var db = getDb();
+    (db.notifications || []).forEach(function (n) {
+      if (n.userId === db.currentUserId) n.read = true;
+    });
+    saveDb(db);
+  }
+
+  function hasUnreadNotifications() {
+    var db = getDb();
+    return (db.notifications || []).some(function (n) { return n.userId === db.currentUserId && !n.read; });
+  }
+
   function deleteCurrentUser() {
     var db = getDb();
     var userId = db.currentUserId;
     db.dogs = db.dogs.filter(function (d) { return d.userId !== userId; });
     db.tickets = (db.tickets || []).filter(function (t) { return t.userId !== userId; });
+    db.notifications = (db.notifications || []).filter(function (n) { return n.userId !== userId; });
     if (userId === 'demo-user') {
       var userIndex = db.users.findIndex(function (u) { return u.id === userId; });
       if (userIndex !== -1) {
@@ -252,6 +295,11 @@ window.storage = (function () {
     setCurrentUser: setCurrentUser,
     loginUser: loginUser,
     updateUser: updateUser,
+    getNotifications: getNotifications,
+    addNotification: addNotification,
+    markNotificationRead: markNotificationRead,
+    markAllNotificationsRead: markAllNotificationsRead,
+    hasUnreadNotifications: hasUnreadNotifications,
     deleteCurrentUser: deleteCurrentUser
   };
 })();

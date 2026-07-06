@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Értesítések</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="notifications.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="notifications-page" id="notifications-page">
+      <div class="notifications-actions" id="notifications-actions" hidden>
+        <button type="button" class="notifications-mark-all" id="notifications-mark-all"></button>
+      </div>
+      <div class="notifications-list" id="notifications-list"></div>
+
+      <div class="notifications-empty" id="notifications-empty" hidden>
+        <img class="notifications-empty-icon" src="../../assets/icon-bell.svg" alt="" />
+        <p class="notifications-empty-title" id="notifications-empty-title"></p>
+        <p class="notifications-empty-description" id="notifications-empty-description"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const notificationsPage = document.getElementById('notifications-page');
+    notificationsPage.prepend(
+      window.navbarModule.renderNavbar({ title: t('notifications.title'), showBack: true })
+    );
+
+    const list = document.getElementById('notifications-list');
+    const empty = document.getElementById('notifications-empty');
+    const actions = document.getElementById('notifications-actions');
+    const markAllButton = document.getElementById('notifications-mark-all');
+    const notifications = window.storage.getNotifications();
+
+    if (notifications.length === 0) {
+      list.hidden = true;
+      empty.hidden = false;
+      document.getElementById('notifications-empty-title').textContent = t('notifications.empty_title');
+      document.getElementById('notifications-empty-description').textContent = t('notifications.empty_description');
+    } else {
+      actions.hidden = false;
+      markAllButton.textContent = t('notifications.mark_all_read');
+      markAllButton.addEventListener('click', () => {
+        window.storage.markAllNotificationsRead();
+        document.querySelectorAll('.notifications-item--unread').forEach((el) => el.classList.remove('notifications-item--unread'));
+      });
+
+      notifications.forEach((notification) => {
+        const item = notification.link ? document.createElement('button') : document.createElement('div');
+        if (notification.link) item.type = 'button';
+        item.className = 'notifications-item';
+        if (!notification.read) item.classList.add('notifications-item--unread');
+
+        const icon = document.createElement('img');
+        icon.className = 'notifications-item-icon';
+        icon.src = notification.icon || '../../assets/icon-bell.svg';
+        icon.alt = '';
+        item.appendChild(icon);
+
+        const text = document.createElement('div');
+        text.className = 'notifications-item-text';
+
+        const title = document.createElement('p');
+        title.className = 'notifications-item-title';
+        title.textContent = notification.title;
+        text.appendChild(title);
+
+        const description = document.createElement('p');
+        description.className = 'notifications-item-description';
+        description.textContent = notification.text;
+        text.appendChild(description);
+
+        item.appendChild(text);
+
+        item.addEventListener('click', () => {
+          window.storage.markNotificationRead(notification.id);
+          item.classList.remove('notifications-item--unread');
+          if (notification.link) window.location.href = notification.link;
+        });
+
+        list.appendChild(item);
+      });
+    }
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

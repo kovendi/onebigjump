@@ -1,7 +1,7 @@
 // Classic script (not a module) — see iphone-frame.js for why.
 // window.navbarModule.renderNavbar({ title, onNotificationClick, hasNotification, showBack, onBackClick, showSearch, onSearchClick }) -> HTMLElement
 // title: already-translated string (caller resolves via i18n.t())
-// onNotificationClick: called when the bell icon is tapped; hasNotification: shows a red indicator dot on the bell
+// onNotificationClick: called when the bell icon is tapped; defaults to navigating to pages/notifications/notifications.html. The red indicator dot is shown automatically whenever window.storage.hasUnreadNotifications() is true; pass hasNotification explicitly only to override (e.g. style-guide demo)
 // showBack: shows a back arrow before the title instead of empty space; onBackClick: called when tapped (defaults to history.back())
 // showSearch: shows a search icon to the left of the bell (per-page opt-in, off by default); onSearchClick: called when tapped
 //
@@ -11,7 +11,10 @@
 // onInput: called with the input's current value on every keystroke
 
 window.navbarModule = (function () {
-  function renderNavbar({ title = "", onNotificationClick, hasNotification = false, showBack = false, onBackClick, showSearch = false, onSearchClick } = {}) {
+  function renderNavbar({ title = "", onNotificationClick, hasNotification, showBack = false, onBackClick, showSearch = false, onSearchClick } = {}) {
+    const showIndicator = hasNotification !== undefined
+      ? hasNotification
+      : Boolean(window.storage && window.storage.hasUnreadNotifications && window.storage.hasUnreadNotifications());
     const navbar = document.createElement("div");
     navbar.className = "navbar";
 
@@ -56,15 +59,13 @@ window.navbarModule = (function () {
     notificationButton.setAttribute("aria-label", "Notifications");
     notificationButton.innerHTML = `<img src="../../assets/icon-bell.svg" alt="" class="navbar__notification-icon">`;
 
-    if (hasNotification) {
+    if (showIndicator) {
       const indicator = document.createElement("span");
       indicator.className = "navbar__notification-indicator";
       notificationButton.appendChild(indicator);
     }
 
-    if (onNotificationClick) {
-      notificationButton.addEventListener("click", onNotificationClick);
-    }
+    notificationButton.addEventListener("click", onNotificationClick || (() => { window.location.href = "../notifications/notifications.html"; }));
 
     actions.appendChild(notificationButton);
 

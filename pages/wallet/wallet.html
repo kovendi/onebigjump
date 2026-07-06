@@ -50,7 +50,9 @@
   <script src="../../modules/dog-card/dog-card.js"></script>
   <script src="../../modules/ticket-card/ticket-card.js"></script>
   <script src="../../modules/storage/storage.js"></script>
+  <script src="../../modules/badge-grid/badge-grid.js"></script>
   <script src="../events/events-data.js"></script>
+  <script src="../badge-detail/badges-data.js"></script>
   <script>
     window.i18n.initI18n();
     const t = window.i18n.t;
@@ -58,7 +60,7 @@
     const walletPage = document.getElementById('wallet-page');
 
     walletPage.prepend(
-      window.navbarModule.renderNavbar({ title: t('wallet.title'), hasNotification: true })
+      window.navbarModule.renderNavbar({ title: t('wallet.title') })
     );
 
     // Dogs section
@@ -129,8 +131,34 @@
 
       setTimeout(() => {
         window.storage.updateTicket(ticket.id, { used: true, usedAt: Date.now() });
+        awardEventBadges(ticket);
         renderTicketsList();
       }, QR_SCAN_DELAY);
+    }
+
+    const EVENT_BADGE_FIELDS = {
+      'evt-001': 'festivalVisitor'
+    };
+
+    function awardEventBadges(ticket) {
+      const dogField = EVENT_BADGE_FIELDS[ticket.eventId];
+      if (!dogField) return;
+
+      const badgeInfo = window.BADGES_DATA.find((badge) => badge.dogField === dogField);
+      if (!badgeInfo) return;
+
+      (ticket.dogIds || []).forEach((dogId) => {
+        const dog = window.storage.getDogs().find((item) => item.id === dogId);
+        if (!dog || dog[dogField]) return;
+
+        window.storage.updateDog(dogId, { [dogField]: true });
+        window.storage.addNotification({
+          icon: window.badgeGridModule.icons[badgeInfo.icon],
+          title: t('notifications.badge_earned_title').replace('{badge}', t(badgeInfo.nameKey)),
+          text: t('notifications.badge_earned_text').replace('{name}', dog.name).replace('{badge}', t(badgeInfo.nameKey)),
+          link: `../dog-profile/dog-profile.html?id=${dog.id}`
+        });
+      });
     }
 
     function renderTicketCard(ticket) {

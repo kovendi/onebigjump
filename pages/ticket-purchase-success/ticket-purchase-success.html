@@ -42,6 +42,13 @@
       t(isFree ? 'ticket_purchase_success.description_free' : 'ticket_purchase_success.description')
         .replace('{quantity}', quantity).replace('{eventName}', eventName);
 
+    window.storage.addNotification({
+      icon: '../../assets/icon-ticket-primary.svg',
+      title: t('notifications.ticket_purchase_title'),
+      text: t('notifications.ticket_purchase_text'),
+      link: '../wallet/wallet.html'
+    });
+
     document.getElementById('ticket-purchase-success-action').appendChild(
       window.buttonModule.renderButton({
         label: t('ticket_purchase_success.wallet_action'),

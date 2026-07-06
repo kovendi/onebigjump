@@ -46,7 +46,7 @@
     const dogsPage = document.getElementById('dogs-page');
 
     dogsPage.prepend(
-      window.navbarModule.renderNavbar({ title: t('nav.dogs'), hasNotification: true })
+      window.navbarModule.renderNavbar({ title: t('nav.dogs') })
     );
 
     const DOGS_DATA = window.storage.getDogs();

@@ -47,7 +47,7 @@
     const eventsPage = document.getElementById('events-page');
 
     eventsPage.prepend(
-      window.navbarModule.renderNavbar({ title: t('events.title'), hasNotification: true, showSearch: true, onSearchClick: () => { window.location.href = '../search/search.html?type=events'; } })
+      window.navbarModule.renderNavbar({ title: t('events.title'), showSearch: true, onSearchClick: () => { window.location.href = '../search/search.html?type=events'; } })
     );
 
     const eventsList = document.getElementById('events-list');
