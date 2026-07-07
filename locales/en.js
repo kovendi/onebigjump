@@ -302,6 +302,7 @@ window.LOCALES.en = {
   "style_guide.component_event_card": "Event card",
   "style_guide.component_ticket_card": "Ticket card",
   "style_guide.component_badge_grid": "Badge grid",
+  "style_guide.component_leaderboard_banner": "Leaderboard banner",
   "style_guide.component_modal": "Modal",
   "style_guide.component_file_upload": "File upload",
   "style_guide.component_photo_picker": "Photo picker",
@@ -325,6 +326,8 @@ window.LOCALES.en = {
   "members.title": "Members",
   "members.dog_count": "{count} dogs",
   "members.no_dogs": "No dogs",
+  "leaderboard_banner.title": "Check out the leaderboard!",
+  "leaderboard_banner.subtitle": "See how you rank against others",
   "search.placeholder_members": "Search members",
   "search.placeholder_events": "Search events",
   "search.no_results": "No results",
@@ -343,5 +346,14 @@ window.LOCALES.en = {
   "notifications.badge_earned_title": "New badge: {badge}",
   "notifications.badge_earned_text": "{name} earned the \"{badge}\" badge.",
   "notifications.gdc_earned_title": "Good Dog Card earned",
-  "notifications.gdc_earned_text": "{name} now has a Good Dog Card."
+  "notifications.gdc_earned_text": "{name} now has a Good Dog Card.",
+
+  "leaderboards.title": "Leaderboards",
+  "leaderboards.tab_referral": "🎟️ Referrals",
+  "leaderboards.tab_loyalty": "🪙 Loyalty points",
+  "leaderboards.you_tag": "YOU",
+  "leaderboards.referral_unit": "{count} referrals",
+  "leaderboards.loyalty_unit": "{count} points",
+  "leaderboards.your_rank": "Your rank",
+  "leaderboards.rank_prefix": "#"
 };

@@ -8,11 +8,13 @@
   <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
   <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
   <link rel="stylesheet" href="../../modules/bottom-nav/bottom-nav.css" />
+  <link rel="stylesheet" href="../../modules/leaderboard-banner/leaderboard-banner.css" />
   <link rel="stylesheet" href="members.css" />
 </head>
 <body>
   <div id="screen-content">
     <div class="members-page" id="members-page">
+      <div class="members-leaderboard-row" id="members-leaderboard-row"></div>
       <div class="members-content" id="members-content"></div>
     </div>
   </div>
@@ -25,6 +27,7 @@
   <script src="../../modules/navbar/navbar.js"></script>
   <script src="../../modules/bottom-nav/bottom-nav.js"></script>
   <script src="../../modules/storage/storage.js"></script>
+  <script src="../../modules/leaderboard-banner/leaderboard-banner.js"></script>
   <script>
     window.i18n.initI18n();
     const t = window.i18n.t;
@@ -32,6 +35,14 @@
     const membersPage = document.getElementById('members-page');
     membersPage.prepend(
       window.navbarModule.renderNavbar({ title: t('members.title'), showSearch: true, onSearchClick: () => { window.location.href = '../search/search.html?type=members'; } })
+    );
+
+    document.getElementById('members-leaderboard-row').appendChild(
+      window.leaderboardBannerModule.renderLeaderboardBanner({
+        title: t('leaderboard_banner.title'),
+        subtitle: t('leaderboard_banner.subtitle'),
+        onClick: () => { window.location.href = '../leaderboard/leaderboard.html'; }
+      })
     );
 
     const content = document.getElementById('members-content');

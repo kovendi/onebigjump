@@ -42,7 +42,7 @@
 .registration-logo {
   display: block;
   width: 140px;
-  margin: 0 auto;
+  margin: 24px auto;
 }
 
 .registration-title {
@@ -113,7 +113,7 @@
 
 .registration-actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
   margin-top: 10px;
 }

@@ -302,6 +302,7 @@ window.LOCALES.hu = {
   "style_guide.component_event_card": "Event card",
   "style_guide.component_ticket_card": "Ticket card",
   "style_guide.component_badge_grid": "Badge grid",
+  "style_guide.component_leaderboard_banner": "Leaderboard banner",
   "style_guide.component_modal": "Modal",
   "style_guide.component_file_upload": "File upload",
   "style_guide.component_photo_picker": "Photo picker",
@@ -325,6 +326,8 @@ window.LOCALES.hu = {
   "members.title": "Tagok",
   "members.dog_count": "{count} kutya",
   "members.no_dogs": "Nincs kutyája",
+  "leaderboard_banner.title": "Nézd meg a ranglistát!",
+  "leaderboard_banner.subtitle": "Hol állsz a többiekhez képest?",
   "search.placeholder_members": "Tagok keresése",
   "search.placeholder_events": "Események keresése",
   "search.no_results": "Nincs találat",
@@ -343,5 +346,14 @@ window.LOCALES.hu = {
   "notifications.badge_earned_title": "Új jelvény: {badge}",
   "notifications.badge_earned_text": "{name} megszerezte a(z) „{badge}” jelvényt.",
   "notifications.gdc_earned_title": "Good Dog Card megszerezve",
-  "notifications.gdc_earned_text": "{name} mostantól rendelkezik Good Dog Card-dal."
+  "notifications.gdc_earned_text": "{name} mostantól rendelkezik Good Dog Card-dal.",
+
+  "leaderboards.title": "Ranglisták",
+  "leaderboards.tab_referral": "🎟️ Meghívások",
+  "leaderboards.tab_loyalty": "🪙 Hűségpontok",
+  "leaderboards.you_tag": "TE",
+  "leaderboards.referral_unit": "{count} meghívás",
+  "leaderboards.loyalty_unit": "{count} pont",
+  "leaderboards.your_rank": "A helyezésed",
+  "leaderboards.rank_prefix": "#"
 };

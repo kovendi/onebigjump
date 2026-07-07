@@ -302,6 +302,7 @@ window.LOCALES.ro = {
   "style_guide.component_event_card": "Event card",
   "style_guide.component_ticket_card": "Ticket card",
   "style_guide.component_badge_grid": "Badge grid",
+  "style_guide.component_leaderboard_banner": "Leaderboard banner",
   "style_guide.component_modal": "Modal",
   "style_guide.component_file_upload": "File upload",
   "style_guide.component_photo_picker": "Photo picker",
@@ -325,6 +326,8 @@ window.LOCALES.ro = {
   "members.title": "Membri",
   "members.dog_count": "{count} câini",
   "members.no_dogs": "Fără câini",
+  "leaderboard_banner.title": "Vezi clasamentul!",
+  "leaderboard_banner.subtitle": "Vezi cum te clasezi față de ceilalți",
   "search.placeholder_members": "Caută membri",
   "search.placeholder_events": "Caută evenimente",
   "search.no_results": "Niciun rezultat",
@@ -343,5 +346,14 @@ window.LOCALES.ro = {
   "notifications.badge_earned_title": "Insignă nouă: {badge}",
   "notifications.badge_earned_text": "{name} a câștigat insigna „{badge}”.",
   "notifications.gdc_earned_title": "Good Dog Card obținut",
-  "notifications.gdc_earned_text": "{name} are acum un Good Dog Card."
+  "notifications.gdc_earned_text": "{name} are acum un Good Dog Card.",
+
+  "leaderboards.title": "Clasamente",
+  "leaderboards.tab_referral": "🎟️ Invitații",
+  "leaderboards.tab_loyalty": "🪙 Puncte de fidelitate",
+  "leaderboards.you_tag": "TU",
+  "leaderboards.referral_unit": "{count} invitații",
+  "leaderboards.loyalty_unit": "{count} puncte",
+  "leaderboards.your_rank": "Poziția ta",
+  "leaderboards.rank_prefix": "#"
 };

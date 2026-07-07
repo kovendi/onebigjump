@@ -1,0 +1,222 @@
+#screen-content {
+  min-height: 100%;
+  overflow-x: clip;
+  display: flex;
+  flex-direction: column;
+}
+
+.leaderboard-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.leaderboard-tabs {
+  display: flex;
+  gap: 4px;
+  margin: 12px 16px 0;
+  padding: 4px;
+  background: var(--color-card-background);
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.leaderboard-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  padding: 9px 6px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.leaderboard-tab--active {
+  background: linear-gradient(120deg, #f2a93b, #da291c);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(218, 41, 28, 0.3);
+}
+
+.leaderboard-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px 16px 32px;
+}
+
+.leaderboard-podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+}
+
+.leaderboard-podium__spot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 33%;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.leaderboard-podium__spot:active {
+  transform: scale(0.97);
+}
+
+.leaderboard-podium__medal {
+  font-size: 20px;
+  line-height: 1;
+  margin-bottom: 4px;
+  animation: leaderboard-medal-bounce 2.4s ease-in-out infinite;
+}
+
+.leaderboard-podium__spot--2 .leaderboard-podium__medal {
+  animation-delay: 0.15s;
+}
+
+.leaderboard-podium__spot--3 .leaderboard-podium__medal {
+  animation-delay: 0.3s;
+}
+
+.leaderboard-podium__photo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--color-background);
+  border: 3px solid var(--color-card-background);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.leaderboard-podium__spot--1 .leaderboard-podium__photo {
+  width: 64px;
+  height: 64px;
+  border-color: #f2a93b;
+}
+
+.leaderboard-podium__name {
+  margin-top: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.leaderboard-podium__value {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-top: 1px;
+}
+
+.leaderboard-podium__bar {
+  width: 100%;
+  margin-top: 8px;
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(180deg, #f2a93b, #da291c);
+}
+
+.leaderboard-podium__spot--1 .leaderboard-podium__bar {
+  height: 54px;
+}
+
+.leaderboard-podium__spot--2 .leaderboard-podium__bar {
+  height: 38px;
+  opacity: 0.85;
+}
+
+.leaderboard-podium__spot--3 .leaderboard-podium__bar {
+  height: 26px;
+  opacity: 0.7;
+}
+
+@keyframes leaderboard-medal-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  background: var(--color-card-background);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+}
+
+.leaderboard-row--me {
+  background: #fff7ec;
+  box-shadow: 0 0 0 2px var(--color-highlight), 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.leaderboard-row__rank {
+  width: 24px;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.leaderboard-row__photo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--color-background);
+}
+
+.leaderboard-row__name {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-main);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-row__you-tag {
+  flex-shrink: 0;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+  background: var(--color-primary);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+.leaderboard-row__value {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}

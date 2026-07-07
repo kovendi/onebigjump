@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../../modules/event-card/event-card.css" />
   <link rel="stylesheet" href="../../modules/ticket-card/ticket-card.css" />
   <link rel="stylesheet" href="../../modules/badge-grid/badge-grid.css" />
+  <link rel="stylesheet" href="../../modules/leaderboard-banner/leaderboard-banner.css" />
   <link rel="stylesheet" href="../../modules/modal/modal.css" />
   <link rel="stylesheet" href="../../modules/file-upload/file-upload.css" />
   <link rel="stylesheet" href="../../modules/photo-picker/photo-picker.css" />
@@ -52,6 +53,7 @@
   <script src="../../modules/event-card/event-card.js"></script>
   <script src="../../modules/ticket-card/ticket-card.js"></script>
   <script src="../../modules/badge-grid/badge-grid.js"></script>
+  <script src="../../modules/leaderboard-banner/leaderboard-banner.js"></script>
   <script src="../../modules/modal/modal.js"></script>
   <script src="../../modules/file-upload/file-upload.js"></script>
   <script src="../../modules/photo-picker/photo-picker.js"></script>
@@ -223,7 +225,7 @@
     // event-card
     const eventCardDemo = window.eventCardModule.renderEventCard({
       eventId: 'evt-001',
-      imageUrl: '../../assets/logo.jpeg',
+      imageUrl: '../../assets/onebigjump.png',
       name: 'Demo Event',
       startDate: '2026-08-15',
       endDate: '2026-08-17',
@@ -236,7 +238,7 @@
 
     // ticket-card
     const ticketCardDemo = window.ticketCardModule.renderTicketCard({
-      imageUrl: '../../assets/logo.jpeg',
+      imageUrl: '../../assets/onebigjump.png',
       eventName: 'Demo Event',
       ticketNumber: 'A-0042',
       onQrClick: () => {},
@@ -254,6 +256,14 @@
       ],
     });
     addComponentDemo(componentsGrid, 'style_guide.component_badge_grid', null, badgeGridDemo);
+
+    // leaderboard-banner
+    const leaderboardBannerDemo = window.leaderboardBannerModule.renderLeaderboardBanner({
+      title: t('leaderboard_banner.title'),
+      subtitle: t('leaderboard_banner.subtitle'),
+      onClick: () => {},
+    });
+    addComponentDemo(componentsGrid, 'style_guide.component_leaderboard_banner', null, leaderboardBannerDemo);
 
     // modal
     const modalTrigger = window.buttonModule.renderButton({

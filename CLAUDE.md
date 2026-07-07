@@ -94,7 +94,7 @@ Keep files short. If a file is approaching 500 lines, flag it to the user and su
 
 ### No horizontal scroll
 
-Pages must never produce horizontal scroll. Watch for decorative elements (e.g. background blobs) positioned with negative `left`/`right`/`top` offsets that extend past the viewport edge — the scrollable content container (e.g. `#screen-content`) should set `overflow-x: hidden` as a safeguard.
+Pages must never produce horizontal scroll. Watch for decorative elements (e.g. background blobs) positioned with negative `left`/`right`/`top` offsets that extend past the viewport edge — the scrollable content container (e.g. `#screen-content`) should set `overflow-x: clip` (not `hidden`) as a safeguard. Setting only `overflow-x: hidden` forces the browser to also treat `overflow-y` as `auto` (a CSS spec rule: one axis can't be `visible` while the other isn't), turning `#screen-content` into its own scroll container — this breaks `position: sticky` on any `bottom-nav` inside it, since it then sticks to that container's own (content-sized) box instead of the real viewport. `overflow-x: clip` avoids triggering that rule.
 
 ### Bottom nav pinning
 
@@ -128,9 +128,9 @@ Exception: `index.html` (root landing page), `pages/style-guide/style-guide.html
 
 ### Update history
 
-`pages/update-history/update-history.html` is a table (Date, Version, Change) listing every change made to the codebase, newest entries added at the bottom. It is a meta/overview page (no `iphone-frame`, see exception above) and is exempt from the [File length](#file-length) line limit — never split or trim it. The page chrome (title, column headers, back button) is translated via `t()` like any other page; the Change column's text stays hardcoded in English regardless of language, since it's a developer-facing log.
+`pages/update-history/update-history.html` is a table (Date, Version, Change) listing every change made to the codebase, newest entries added at the top. It is a meta/overview page (no `iphone-frame`, see exception above) and is exempt from the [File length](#file-length) line limit — never split or trim it. The page chrome (title, column headers, back button) is translated via `t()` like any other page; the Change column's text stays hardcoded in English regardless of language, since it's a developer-facing log.
 
-Before every `git push`, add one row to this table: the current date and time (not just date — hour and minute too), the new `APP_VERSION`, and a one-line summary of what changed. Do not add a row on plain `git commit` — only when pushing. Treat this as part of the push itself, not a follow-up task.
+Before every `git push`, add one row to the top of this table: the current date and time (not just date — hour and minute too), the new `APP_VERSION`, and a one-line summary of what changed. Do not add a row on plain `git commit` — only when pushing. Treat this as part of the push itself, not a follow-up task.
 
 The system only provides today's date, not the current time — never guess the time. Ask the user for the current hour and minute right before adding the row, and use exactly what they provide.
 

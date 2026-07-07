@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
   <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
   <link rel="stylesheet" href="../../modules/section-title/section-title.css" />
+  <link rel="stylesheet" href="../../modules/leaderboard-banner/leaderboard-banner.css" />
   <link rel="stylesheet" href="referral-info.css" />
 </head>
 <body>
@@ -28,6 +29,7 @@
   <script src="../../modules/iphone-frame/iphone-frame.js"></script>
   <script src="../../modules/navbar/navbar.js"></script>
   <script src="../../modules/section-title/section-title.js"></script>
+  <script src="../../modules/leaderboard-banner/leaderboard-banner.js"></script>
   <script>
     window.i18n.initI18n();
     const t = window.i18n.t;
@@ -78,6 +80,14 @@
       list.appendChild(li);
     });
     content.appendChild(list);
+
+    content.appendChild(
+      window.leaderboardBannerModule.renderLeaderboardBanner({
+        title: t('leaderboard_banner.title'),
+        subtitle: t('leaderboard_banner.subtitle'),
+        onClick: () => { window.location.href = '../leaderboard/leaderboard.html'; }
+      })
+    );
 
     if (!window.iphoneFrame.isRealMobileDevice()) {
       document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));

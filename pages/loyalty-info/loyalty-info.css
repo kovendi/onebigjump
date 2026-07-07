@@ -72,3 +72,7 @@
   line-height: 1.5;
   color: var(--color-text-secondary);
 }
+
+.loyalty-info-content .leaderboard-banner {
+  margin-top: 10px;
+}

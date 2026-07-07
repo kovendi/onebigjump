@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Ranglisták</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="../../modules/bottom-nav/bottom-nav.css" />
+  <link rel="stylesheet" href="leaderboard.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="leaderboard-page" id="leaderboard-page">
+      <div class="leaderboard-tabs" id="leaderboard-tabs"></div>
+      <div class="leaderboard-content" id="leaderboard-content"></div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script src="../../modules/bottom-nav/bottom-nav.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const leaderboardPage = document.getElementById('leaderboard-page');
+    leaderboardPage.prepend(
+      window.navbarModule.renderNavbar({ title: t('leaderboards.title'), showBack: true })
+    );
+
+    const TABS = [
+      {
+        id: 'referral',
+        labelKey: 'leaderboards.tab_referral',
+        metric: 'referralCount',
+        unitKey: 'leaderboards.referral_unit',
+        icon: '🎟️'
+      },
+      {
+        id: 'loyalty',
+        labelKey: 'leaderboards.tab_loyalty',
+        metric: 'loyaltyPoints',
+        unitKey: 'leaderboards.loyalty_unit',
+        icon: '🪙'
+      }
+    ];
+
+    let activeTab = TABS[0].id;
+
+    const tabsRow = document.getElementById('leaderboard-tabs');
+    const content = document.getElementById('leaderboard-content');
+
+    function renderTabs() {
+      tabsRow.innerHTML = '';
+      TABS.forEach((tab) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'leaderboard-tab' + (tab.id === activeTab ? ' leaderboard-tab--active' : '');
+        button.textContent = t(tab.labelKey);
+        button.addEventListener('click', () => {
+          if (activeTab === tab.id) return;
+          activeTab = tab.id;
+          renderTabs();
+          renderContent();
+        });
+        tabsRow.appendChild(button);
+      });
+    }
+
+    function renderContent() {
+      content.innerHTML = '';
+
+      const tab = TABS.find((tb) => tb.id === activeTab);
+      const currentUser = window.storage.getCurrentUser();
+      const ranked = window.storage.getUsers()
+        .slice()
+        .sort((a, b) => (b[tab.metric] || 0) - (a[tab.metric] || 0));
+
+      const podiumWrap = document.createElement('div');
+      podiumWrap.className = 'leaderboard-podium';
+
+      const podiumOrder = [1, 0, 2];
+      const medals = ['🥇', '🥈', '🥉'];
+      podiumOrder.forEach((rankIndex) => {
+        const user = ranked[rankIndex];
+        if (!user) return;
+
+        const spot = document.createElement('button');
+        spot.type = 'button';
+        spot.className = `leaderboard-podium__spot leaderboard-podium__spot--${rankIndex + 1}`;
+        spot.addEventListener('click', () => {
+          window.location.href = `../profile/profile.html?id=${user.id}`;
+        });
+
+        const medal = document.createElement('span');
+        medal.className = 'leaderboard-podium__medal';
+        medal.textContent = medals[rankIndex];
+        spot.appendChild(medal);
+
+        const photo = document.createElement('img');
+        photo.className = 'leaderboard-podium__photo';
+        photo.src = user.photo || '../../assets/icon-nav-profile.svg';
+        photo.alt = '';
+        spot.appendChild(photo);
+
+        const name = document.createElement('span');
+        name.className = 'leaderboard-podium__name';
+        name.textContent = user.name;
+        spot.appendChild(name);
+
+        const value = document.createElement('span');
+        value.className = 'leaderboard-podium__value';
+        value.textContent = t(tab.unitKey).replace('{count}', user[tab.metric] || 0);
+        spot.appendChild(value);
+
+        const bar = document.createElement('div');
+        bar.className = 'leaderboard-podium__bar';
+        spot.appendChild(bar);
+
+        podiumWrap.appendChild(spot);
+      });
+
+      content.appendChild(podiumWrap);
+
+      const list = document.createElement('div');
+      list.className = 'leaderboard-list';
+
+      ranked.slice(3).forEach((user, index) => {
+        const rank = index + 4;
+        const isMe = currentUser && user.id === currentUser.id;
+
+        const row = document.createElement('button');
+        row.type = 'button';
+        row.className = 'leaderboard-row' + (isMe ? ' leaderboard-row--me' : '');
+        row.addEventListener('click', () => {
+          window.location.href = `../profile/profile.html?id=${user.id}`;
+        });
+
+        const rankEl = document.createElement('span');
+        rankEl.className = 'leaderboard-row__rank';
+        rankEl.textContent = t('leaderboards.rank_prefix') + rank;
+        row.appendChild(rankEl);
+
+        const photo = document.createElement('img');
+        photo.className = 'leaderboard-row__photo';
+        photo.src = user.photo || '../../assets/icon-nav-profile.svg';
+        photo.alt = '';
+        row.appendChild(photo);
+
+        const name = document.createElement('span');
+        name.className = 'leaderboard-row__name';
+        name.textContent = user.name;
+        row.appendChild(name);
+
+        if (isMe) {
+          const youTag = document.createElement('span');
+          youTag.className = 'leaderboard-row__you-tag';
+          youTag.textContent = t('leaderboards.you_tag');
+          row.appendChild(youTag);
+        }
+
+        const value = document.createElement('span');
+        value.className = 'leaderboard-row__value';
+        value.textContent = t(tab.unitKey).replace('{count}', user[tab.metric] || 0);
+        row.appendChild(value);
+
+        list.appendChild(row);
+      });
+
+      content.appendChild(list);
+    }
+
+    renderTabs();
+    renderContent();
+
+    leaderboardPage.appendChild(
+      window.bottomNavModule.renderBottomNav({ active: 'members' })
+    );
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>
