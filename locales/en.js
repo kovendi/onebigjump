@@ -3,6 +3,7 @@ window.LOCALES.en = {
   "landing.title": "One Big Jump",
   "landing.subtitle": "Mockup home page",
   "landing.try_app_action": "Try the app",
+  "landing.clear_cache_action": "Clear cache",
   "landing.style_guide_action": "View style guide",
   "landing.update_history_action": "Update History",
 

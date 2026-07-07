@@ -3,6 +3,7 @@ window.LOCALES.ro = {
   "landing.title": "One Big Jump",
   "landing.subtitle": "Pagina de start a machetei",
   "landing.try_app_action": "Încearcă aplicația",
+  "landing.clear_cache_action": "Șterge cache-ul",
   "landing.style_guide_action": "Vezi ghidul de stil",
   "landing.update_history_action": "Istoricul actualizărilor",
 

@@ -32,11 +32,23 @@
     document.getElementById('landing-subtitle').textContent = t('landing.subtitle');
 
     const actions = document.getElementById('landing-actions');
-    actions.appendChild(window.buttonModule.renderButton({
+    const tryAppRow = document.createElement('div');
+    tryAppRow.className = 'landing-update-history-row';
+    tryAppRow.appendChild(window.buttonModule.renderButton({
       label: t('landing.try_app_action'),
       variant: 'primary',
       onClick: () => { window.location.href = 'pages/login/login.html'; },
     }));
+    const clearCacheButton = window.buttonModule.renderButton({
+      label: t('landing.clear_cache_action'),
+      variant: 'secondary',
+      onClick: () => {
+        localStorage.removeItem('oneBigJumpDb');
+        clearCacheButton.disabled = true;
+      },
+    });
+    tryAppRow.appendChild(clearCacheButton);
+    actions.appendChild(tryAppRow);
     actions.appendChild(window.buttonModule.renderButton({
       label: t('landing.style_guide_action'),
       variant: 'secondary',

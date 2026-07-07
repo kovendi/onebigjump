@@ -3,6 +3,7 @@ window.LOCALES.hu = {
   "landing.title": "One Big Jump",
   "landing.subtitle": "Mockup kezdőoldal",
   "landing.try_app_action": "Alkalmazás kipróbálása",
+  "landing.clear_cache_action": "Cache törlése",
   "landing.style_guide_action": "Style guide megtekintése",
   "landing.update_history_action": "Frissítési előzmények",
 
