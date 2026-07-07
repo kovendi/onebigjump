@@ -35,6 +35,7 @@
   <script src="../../modules/event-card/event-card.js"></script>
   <script src="../../modules/modal/modal.js"></script>
   <script src="../events/events-data.js"></script>
+  <script src="../../modules/events-store/events-store.js"></script>
   <script src="../../modules/storage/storage.js"></script>
   <script>
     window.i18n.initI18n();
@@ -133,7 +134,7 @@
     }
 
     function getAllItems() {
-      return type === 'events' ? window.EVENTS_DATA : window.storage.getUsers();
+      return type === 'events' ? window.eventsStore.getAllEvents() : window.storage.getUsers();
     }
 
     function renderResults(query) {

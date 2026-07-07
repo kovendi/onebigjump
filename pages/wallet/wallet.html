@@ -52,6 +52,7 @@
   <script src="../../modules/storage/storage.js"></script>
   <script src="../../modules/badge-grid/badge-grid.js"></script>
   <script src="../events/events-data.js"></script>
+  <script src="../../modules/events-store/events-store.js"></script>
   <script src="../badge-detail/badges-data.js"></script>
   <script>
     window.i18n.initI18n();
@@ -163,7 +164,7 @@
     }
 
     function renderTicketCard(ticket) {
-      const event = window.EVENTS_DATA.find((item) => item.id === ticket.eventId);
+      const event = window.eventsStore.getEventById(ticket.eventId);
       return window.ticketCardModule.renderTicketCard({
         imageUrl: event ? event.image_url : '../../assets/icon-nav-tickets.svg',
         eventName: ticket.eventName,

@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../../modules/button/button.css" />
   <link rel="stylesheet" href="../../modules/event-card/event-card.css" />
   <link rel="stylesheet" href="../../modules/modal/modal.css" />
+  <link rel="stylesheet" href="../../modules/section-title/section-title.css" />
   <link rel="stylesheet" href="events.css" />
 </head>
 <body>
@@ -37,7 +38,9 @@
   <script src="../../modules/date/date.js"></script>
   <script src="../../modules/event-card/event-card.js"></script>
   <script src="../../modules/modal/modal.js"></script>
+  <script src="../../modules/section-title/section-title.js"></script>
   <script src="events-data.js"></script>
+  <script src="../../modules/events-store/events-store.js"></script>
   <script src="../../modules/storage/storage.js"></script>
   <script>
     window.i18n.initI18n();
@@ -53,13 +56,16 @@
     const eventsList = document.getElementById('events-list');
     const eventsEmpty = document.getElementById('events-empty');
 
-    if (window.EVENTS_DATA.length === 0) {
+    const upcomingEvents = window.eventsStore.getUpcomingEvents();
+    const pastEvents = window.eventsStore.getPastEvents();
+
+    if (upcomingEvents.length === 0 && pastEvents.length === 0) {
       eventsList.hidden = true;
       eventsEmpty.hidden = false;
       document.getElementById('events-empty-title').textContent = t('events.empty_title');
       document.getElementById('events-empty-description').textContent = t('events.empty_description');
     } else {
-      window.EVENTS_DATA.forEach((event) => {
+      const renderEventCard = (event) => {
         const card = window.eventCardModule.renderEventCard({
           eventId: event.id,
           imageUrl: event.image_url,
@@ -76,8 +82,18 @@
           window.location.href = `../event-detail/event-detail.html?id=${encodeURIComponent(event.id)}`;
         });
         card.style.cursor = 'pointer';
-        eventsList.appendChild(card);
-      });
+        return card;
+      };
+
+      if (upcomingEvents.length > 0) {
+        eventsList.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('events.upcoming') }));
+        upcomingEvents.forEach((event) => eventsList.appendChild(renderEventCard(event)));
+      }
+
+      if (pastEvents.length > 0) {
+        eventsList.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('events.past') }));
+        pastEvents.forEach((event) => eventsList.appendChild(renderEventCard(event)));
+      }
     }
 
     eventsPage.appendChild(

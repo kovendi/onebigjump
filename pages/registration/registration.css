@@ -73,6 +73,12 @@
   margin-top: 1px;
 }
 
+.registration-error {
+  margin: -4px 0 0;
+  font-size: 12px;
+  color: var(--color-accent);
+}
+
 .registration-social-email {
   width: 100%;
 }

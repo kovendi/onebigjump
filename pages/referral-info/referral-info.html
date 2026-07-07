@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Meghívott tagok</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="../../modules/section-title/section-title.css" />
+  <link rel="stylesheet" href="referral-info.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="referral-info-page" id="referral-info-page">
+      <div class="referral-info-header">
+        <img class="referral-info-icon" src="../../assets/icon-points-referral.svg" alt="" />
+        <p class="referral-info-name" id="referral-info-name"></p>
+      </div>
+      <div class="referral-info-content" id="referral-info-content"></div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script src="../../modules/section-title/section-title.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const referralInfoPage = document.getElementById('referral-info-page');
+    referralInfoPage.prepend(
+      window.navbarModule.renderNavbar({ title: t('referral_info.title'), showBack: true })
+    );
+
+    document.getElementById('referral-info-name').textContent = t('referral_info.title');
+
+    const content = document.getElementById('referral-info-content');
+
+    function renderParagraph(text) {
+      const p = document.createElement('p');
+      p.className = 'referral-info-paragraph';
+      p.textContent = text;
+      return p;
+    }
+
+    function renderSubheading(text) {
+      const h = document.createElement('p');
+      h.className = 'referral-info-subheading';
+      h.textContent = text;
+      return h;
+    }
+
+    // section 1
+    content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: `👤 ${t('referral_info.section1_title')}` }));
+    content.appendChild(renderParagraph(t('referral_info.section1_body')));
+
+    // section 2
+    content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: `🪙 ${t('referral_info.section2_title')}` }));
+    content.appendChild(renderSubheading(t('referral_info.section2_delayed_title')));
+    content.appendChild(renderParagraph(t('referral_info.section2_delayed_body')));
+    content.appendChild(renderSubheading(t('referral_info.section2_milestones_title')));
+    content.appendChild(renderParagraph(t('referral_info.section2_milestones_intro')));
+
+    const list = document.createElement('ul');
+    list.className = 'referral-info-list';
+    [
+      t('referral_info.milestone_profile'),
+      t('referral_info.milestone_dog'),
+      t('referral_info.milestone_event')
+    ].forEach((item) => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      list.appendChild(li);
+    });
+    content.appendChild(list);
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

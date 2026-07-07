@@ -7,7 +7,9 @@ window.storage = (function () {
       email: 'demo@onebigjump.com',
       username: 'demo',
       name: 'Demo User',
-      password: 'demo1234'
+      password: 'demo1234',
+      referralCount: 4,
+      loyaltyPoints: 120
     };
   }
 
@@ -28,7 +30,9 @@ window.storage = (function () {
         email: 'demo' + n + '@onebigjump.com',
         username: 'demo' + n,
         name: name,
-        photo: 'https://i.pravatar.cc/300?img=' + n
+        photo: 'https://i.pravatar.cc/300?img=' + n,
+        referralCount: n % 6,
+        loyaltyPoints: (n % 10) * 15
       };
     });
   }

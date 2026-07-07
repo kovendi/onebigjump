@@ -82,6 +82,7 @@
   <script src="../../modules/section-title/section-title.js"></script>
   <script src="../../modules/date/date.js"></script>
   <script src="../events/events-data.js"></script>
+  <script src="../../modules/events-store/events-store.js"></script>
   <script src="../../modules/storage/storage.js"></script>
   <script>
     window.i18n.initI18n();
@@ -90,7 +91,7 @@
 
     const eventDetailPage = document.getElementById('event-detail-page');
     const eventId = new URLSearchParams(window.location.search).get('id');
-    const event = window.EVENTS_DATA.find((item) => item.id === eventId);
+    const event = window.eventsStore.getEventById(eventId);
 
     eventDetailPage.prepend(
       window.navbarModule.renderNavbar({ title: event ? event.name : '', showBack: true })

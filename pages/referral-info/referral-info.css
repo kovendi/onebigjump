@@ -1,0 +1,63 @@
+#screen-content {
+  min-height: 100%;
+  overflow-x: clip;
+  display: flex;
+  flex-direction: column;
+}
+
+.referral-info-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.referral-info-content {
+  flex: 1;
+  padding: 16px;
+  padding-bottom: 32px;
+}
+
+.referral-info-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 16px 0;
+}
+
+.referral-info-icon {
+  width: 64px;
+  height: 64px;
+}
+
+.referral-info-name {
+  margin: 8px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  text-align: center;
+}
+
+.referral-info-paragraph {
+  margin: 8px 0 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.referral-info-subheading {
+  margin: 12px 0 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.referral-info-list {
+  margin: 0 0 8px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}

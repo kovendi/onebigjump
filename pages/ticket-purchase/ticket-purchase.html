@@ -81,13 +81,14 @@
   <script src="../../modules/storage/storage.js"></script>
   <script src="../../modules/date/date.js"></script>
   <script src="../events/events-data.js"></script>
+  <script src="../../modules/events-store/events-store.js"></script>
   <script>
     window.i18n.initI18n();
     const t = window.i18n.t;
 
     const ticketPurchasePage = document.getElementById('ticket-purchase-page');
     const eventId = new URLSearchParams(window.location.search).get('id');
-    const event = window.EVENTS_DATA.find((item) => item.id === eventId);
+    const event = window.eventsStore.getEventById(eventId);
 
     ticketPurchasePage.prepend(
       window.navbarModule.renderNavbar({ title: t('ticket_purchase.title'), showBack: true })

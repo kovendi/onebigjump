@@ -34,6 +34,13 @@
           <span id="name-hint"></span>
         </p>
 
+        <div id="invited-by-input"></div>
+        <p class="registration-hint">
+          <img class="registration-hint-icon" src="../../assets/icon-info.svg" alt="" />
+          <span id="invited-by-hint"></span>
+        </p>
+        <p class="registration-error" id="invited-by-error" hidden></p>
+
         <div id="password-fields">
           <div id="password-input"></div>
           <div id="password-confirm-input"></div>
@@ -67,6 +74,7 @@
     document.getElementById('registration-title').textContent = t('registration.title');
     document.getElementById('username-hint').textContent = t('registration.username_hint');
     document.getElementById('name-hint').textContent = t('registration.name_hint');
+    document.getElementById('invited-by-hint').textContent = t('registration.invited_by_hint');
 
     if (socialProvider) {
       const display = document.createElement('div');
@@ -91,6 +99,9 @@
     document.getElementById('name-input').replaceWith(
       window.inputModule.renderInput({ type: 'text', name: 'name', label: t('registration.name_label'), placeholder: t('registration.name_placeholder'), id: 'name-input' })
     );
+    document.getElementById('invited-by-input').replaceWith(
+      window.inputModule.renderInput({ type: 'text', name: 'invited_by', label: t('registration.invited_by_label'), placeholder: t('registration.invited_by_placeholder'), id: 'invited-by-input' })
+    );
 
     if (socialProvider) {
       document.getElementById('password-fields').remove();
@@ -103,7 +114,7 @@
       );
     }
 
-    document.querySelectorAll('#registration-form input:not([type="hidden"])').forEach((input) => { input.required = true; });
+    document.querySelectorAll('#registration-form input:not([type="hidden"]):not([name="invited_by"])').forEach((input) => { input.required = true; });
 
     document.getElementById('back-button').replaceWith(
       window.buttonModule.renderButton({ label: t('registration.back_button'), variant: 'secondary', onClick: () => { window.location.href = '../login/login.html'; } })
@@ -115,12 +126,26 @@
     document.getElementById('registration-form').addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
+      const invitedByUsername = formData.get('invited_by').trim();
+      const errorEl = document.getElementById('invited-by-error');
+
+      if (invitedByUsername) {
+        const inviter = window.storage.getUsers().find((u) => u.username === invitedByUsername);
+        if (!inviter) {
+          errorEl.textContent = t('registration.invited_by_error');
+          errorEl.hidden = false;
+          return;
+        }
+      }
+      errorEl.hidden = true;
+
       const newUser = window.storage.addUser({
         id: 'user-' + Date.now(),
         email: formData.get('email'),
         username: formData.get('username'),
         name: formData.get('name'),
-        password: formData.get('password')
+        password: formData.get('password'),
+        invitedByUsername: invitedByUsername || null
       });
       window.storage.setCurrentUser(newUser.id);
       window.location.href = '../events/events.html';

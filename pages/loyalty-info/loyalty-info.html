@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Hűségpontok</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="../../modules/section-title/section-title.css" />
+  <link rel="stylesheet" href="loyalty-info.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="loyalty-info-page" id="loyalty-info-page">
+      <div class="loyalty-info-content" id="loyalty-info-content"></div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script src="../../modules/section-title/section-title.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const loyaltyInfoPage = document.getElementById('loyalty-info-page');
+    loyaltyInfoPage.prepend(
+      window.navbarModule.renderNavbar({ title: t('loyalty_info.title'), showBack: true })
+    );
+
+    const content = document.getElementById('loyalty-info-content');
+
+    const intro = document.createElement('p');
+    intro.className = 'loyalty-info-paragraph';
+    intro.textContent = t('loyalty_info.intro');
+    content.appendChild(intro);
+
+    content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('loyalty_info.how_title') }));
+
+    const list = document.createElement('div');
+    list.className = 'loyalty-info-items';
+
+    [
+      { titleKey: 'loyalty_info.item_profile_title', pointsKey: 'loyalty_info.item_profile_points', bodyKey: 'loyalty_info.item_profile_body' },
+      { titleKey: 'loyalty_info.item_dog_title', pointsKey: 'loyalty_info.item_dog_points', bodyKey: 'loyalty_info.item_dog_body' },
+      { titleKey: 'loyalty_info.item_ticket_title', pointsKey: 'loyalty_info.item_ticket_points', bodyKey: 'loyalty_info.item_ticket_body' },
+      { titleKey: 'loyalty_info.item_attend_title', pointsKey: 'loyalty_info.item_attend_points', bodyKey: 'loyalty_info.item_attend_body' },
+      { titleKey: 'loyalty_info.item_referral_title', pointsKey: 'loyalty_info.item_referral_points', bodyKey: 'loyalty_info.item_referral_body' }
+    ].forEach(({ titleKey, pointsKey, bodyKey }) => {
+      const item = document.createElement('div');
+      item.className = 'loyalty-info-item';
+
+      const header = document.createElement('div');
+      header.className = 'loyalty-info-item-header';
+
+      const title = document.createElement('span');
+      title.className = 'loyalty-info-item-title';
+      title.textContent = t(titleKey);
+      header.appendChild(title);
+
+      const points = document.createElement('span');
+      points.className = 'loyalty-info-item-points';
+      points.textContent = t(pointsKey);
+      header.appendChild(points);
+
+      item.appendChild(header);
+
+      const body = document.createElement('p');
+      body.className = 'loyalty-info-item-body';
+      body.textContent = t(bodyKey);
+      item.appendChild(body);
+
+      list.appendChild(item);
+    });
+
+    content.appendChild(list);
+
+    const leaderboardNote = document.createElement('p');
+    leaderboardNote.className = 'loyalty-info-leaderboard-note';
+    leaderboardNote.textContent = `🏆 ${t('loyalty_info.leaderboard_note')}`;
+    content.appendChild(leaderboardNote);
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

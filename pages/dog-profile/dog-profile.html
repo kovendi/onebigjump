@@ -39,6 +39,8 @@
   <script src="../../modules/date/date.js"></script>
   <script src="../../modules/storage/storage.js"></script>
   <script src="../badge-detail/badges-data.js"></script>
+  <script src="../events/events-data.js"></script>
+  <script src="../../modules/events-store/events-store.js"></script>
   <script>
     window.i18n.initI18n();
     const t = window.i18n.t;
@@ -146,6 +148,73 @@
       basics.appendChild(renderField(t('dog_profile.birthdate_label'), window.dateModule.formatDate(dog.birthdate)));
       basics.appendChild(renderField(t('dog_profile.microchip_label'), dog.microchip));
       content.appendChild(basics);
+
+      // Good Dog Card status
+      content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('dog_profile.gdc_title') }));
+
+      const gdcSection = document.createElement('div');
+      gdcSection.className = 'dog-profile-gdc';
+
+      if (dog.goodDogCard) {
+        const earnedBanner = document.createElement('div');
+        earnedBanner.className = 'dog-profile-gdc-banner dog-profile-gdc-banner--earned';
+
+        const earnedIcon = document.createElement('img');
+        earnedIcon.className = 'dog-profile-gdc-banner-icon';
+        earnedIcon.src = '../../assets/icon-badge-good-dog.svg';
+        earnedIcon.alt = '';
+        earnedBanner.appendChild(earnedIcon);
+
+        const earnedText = document.createElement('span');
+        earnedText.className = 'dog-profile-gdc-banner-title';
+        earnedText.textContent = t('profile.dog_gdc_earned_title');
+        earnedBanner.appendChild(earnedText);
+
+        gdcSection.appendChild(earnedBanner);
+      } else {
+        const nextExamEvent = window.eventsStore.getUpcomingEvents()
+          .filter((event) => event.is_exam)[0];
+
+        if (nextExamEvent) {
+          const hintBanner = document.createElement('button');
+          hintBanner.type = 'button';
+          hintBanner.className = 'dog-profile-gdc-banner dog-profile-gdc-banner--hint';
+          hintBanner.addEventListener('click', () => {
+            window.location.href = `../event-detail/event-detail.html?id=${nextExamEvent.id}`;
+          });
+
+          const hintIcon = document.createElement('img');
+          hintIcon.className = 'dog-profile-gdc-banner-icon';
+          hintIcon.src = '../../assets/icon-badge-good-dog.svg';
+          hintIcon.alt = '';
+          hintBanner.appendChild(hintIcon);
+
+          const hintTextCol = document.createElement('span');
+          hintTextCol.className = 'dog-profile-gdc-banner-text-col';
+
+          const hintTitle = document.createElement('span');
+          hintTitle.className = 'dog-profile-gdc-banner-title';
+          hintTitle.textContent = t('profile.dog_gdc_hint_title');
+          hintTextCol.appendChild(hintTitle);
+
+          const hintSubtitle = document.createElement('span');
+          hintSubtitle.className = 'dog-profile-gdc-banner-subtitle';
+          hintSubtitle.textContent = `${t('profile.dog_gdc_hint_label')} ${nextExamEvent.name}`;
+          hintTextCol.appendChild(hintSubtitle);
+
+          hintBanner.appendChild(hintTextCol);
+
+          const hintArrow = document.createElement('img');
+          hintArrow.className = 'dog-profile-gdc-banner-arrow';
+          hintArrow.src = '../../assets/icon-chevron-down.svg';
+          hintArrow.alt = '';
+          hintBanner.appendChild(hintArrow);
+
+          gdcSection.appendChild(hintBanner);
+        }
+      }
+
+      content.appendChild(gdcSection);
 
       // badges
       content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('dog_profile.badges_title') }));
