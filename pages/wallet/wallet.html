@@ -153,13 +153,27 @@
         const dog = window.storage.getDogs().find((item) => item.id === dogId);
         if (!dog || dog[dogField]) return;
 
-        window.storage.updateDog(dogId, { [dogField]: true });
+        const dogUpdates = { [dogField]: true };
+        if (dogField === 'festivalVisitor' && !dog.goodDogCard) {
+          dogUpdates.goodDogCard = true;
+          dogUpdates.gdcBronze = true;
+        }
+        window.storage.updateDog(dogId, dogUpdates);
         window.storage.addNotification({
           icon: window.badgeGridModule.icons[badgeInfo.icon],
           title: t('notifications.badge_earned_title').replace('{badge}', t(badgeInfo.nameKey)),
           text: t('notifications.badge_earned_text').replace('{name}', dog.name).replace('{badge}', t(badgeInfo.nameKey)),
           link: `../dog-profile/dog-profile.html?id=${dog.id}`
         });
+
+        if (dogUpdates.goodDogCard) {
+          window.storage.addNotification({
+            icon: '../../assets/icon-badge-good-dog.svg',
+            title: t('notifications.gdc_earned_title'),
+            text: t('notifications.gdc_earned_text').replace('{name}', dog.name),
+            link: `../dog-profile/dog-profile.html?id=${dog.id}`
+          });
+        }
       });
     }
 

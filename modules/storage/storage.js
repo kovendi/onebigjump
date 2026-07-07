@@ -169,7 +169,7 @@ window.storage = (function () {
     var db = getDb();
     dog.userId = db.currentUserId;
     var dogIndex = db.dogs.filter(function (d) { return d.userId === db.currentUserId; }).length;
-    dog.goodDogCard = dogIndex % 2 === 0;
+    dog.goodDogCard = false;
     dog.gdcBronze = dogIndex % 2 === 0;
     dog.gdcSilver = dogIndex % 4 === 0;
     dog.gdcGold = dogIndex % 8 === 0;
