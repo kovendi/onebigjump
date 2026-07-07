@@ -72,6 +72,7 @@ window.LOCALES.ro = {
   "ticket_purchase.participants_title": "Câini participanți",
   "ticket_purchase.add_dog_action": "Adaugă un câine",
   "ticket_purchase.no_dogs_description": "Încă nu ai niciun câine înregistrat.",
+  "ticket_purchase.select_dog_error": "Selectează cel puțin un câine dintre participanți.",
   "ticket_purchase.free_quantity_note": "Poți rezerva doar 1 bilet per eveniment gratuit, ca să poată participa cât mai multe persoane.",
   "ticket_purchase.paid_quantity_note": "1 bilet = intrare pentru 1 persoană.",
   "ticket_purchase.total_label": "Total",

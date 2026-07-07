@@ -72,6 +72,7 @@ window.LOCALES.hu = {
   "ticket_purchase.participants_title": "Résztvevő kutyák",
   "ticket_purchase.add_dog_action": "Kutya hozzáadása",
   "ticket_purchase.no_dogs_description": "Még nincs regisztrált kutyád.",
+  "ticket_purchase.select_dog_error": "Válassz ki legalább egy kutyát a résztvevők közül.",
   "ticket_purchase.free_quantity_note": "Ingyenes eseményre eseményenként csak 1 jegyet válthatsz.",
   "ticket_purchase.paid_quantity_note": "1 jegy = 1 fő belépője.",
   "ticket_purchase.total_label": "Összesen",

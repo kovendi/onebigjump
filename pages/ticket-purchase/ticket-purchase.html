@@ -49,6 +49,7 @@
           <div class="ticket-purchase-participants__list" id="ticket-purchase-participants-list"></div>
           <p class="ticket-purchase-participants__empty" id="ticket-purchase-participants-empty" hidden></p>
           <div id="ticket-purchase-add-dog-action"></div>
+          <p class="ticket-purchase-participants__error" id="ticket-purchase-participants-error" hidden></p>
         </div>
 
         <div class="ticket-purchase-summary">
@@ -216,6 +217,15 @@
           label: event.is_paid ? t('ticket_purchase.purchase_action') : t('event_detail.register_action'),
           variant: 'primary',
           onClick: () => {
+            const participantsError = document.getElementById('ticket-purchase-participants-error');
+            if (event.is_exam && selectedDogIds.length === 0) {
+              participantsError.textContent = t('ticket_purchase.select_dog_error');
+              participantsError.hidden = false;
+              return;
+            }
+            if (participantsError) {
+              participantsError.hidden = true;
+            }
             const purchasedAt = new Date().toISOString();
             for (let i = 0; i < quantity; i += 1) {
               window.storage.addTicket({

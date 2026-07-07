@@ -86,7 +86,8 @@
             breed: t(`add_dog.breed_${dog.breed}`),
             birthdate: dog.birthdate,
             microchip: dog.microchip,
-            goodDogCard: true
+            goodDogCard: true,
+            onProfileClick: () => { window.location.href = `../dog-profile/dog-profile.html?id=${dog.id}`; }
           })
         );
       });

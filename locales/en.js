@@ -72,6 +72,7 @@ window.LOCALES.en = {
   "ticket_purchase.participants_title": "Participating dogs",
   "ticket_purchase.add_dog_action": "Add a dog",
   "ticket_purchase.no_dogs_description": "You don't have any registered dogs yet.",
+  "ticket_purchase.select_dog_error": "Select at least one dog from the participants.",
   "ticket_purchase.free_quantity_note": "You can only claim 1 ticket per free event, so more people get a chance to attend.",
   "ticket_purchase.paid_quantity_note": "1 ticket = entry for 1 person.",
   "ticket_purchase.total_label": "Total",

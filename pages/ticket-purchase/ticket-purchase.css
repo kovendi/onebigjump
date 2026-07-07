@@ -156,6 +156,12 @@
   margin: 0;
 }
 
+.ticket-purchase-participants__error {
+  font-size: 13px;
+  color: var(--color-accent);
+  margin: 0;
+}
+
 .ticket-purchase-participants__list {
   display: flex;
   flex-direction: column;

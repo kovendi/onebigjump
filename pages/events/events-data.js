@@ -1,21 +1,6 @@
 // Classic script (not a module) — dummy event data for the events page mockup.
 window.EVENTS_DATA = [
   {
-    "id": "evt-002",
-    "name": "Good Dog Card - Hivatalos Engedelmességi Vizsga (A csoport)",
-    "image_url": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80",
-    "location": "Sfântu Gheorghe, Arena Sepsi",
-    "start_date": "2026.08.14 14:00",
-    "end_date": "2026.08.14 16:30",
-    "followers_count": 189,
-    "is_paid": true,
-    "price": 120,
-    "currency": "RON",
-    "is_exam": true,
-    "description": "Hivatalos engedelmességi vizsga kutyák és gazdik számára, tanúsítvánnyal záruló megmérettetés.\n\n## Mire számíthatsz\n\nA vizsga során a kutyák és gazdik egy **hivatalos zsűri** előtt mutatják be a korábban elsajátított engedelmességi gyakorlatokat. A vizsga sikeres teljesítése esetén hivatalos *Good Dog Card* tanúsítványt kap a páros.\n\n### Vizsgafeladatok\n\n- Pórázon és póráz nélkül végzett lábadnál mozgás\n- Ülj, fekszik, marad vezényszavak távolról is\n- Visszahívás zavaró tényezők mellett\n- Nyugodt viselkedés idegen emberek és kutyák közelében\n\n### Amit hozni kell\n\n- Kutya oltási könyve\n- Rövid póráz és nyakörv/hám\n- Kedvenc jutalomfalat\n\nA vizsga helyszínén regisztrációs pult segít a bejelentkezésben, kérjük érkezz **15 perccel korábban**.",
-    "sub_events": []
-  },
-  {
     "id": "evt-001",
     "name": "Olt Part Pet Fesztivál - Megnyitó & Közösségi Séta",
     "image_url": "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=600&q=80",
@@ -23,10 +8,10 @@ window.EVENTS_DATA = [
     "start_date": "2026.08.14 10:00",
     "end_date": "2026.08.14 12:00",
     "followers_count": 245,
-    "is_paid": false,
-    "price": 0,
+    "is_paid": true,
+    "price": 120,
     "currency": "RON",
-    "is_exam": false,
+    "is_exam": true,
     "description": "A háromnapos fesztivál nyitóprogramja közös sétával, standokkal és élőzenével.",
     "sub_events": [
       {
@@ -45,6 +30,21 @@ window.EVENTS_DATA = [
         "end_date": "2026.08.14 12:00"
       }
     ]
+  },
+  {
+    "id": "evt-002",
+    "name": "Good Dog Card - Hivatalos Engedelmességi Vizsga (A csoport)",
+    "image_url": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80",
+    "location": "Sfântu Gheorghe, Arena Sepsi",
+    "start_date": "2026.08.14 14:00",
+    "end_date": "2026.08.14 16:30",
+    "followers_count": 189,
+    "is_paid": false,
+    "price": 0,
+    "currency": "RON",
+    "is_exam": false,
+    "description": "Hivatalos engedelmességi vizsga kutyák és gazdik számára, tanúsítvánnyal záruló megmérettetés.\n\n## Mire számíthatsz\n\nA vizsga során a kutyák és gazdik egy **hivatalos zsűri** előtt mutatják be a korábban elsajátított engedelmességi gyakorlatokat. A vizsga sikeres teljesítése esetén hivatalos *Good Dog Card* tanúsítványt kap a páros.\n\n### Vizsgafeladatok\n\n- Pórázon és póráz nélkül végzett lábadnál mozgás\n- Ülj, fekszik, marad vezényszavak távolról is\n- Visszahívás zavaró tényezők mellett\n- Nyugodt viselkedés idegen emberek és kutyák közelében\n\n### Amit hozni kell\n\n- Kutya oltási könyve\n- Rövid póráz és nyakörv/hám\n- Kedvenc jutalomfalat\n\nA vizsga helyszínén regisztrációs pult segít a bejelentkezésben, kérjük érkezz **15 perccel korábban**.",
+    "sub_events": []
   },
   {
     "id": "evt-003",
