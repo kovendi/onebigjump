@@ -57,3 +57,70 @@
   color: var(--color-text-secondary);
   white-space: nowrap;
 }
+
+.cache-info-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--color-card-background);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  text-align: left;
+}
+
+.cache-info-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.cache-info-free {
+  font-size: 13px;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.cache-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cache-info-empty {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.cache-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cache-info-row-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cache-info-key {
+  font-size: 13px;
+  color: var(--color-text-main);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cache-info-size {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.cache-info-delete-button {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  font-size: 12px;
+}

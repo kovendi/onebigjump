@@ -14,6 +14,10 @@
 <body>
   <div id="screen-content">
     <div class="loyalty-info-page" id="loyalty-info-page">
+      <div class="loyalty-info-header">
+        <img class="loyalty-info-icon" src="../../assets/icon-points-loyalty.svg" alt="" />
+        <p class="loyalty-info-name" id="loyalty-info-name"></p>
+      </div>
       <div class="loyalty-info-content" id="loyalty-info-content"></div>
     </div>
   </div>
@@ -34,6 +38,8 @@
     loyaltyInfoPage.prepend(
       window.navbarModule.renderNavbar({ title: t('loyalty_info.title'), showBack: true })
     );
+
+    document.getElementById('loyalty-info-name').textContent = t('loyalty_info.title');
 
     const content = document.getElementById('loyalty-info-content');
 

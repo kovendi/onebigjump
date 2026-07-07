@@ -61,12 +61,8 @@
     if (isOwnProfile) {
       const photoPicker = window.photoPickerModule.renderPhotoPicker({
         name: 'profile-photo',
-        onChange: (file) => {
-          const reader = new FileReader();
-          reader.onload = () => {
-            window.storage.updateUser({ photo: reader.result });
-          };
-          reader.readAsDataURL(file);
+        onChange: (dataUrl) => {
+          window.storage.updateUser({ photo: dataUrl });
         }
       });
       if (user.photo) {

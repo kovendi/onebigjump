@@ -70,13 +70,9 @@
     // photo
     const photoField = window.photoPickerModule.renderPhotoPicker({
       name: 'photo',
-      onChange: (file) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          formState.photo = reader.result;
-          updateSubmitState();
-        };
-        reader.readAsDataURL(file);
+      onChange: (dataUrl) => {
+        formState.photo = dataUrl;
+        updateSubmitState();
       }
     });
     if (formState.photo) {

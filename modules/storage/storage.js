@@ -263,6 +263,30 @@ window.storage = (function () {
     return (db.notifications || []).some(function (n) { return n.userId === db.currentUserId && !n.read; });
   }
 
+  function logStorageUsage() {
+    var used = 0;
+    var perKey = [];
+    for (var key in localStorage) {
+      if (Object.prototype.hasOwnProperty.call(localStorage, key)) {
+        var bytes = (localStorage[key].length + key.length) * 2; // UTF-16 => 2 bytes/char
+        used += bytes;
+        perKey.push({ key: key, bytes: bytes });
+      }
+    }
+    var estimatedQuota = 10 * 1024 * 1024; // ~10MB, typical Chrome default (Safari/Firefox may be lower, ~5MB)
+    var usedKb = (used / 1024).toFixed(1);
+    var freeKb = ((estimatedQuota - used) / 1024).toFixed(1);
+    var percent = ((used / estimatedQuota) * 100).toFixed(1);
+    console.log(
+      '[storage] used: ' + usedKb + ' KB / ~' + (estimatedQuota / 1024).toFixed(0) + ' KB (' + percent + '%), ~free: ' + freeKb + ' KB'
+    );
+    perKey
+      .sort(function (a, b) { return b.bytes - a.bytes; })
+      .forEach(function (entry) {
+        console.log('  - ' + entry.key + ': ' + (entry.bytes / 1024).toFixed(1) + ' KB');
+      });
+  }
+
   function deleteCurrentUser() {
     var db = getDb();
     var userId = db.currentUserId;
@@ -304,6 +328,7 @@ window.storage = (function () {
     markNotificationRead: markNotificationRead,
     markAllNotificationsRead: markAllNotificationsRead,
     hasUnreadNotifications: hasUnreadNotifications,
-    deleteCurrentUser: deleteCurrentUser
+    deleteCurrentUser: deleteCurrentUser,
+    logStorageUsage: logStorageUsage
   };
 })();

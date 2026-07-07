@@ -134,14 +134,14 @@
 }
 
 .dog-profile-gdc-banner--earned {
-  background: linear-gradient(90deg, rgba(242, 169, 59, 0.18), rgba(242, 169, 59, 0.05));
-  box-shadow: 0 2px 10px rgba(242, 169, 59, 0.25);
+  background: linear-gradient(90deg, rgba(47, 158, 68, 0.18), rgba(47, 158, 68, 0.05));
+  box-shadow: 0 2px 10px rgba(47, 158, 68, 0.25);
 }
 
 .dog-profile-gdc-banner--earned .dog-profile-gdc-banner-title {
   font-size: 14px;
   font-weight: 700;
-  color: var(--color-highlight);
+  color: var(--color-primary);
 }
 
 .dog-profile-gdc-banner--hint {
