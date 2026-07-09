@@ -261,6 +261,7 @@ window.LOCALES.ro = {
   "profile.delete_account_confirm_title": "Șterge contul",
   "profile.delete_account_confirm_message": "Această acțiune va șterge definitiv contul tău și toate datele asociate (câini, bilete). Acțiunea nu poate fi anulată.",
   "profile.delete_account_confirm_action": "Șterge",
+  "profile.delete_account_confirm_input_label": "Scrie \"{word}\" pentru a confirma",
   "profile.username_change_warning_title": "Schimbă numele de utilizator",
   "profile.username_change_warning_message": "Îți poți schimba numele de utilizator o singură dată. Sigur vrei să continui?",
   "profile.username_change_warning_action": "Continuă",

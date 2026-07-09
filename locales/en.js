@@ -261,6 +261,7 @@ window.LOCALES.en = {
   "profile.delete_account_confirm_title": "Delete account",
   "profile.delete_account_confirm_message": "This will permanently delete your account and all related data (dogs, tickets). This action cannot be undone.",
   "profile.delete_account_confirm_action": "Delete",
+  "profile.delete_account_confirm_input_label": "Type \"{word}\" to confirm",
   "profile.username_change_warning_title": "Change username",
   "profile.username_change_warning_message": "You can only change your username once. Are you sure you want to continue?",
   "profile.username_change_warning_action": "Continue",

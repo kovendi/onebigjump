@@ -7,7 +7,7 @@ window.profileAccountSection = (function () {
 
     section.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('profile.account_title') }));
 
-    const openConfirmModal = ({ title, message, actionLabel, onConfirm }) => {
+    const openConfirmModal = ({ title, message, actionLabel, onConfirm, confirmWord }) => {
       const wrap = document.createElement('div');
       wrap.className = 'profile-confirm';
 
@@ -24,20 +24,36 @@ window.profileAccountSection = (function () {
       const actions = document.createElement('div');
       actions.className = 'profile-confirm-actions';
 
-      actions.appendChild(buttonModule.renderButton({
-        label: t('common.cancel'),
-        variant: 'secondary',
-        onClick: () => modalModule.closeModal()
-      }));
-
-      actions.appendChild(buttonModule.renderButton({
+      const confirmButton = buttonModule.renderButton({
         label: actionLabel,
         variant: 'primary',
         onClick: () => {
           modalModule.closeModal();
           onConfirm();
         }
+      });
+
+      if (confirmWord) {
+        confirmButton.disabled = true;
+
+        const inputWrap = window.inputModule.renderInput({
+          name: 'confirm-word',
+          label: t('profile.delete_account_confirm_input_label').replace('{word}', confirmWord)
+        });
+        const inputEl = inputWrap.querySelector('.input-field__control');
+        inputEl.addEventListener('input', () => {
+          confirmButton.disabled = inputEl.value.trim().toLowerCase() !== confirmWord.toLowerCase();
+        });
+        wrap.appendChild(inputWrap);
+      }
+
+      actions.appendChild(buttonModule.renderButton({
+        label: t('common.cancel'),
+        variant: 'secondary',
+        onClick: () => modalModule.closeModal()
       }));
+
+      actions.appendChild(confirmButton);
 
       wrap.appendChild(actions);
       modalModule.openModal(wrap);
@@ -124,6 +140,7 @@ window.profileAccountSection = (function () {
           title: t('profile.delete_account_confirm_title'),
           message: t('profile.delete_account_confirm_message'),
           actionLabel: t('profile.delete_account_confirm_action'),
+          confirmWord: t('profile.delete_account_confirm_action'),
           onConfirm: () => {
             storage.deleteCurrentUser();
             window.location.href = '../login/login.html';

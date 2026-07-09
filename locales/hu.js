@@ -261,6 +261,7 @@ window.LOCALES.hu = {
   "profile.delete_account_confirm_title": "Fiók törlése",
   "profile.delete_account_confirm_message": "Ez véglegesen törli a fiókodat és minden hozzá tartozó adatot (kutyák, jegyek). Ez a művelet nem vonható vissza.",
   "profile.delete_account_confirm_action": "Törlés",
+  "profile.delete_account_confirm_input_label": "Írd be: \"{word}\" a megerősítéshez",
   "profile.username_change_warning_title": "Felhasználónév módosítása",
   "profile.username_change_warning_message": "A felhasználónevedet csak egyszer módosíthatod. Biztosan folytatod?",
   "profile.username_change_warning_action": "Folytatás",
