@@ -43,12 +43,22 @@ window.profileAccountSection = (function () {
       modalModule.openModal(wrap);
     };
 
-    const renderAccountRow = (label, extraClass, onClick) => {
+    const renderAccountRow = (label, extraClass, onClick, icon) => {
       const row = document.createElement('button');
       row.type = 'button';
       row.className = `profile-account-row ${extraClass}`;
-      row.textContent = label;
       row.addEventListener('click', onClick);
+
+      const iconEl = document.createElement('img');
+      iconEl.className = 'profile-account-row-icon';
+      iconEl.src = icon;
+      iconEl.alt = '';
+      row.appendChild(iconEl);
+
+      const labelEl = document.createElement('span');
+      labelEl.textContent = label;
+      row.appendChild(labelEl);
+
       return row;
     };
 
@@ -59,7 +69,14 @@ window.profileAccountSection = (function () {
     languageRow.type = 'button';
     languageRow.className = 'profile-account-row profile-account-row--default profile-account-row--language';
 
+    const languageRowIcon = document.createElement('img');
+    languageRowIcon.className = 'profile-account-row-icon';
+    languageRowIcon.src = '../../assets/icon-language.svg';
+    languageRowIcon.alt = '';
+    languageRow.appendChild(languageRowIcon);
+
     const languageRowLabel = document.createElement('span');
+    languageRowLabel.className = 'profile-account-row-label';
     languageRowLabel.textContent = t('profile.language_button');
     languageRow.appendChild(languageRowLabel);
 
@@ -79,7 +96,8 @@ window.profileAccountSection = (function () {
       'profile-account-row--default',
       () => {
         window.location.href = '../change-password/change-password.html';
-      }
+      },
+      '../../assets/icon-password.svg'
     ));
 
     accountActions.appendChild(renderAccountRow(
@@ -94,7 +112,8 @@ window.profileAccountSection = (function () {
             window.location.href = '../login/login.html';
           }
         });
-      }
+      },
+      '../../assets/icon-logout.svg'
     ));
 
     accountActions.appendChild(renderAccountRow(
@@ -110,7 +129,8 @@ window.profileAccountSection = (function () {
             window.location.href = '../login/login.html';
           }
         });
-      }
+      },
+      '../../assets/icon-delete-account.svg'
     ));
 
     section.appendChild(accountActions);

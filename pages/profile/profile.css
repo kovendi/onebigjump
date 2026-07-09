@@ -307,6 +307,9 @@ button.profile-point-item {
 }
 
 .profile-account-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   text-align: left;
   background: transparent;
   border: none;
@@ -316,6 +319,12 @@ button.profile-point-item {
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
+}
+
+.profile-account-row-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .profile-account-row:last-child {
@@ -331,10 +340,11 @@ button.profile-point-item {
 }
 
 .profile-account-row--language {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   width: 100%;
+}
+
+.profile-account-row-label {
+  flex: 1;
 }
 
 .profile-account-row-value {
