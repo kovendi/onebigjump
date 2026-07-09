@@ -330,6 +330,18 @@ button.profile-point-item {
   color: var(--color-accent);
 }
 
+.profile-account-row--language {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.profile-account-row-value {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
 .profile-confirm {
   display: flex;
   flex-direction: column;

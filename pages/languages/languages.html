@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Nyelv</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="languages.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="languages-page" id="languages-page">
+      <div class="languages-content" id="languages-content"></div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const languagesPage = document.getElementById('languages-page');
+    languagesPage.prepend(
+      window.navbarModule.renderNavbar({ title: t('languages.title'), showBack: true })
+    );
+
+    const content = document.getElementById('languages-content');
+    const list = document.createElement('div');
+    list.className = 'languages-list';
+
+    ['hu', 'en', 'ro'].forEach((code) => {
+      const isActive = code === window.i18n.getLanguage();
+
+      const option = document.createElement('button');
+      option.type = 'button';
+      option.className = isActive ? 'languages-option languages-option--active' : 'languages-option';
+
+      const label = document.createElement('span');
+      label.className = 'languages-option-label';
+      label.textContent = t(`languages.${code}`);
+      option.appendChild(label);
+
+      if (isActive) {
+        const check = document.createElement('img');
+        check.className = 'languages-option-check';
+        check.src = '../../assets/icon-check.svg';
+        check.alt = '';
+        option.appendChild(check);
+      }
+
+      option.addEventListener('click', () => {
+        if (isActive) return;
+        window.i18n.setLanguage(code);
+        window.location.reload();
+      });
+
+      list.appendChild(option);
+    });
+
+    content.appendChild(list);
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

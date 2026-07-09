@@ -149,8 +149,8 @@ window.EVENTS_DATA = [
     "is_paid": false,
     "price": 0,
     "currency": "RON",
-    "is_exam": false,
-    "description": "A fesztivál záróprogramja díjátadóval és a legjobban vizsgázott kutyák bemutatójával.",
+    "is_exam": true,
+    "description": "A fesztivál záróprogramja díjátadóval és a legjobban vizsgázott kutyák bemutatójával. Az eseményen részt vevő kutyák megszerezhetik a Good Dog Card tanúsítványt.",
     "sub_events": [
       {
         "name": "Díjátadó Ceremónia",

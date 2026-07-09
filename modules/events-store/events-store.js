@@ -19,7 +19,7 @@ window.eventsStore = (function () {
     'evt-004': -10,
     'evt-005': -10,
     'evt-006': -4,
-    'evt-007': -4
+    'evt-007': 4
   };
   const PINNED_UPCOMING_ORDER = ['evt-001', 'evt-002'];
 

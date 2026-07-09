@@ -55,6 +55,25 @@ window.profileAccountSection = (function () {
     const accountActions = document.createElement('div');
     accountActions.className = 'profile-account-actions';
 
+    const languageRow = document.createElement('button');
+    languageRow.type = 'button';
+    languageRow.className = 'profile-account-row profile-account-row--default profile-account-row--language';
+
+    const languageRowLabel = document.createElement('span');
+    languageRowLabel.textContent = t('profile.language_button');
+    languageRow.appendChild(languageRowLabel);
+
+    const languageRowValue = document.createElement('span');
+    languageRowValue.className = 'profile-account-row-value';
+    languageRowValue.textContent = t(`languages.${window.i18n.getLanguage()}`);
+    languageRow.appendChild(languageRowValue);
+
+    languageRow.addEventListener('click', () => {
+      window.location.href = '../languages/languages.html';
+    });
+
+    accountActions.appendChild(languageRow);
+
     accountActions.appendChild(renderAccountRow(
       t('profile.change_password_button'),
       'profile-account-row--default',
