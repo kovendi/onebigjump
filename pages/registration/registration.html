@@ -32,13 +32,6 @@
 
         <div id="last-name-input"></div>
 
-        <div id="invited-by-input"></div>
-        <p class="registration-hint">
-          <img class="registration-hint-icon" src="../../assets/icon-info.svg" alt="" />
-          <span id="invited-by-hint"></span>
-        </p>
-        <p class="registration-error" id="invited-by-error" hidden></p>
-
         <div id="password-fields">
           <div id="password-input"></div>
           <div id="password-confirm-input"></div>
@@ -71,7 +64,6 @@
 
     document.getElementById('registration-title').textContent = t('registration.title');
     document.getElementById('username-hint').textContent = t('registration.username_hint');
-    document.getElementById('invited-by-hint').textContent = t('registration.invited_by_hint');
 
     if (socialProvider) {
       const display = document.createElement('div');
@@ -93,14 +85,35 @@
     document.getElementById('username-input').replaceWith(
       window.inputModule.renderInput({ type: 'text', name: 'username', label: t('registration.username_label'), placeholder: t('registration.username_placeholder'), id: 'username-input' })
     );
+
+    function generateUsernameFromEmail(email) {
+      const localPart = email.split('@')[0] || '';
+      return localPart.toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
+    const emailFormatRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const usernameField = document.getElementById('username-input');
+    let usernameManuallyEdited = false;
+    usernameField.addEventListener('input', () => { usernameManuallyEdited = true; });
+
+    if (socialProvider) {
+      if (emailFormatRegex.test(socialEmail)) {
+        usernameField.value = generateUsernameFromEmail(socialEmail);
+      }
+    } else {
+      document.getElementById('email-input').addEventListener('input', (e) => {
+        const email = e.target.value;
+        if (!usernameManuallyEdited && emailFormatRegex.test(email)) {
+          usernameField.value = generateUsernameFromEmail(email);
+        }
+      });
+    }
+
     document.getElementById('first-name-input').replaceWith(
       window.inputModule.renderInput({ type: 'text', name: 'first_name', label: t('registration.first_name_label'), placeholder: t('registration.first_name_placeholder'), id: 'first-name-input' })
     );
     document.getElementById('last-name-input').replaceWith(
       window.inputModule.renderInput({ type: 'text', name: 'last_name', label: t('registration.last_name_label'), placeholder: t('registration.last_name_placeholder'), id: 'last-name-input' })
-    );
-    document.getElementById('invited-by-input').replaceWith(
-      window.inputModule.renderInput({ type: 'text', name: 'invited_by', label: t('registration.invited_by_label'), placeholder: t('registration.invited_by_placeholder'), id: 'invited-by-input' })
     );
 
     if (socialProvider) {
@@ -114,30 +127,18 @@
       );
     }
 
-    document.querySelectorAll('#registration-form input:not([type="hidden"]):not([name="invited_by"])').forEach((input) => { input.required = true; });
+    document.querySelectorAll('#registration-form input:not([type="hidden"])').forEach((input) => { input.required = true; });
 
     document.getElementById('back-button').replaceWith(
       window.buttonModule.renderButton({ label: t('registration.back_button'), variant: 'secondary', onClick: () => { window.location.href = '../login/login.html'; } })
     );
     document.getElementById('submit-button').replaceWith(
-      window.buttonModule.renderButton({ label: t('registration.submit_button'), variant: 'primary', type: 'submit' })
+      window.buttonModule.renderButton({ label: t('registration.next_button'), variant: 'primary', type: 'submit' })
     );
 
     document.getElementById('registration-form').addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
-      const invitedByUsername = formData.get('invited_by').trim();
-      const errorEl = document.getElementById('invited-by-error');
-
-      if (invitedByUsername) {
-        const inviter = window.storage.getUsers().find((u) => u.username === invitedByUsername);
-        if (!inviter) {
-          errorEl.textContent = t('registration.invited_by_error');
-          errorEl.hidden = false;
-          return;
-        }
-      }
-      errorEl.hidden = true;
 
       const newUser = window.storage.addUser({
         id: 'user-' + Date.now(),
@@ -146,10 +147,10 @@
         firstName: formData.get('first_name'),
         lastName: formData.get('last_name'),
         password: formData.get('password'),
-        invitedByUsername: invitedByUsername || null
+        invitedByUsername: null
       });
       window.storage.setCurrentUser(newUser.id);
-      window.location.href = '../events/events.html';
+      window.location.href = '../registration-referral/registration-referral.html';
     });
 
     if (!window.iphoneFrame.isRealMobileDevice()) {

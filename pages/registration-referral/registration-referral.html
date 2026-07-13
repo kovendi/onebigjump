@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Referral</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/input/input.css" />
+  <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="registration-referral.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="registration-referral-page">
+      <h1 class="registration-referral-title" id="registration-referral-title"></h1>
+
+      <form class="registration-referral-form" id="registration-referral-form">
+        <div id="invited-by-input"></div>
+        <p class="registration-referral-hint">
+          <img class="registration-referral-hint-icon" src="../../assets/icon-info.svg" alt="" />
+          <span id="invited-by-hint"></span>
+        </p>
+        <p class="registration-referral-error" id="invited-by-error" hidden></p>
+
+        <div class="registration-referral-actions">
+          <div id="skip-button"></div>
+          <div id="next-button"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/input/input.js"></script>
+  <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    document.getElementById('registration-referral-title').textContent = t('registration.referral_title');
+    document.getElementById('invited-by-hint').textContent = t('registration.invited_by_hint');
+
+    document.getElementById('invited-by-input').replaceWith(
+      window.inputModule.renderInput({ type: 'text', name: 'invited_by', label: t('registration.invited_by_label'), placeholder: t('registration.invited_by_placeholder'), id: 'invited-by-input' })
+    );
+
+    document.getElementById('skip-button').replaceWith(
+      window.buttonModule.renderButton({
+        label: t('registration.skip_button'),
+        variant: 'secondary',
+        onClick: () => { window.location.href = '../registration-profile/registration-profile.html'; }
+      })
+    );
+    document.getElementById('next-button').replaceWith(
+      window.buttonModule.renderButton({ label: t('registration.next_button'), variant: 'primary', type: 'submit' })
+    );
+
+    document.getElementById('registration-referral-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const invitedByUsername = formData.get('invited_by').trim();
+      const errorEl = document.getElementById('invited-by-error');
+
+      if (invitedByUsername) {
+        const inviter = window.storage.getUsers().find((u) => u.username === invitedByUsername);
+        if (!inviter) {
+          errorEl.textContent = t('registration.invited_by_error');
+          errorEl.hidden = false;
+          return;
+        }
+        window.storage.updateUser({ invitedByUsername });
+      }
+      errorEl.hidden = true;
+      window.location.href = '../registration-profile/registration-profile.html';
+    });
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

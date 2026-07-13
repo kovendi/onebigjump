@@ -46,16 +46,24 @@
     const searchParams = new URLSearchParams(window.location.search);
     const returnTo = searchParams.get('returnTo');
     const dogId = searchParams.get('dogId');
+    const isRegistrationFlow = searchParams.get('flow') === 'registration';
     const existingDog = dogId ? window.storage.getDogs().find((dog) => dog.id === dogId) : null;
-    const redirectUrl = returnTo || '../dogs/dogs.html';
+    const redirectUrl = isRegistrationFlow ? '../events/events.html' : (returnTo || '../dogs/dogs.html');
 
-    addDogPage.prepend(
-      window.navbarModule.renderNavbar({
-        title: t(existingDog ? 'add_dog.edit_title' : 'add_dog.title'),
-        showBack: true,
-        onBackClick: () => { window.location.href = redirectUrl; }
-      })
-    );
+    if (isRegistrationFlow) {
+      const title = document.createElement('h1');
+      title.className = 'add-dog-registration-title';
+      title.textContent = t('add_dog.title');
+      addDogPage.prepend(title);
+    } else {
+      addDogPage.prepend(
+        window.navbarModule.renderNavbar({
+          title: t(existingDog ? 'add_dog.edit_title' : 'add_dog.title'),
+          showBack: true,
+          onBackClick: () => { window.location.href = redirectUrl; }
+        })
+      );
+    }
 
     const formState = existingDog
       ? { photo: existingDog.photo, name: existingDog.name, breed: existingDog.breed, birthdate: existingDog.birthdate, microchip: existingDog.microchip, healthBookFiles: null }
@@ -63,7 +71,7 @@
 
     function updateSubmitState() {
       const isComplete = formState.photo && formState.name && formState.breed
-        && /^\d{4}\/\d{2}\/\d{2}$/.test(formState.birthdate) && formState.microchip;
+        && /^\d{4}-\d{2}-\d{2}$/.test(formState.birthdate) && formState.microchip;
       submitButton.disabled = !isComplete;
     }
 
@@ -117,23 +125,17 @@
     if (formState.breed) breedField.querySelector('select').value = formState.breed;
     form.appendChild(breedField);
 
-    // birthdate (auto yyyy/mm/dd pattern)
+    // birthdate (native date picker)
     const birthdateField = window.inputModule.renderInput({
+      type: 'date',
       name: 'birthdate',
-      label: t('add_dog.birthdate_label'),
-      placeholder: t('add_dog.birthdate_placeholder')
+      label: t('add_dog.birthdate_label')
     });
     const birthdateInput = birthdateField.querySelector('input');
-    birthdateInput.inputMode = 'numeric';
-    birthdateInput.maxLength = 10;
-    birthdateInput.value = formState.birthdate;
-    birthdateInput.addEventListener('input', (e) => {
-      const digits = e.target.value.replace(/\D/g, '').slice(0, 8);
-      let formatted = digits.slice(0, 4);
-      if (digits.length > 4) formatted += '/' + digits.slice(4, 6);
-      if (digits.length > 6) formatted += '/' + digits.slice(6, 8);
-      e.target.value = formatted;
-      formState.birthdate = formatted;
+    birthdateInput.max = new Date().toISOString().slice(0, 10);
+    birthdateInput.value = formState.birthdate ? formState.birthdate.replace(/\//g, '-') : '';
+    birthdateInput.addEventListener('change', (e) => {
+      formState.birthdate = e.target.value;
       updateSubmitState();
     });
     form.appendChild(birthdateField);
@@ -166,13 +168,27 @@
     );
 
     const submitButton = window.buttonModule.renderButton({
-      label: t(existingDog ? 'add_dog.save_action' : 'add_dog.submit'),
+      label: t(isRegistrationFlow ? 'registration.next_button' : (existingDog ? 'add_dog.save_action' : 'add_dog.submit')),
       type: 'submit',
       variant: 'primary'
     });
     submitButton.disabled = !existingDog;
     submitButton.classList.add('add-dog-submit');
-    form.appendChild(submitButton);
+
+    if (isRegistrationFlow) {
+      const actions = document.createElement('div');
+      actions.className = 'add-dog-registration-actions';
+      const skipButton = window.buttonModule.renderButton({
+        label: t('registration.skip_button'),
+        variant: 'secondary',
+        onClick: () => { window.location.href = redirectUrl; }
+      });
+      actions.appendChild(skipButton);
+      actions.appendChild(submitButton);
+      form.appendChild(actions);
+    } else {
+      form.appendChild(submitButton);
+    }
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -217,9 +233,11 @@
       window.location.href = redirectUrl;
     });
 
-    addDogPage.appendChild(
-      window.bottomNavModule.renderBottomNav({ active: 'dogs' })
-    );
+    if (!isRegistrationFlow) {
+      addDogPage.appendChild(
+        window.bottomNavModule.renderBottomNav({ active: 'dogs' })
+      );
+    }
 
     if (!window.iphoneFrame.isRealMobileDevice()) {
       document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));

@@ -1,0 +1,35 @@
+#screen-content {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: clip;
+}
+
+.registration-profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  gap: 20px;
+  padding: 24px 20px;
+  box-sizing: border-box;
+}
+
+.registration-profile-title {
+  font-size: 22px;
+  margin: 0;
+  text-align: center;
+}
+
+.registration-profile-photo {
+  display: flex;
+  justify-content: center;
+}
+
+.registration-profile-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  margin-top: 10px;
+}

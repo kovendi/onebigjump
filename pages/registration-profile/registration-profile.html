@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Profile picture</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/photo-picker/photo-picker.css" />
+  <link rel="stylesheet" href="../../modules/button/button.css" />
+  <link rel="stylesheet" href="registration-profile.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="registration-profile-page">
+      <h1 class="registration-profile-title" id="registration-profile-title"></h1>
+
+      <div class="registration-profile-photo" id="registration-profile-photo"></div>
+
+      <div class="registration-profile-actions">
+        <div id="skip-button"></div>
+        <div id="next-button"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/photo-picker/photo-picker.js"></script>
+  <script src="../../modules/button/button.js"></script>
+  <script src="../../modules/storage/storage.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    document.getElementById('registration-profile-title').textContent = t('registration.profile_title');
+
+    let photo = null;
+    document.getElementById('registration-profile-photo').appendChild(
+      window.photoPickerModule.renderPhotoPicker({
+        name: 'profile-photo',
+        onChange: (dataUrl) => { photo = dataUrl; }
+      })
+    );
+
+    document.getElementById('skip-button').replaceWith(
+      window.buttonModule.renderButton({
+        label: t('registration.skip_button'),
+        variant: 'secondary',
+        onClick: () => { window.location.href = '../add-dog/add-dog.html?flow=registration'; }
+      })
+    );
+    document.getElementById('next-button').replaceWith(
+      window.buttonModule.renderButton({
+        label: t('registration.next_button'),
+        variant: 'primary',
+        onClick: () => {
+          if (photo) window.storage.updateUser({ photo });
+          window.location.href = '../add-dog/add-dog.html?flow=registration';
+        }
+      })
+    );
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>
