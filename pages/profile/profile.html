@@ -42,6 +42,7 @@
   <script src="../events/events-data.js"></script>
   <script src="../../modules/events-store/events-store.js"></script>
   <script src="profile-account.js"></script>
+  <script src="profile-dogs.js"></script>
   <script>
     window.i18n.initI18n();
     const t = window.i18n.t;
@@ -378,6 +379,50 @@
 
     content.appendChild(pointsList);
 
+    if (isOwnProfile) {
+      const referralRow = document.createElement('div');
+      referralRow.className = 'profile-field profile-referral-row';
+
+      const referralLabel = document.createElement('span');
+      referralLabel.className = 'profile-field-label';
+      referralLabel.textContent = t('profile.referral_link_label');
+      referralRow.appendChild(referralLabel);
+
+      const referralValueWrap = document.createElement('div');
+      referralValueWrap.className = 'profile-name-edit';
+
+      const referralValue = document.createElement('span');
+      referralValue.className = 'profile-field-value';
+      referralValue.textContent = user.username;
+      referralValueWrap.appendChild(referralValue);
+
+      const referralCopyButton = document.createElement('button');
+      referralCopyButton.type = 'button';
+      referralCopyButton.className = 'profile-name-action-button';
+      referralCopyButton.setAttribute('aria-label', t('profile.referral_link_copy_action'));
+      const referralCopyIcon = document.createElement('img');
+      referralCopyIcon.className = 'profile-name-action-icon';
+      referralCopyIcon.src = '../../assets/icon-copy.svg';
+      referralCopyIcon.alt = '';
+      referralCopyButton.appendChild(referralCopyIcon);
+
+      let referralCopyResetTimeout;
+      referralCopyButton.addEventListener('click', () => {
+        navigator.clipboard.writeText(user.username);
+        referralCopyIcon.src = '../../assets/icon-check.svg';
+        referralCopyButton.setAttribute('aria-label', t('profile.referral_link_copied'));
+        clearTimeout(referralCopyResetTimeout);
+        referralCopyResetTimeout = setTimeout(() => {
+          referralCopyIcon.src = '../../assets/icon-copy.svg';
+          referralCopyButton.setAttribute('aria-label', t('profile.referral_link_copy_action'));
+        }, 1500);
+      });
+
+      referralValueWrap.appendChild(referralCopyButton);
+      referralRow.appendChild(referralValueWrap);
+      content.appendChild(referralRow);
+    }
+
     // badges
     content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('profile.badges_title') }));
 
@@ -399,112 +444,13 @@
     );
 
     // dogs
-    content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('profile.dogs_title') }));
-
-    const dogsList = document.createElement('div');
-    dogsList.className = 'profile-dogs';
-
-    const dogs = isOwnProfile ? window.storage.getDogs() : window.storage.getDogsByUserId(user.id);
-
-    const nextExamEvent = window.eventsStore.getUpcomingEvents()
-      .filter((event) => event.is_exam)[0];
-
-    if (dogs.length === 0) {
-      const empty = document.createElement('p');
-      empty.className = 'profile-dogs-empty';
-      empty.textContent = t('profile.dogs_empty');
-      dogsList.appendChild(empty);
-    } else {
-      dogs.forEach((dog) => {
-        const dogWrap = document.createElement('div');
-        dogWrap.className = dog.goodDogCard ? 'profile-dog-item profile-dog-item--earned' : 'profile-dog-item';
-
-        const item = document.createElement('button');
-        item.type = 'button';
-        item.className = 'profile-dog-main';
-        item.addEventListener('click', () => {
-          window.location.href = `../dog-profile/dog-profile.html?id=${dog.id}`;
-        });
-
-        const photoWrap = document.createElement('span');
-        photoWrap.className = dog.goodDogCard
-          ? 'profile-dog-photo-wrap profile-dog-photo-wrap--earned'
-          : 'profile-dog-photo-wrap';
-
-        const photo = document.createElement('img');
-        photo.className = 'profile-dog-photo';
-        photo.src = dog.photo || '../../assets/icon-dogs.svg';
-        photo.alt = '';
-        photoWrap.appendChild(photo);
-
-        item.appendChild(photoWrap);
-
-        const name = document.createElement('span');
-        name.className = 'profile-dog-name';
-        name.textContent = dog.name;
-        item.appendChild(name);
-
-        dogWrap.appendChild(item);
-
-        if (dog.goodDogCard) {
-          const banner = document.createElement('div');
-          banner.className = 'profile-dog-gdc-banner profile-dog-gdc-banner--earned';
-
-          const bannerIcon = document.createElement('img');
-          bannerIcon.className = 'profile-dog-gdc-banner-icon';
-          bannerIcon.src = '../../assets/icon-badge-good-dog.svg';
-          bannerIcon.alt = '';
-          banner.appendChild(bannerIcon);
-
-          const bannerText = document.createElement('span');
-          bannerText.className = 'profile-dog-gdc-banner-title';
-          bannerText.textContent = t('profile.dog_gdc_earned_title');
-          banner.appendChild(bannerText);
-
-          dogWrap.appendChild(banner);
-        } else if (nextExamEvent) {
-          const hint = document.createElement('button');
-          hint.type = 'button';
-          hint.className = 'profile-dog-gdc-banner profile-dog-gdc-banner--hint';
-          hint.addEventListener('click', () => {
-            window.location.href = `../event-detail/event-detail.html?id=${nextExamEvent.id}`;
-          });
-
-          const hintIcon = document.createElement('img');
-          hintIcon.className = 'profile-dog-gdc-banner-icon';
-          hintIcon.src = '../../assets/icon-badge-good-dog.svg';
-          hintIcon.alt = '';
-          hint.appendChild(hintIcon);
-
-          const hintTextCol = document.createElement('span');
-          hintTextCol.className = 'profile-dog-gdc-banner-text-col';
-
-          const hintTitle = document.createElement('span');
-          hintTitle.className = 'profile-dog-gdc-banner-title';
-          hintTitle.textContent = t('profile.dog_gdc_hint_title');
-          hintTextCol.appendChild(hintTitle);
-
-          const hintSubtitle = document.createElement('span');
-          hintSubtitle.className = 'profile-dog-gdc-banner-subtitle';
-          hintSubtitle.textContent = `${t('profile.dog_gdc_hint_label')} ${nextExamEvent.name}`;
-          hintTextCol.appendChild(hintSubtitle);
-
-          hint.appendChild(hintTextCol);
-
-          const hintArrow = document.createElement('img');
-          hintArrow.className = 'profile-dog-gdc-banner-arrow';
-          hintArrow.src = '../../assets/icon-chevron-down.svg';
-          hintArrow.alt = '';
-          hint.appendChild(hintArrow);
-
-          dogWrap.appendChild(hint);
-        }
-
-        dogsList.appendChild(dogWrap);
-      });
-    }
-
-    content.appendChild(dogsList);
+    content.appendChild(window.profileDogsSection.render({
+      t,
+      storage: window.storage,
+      eventsStore: window.eventsStore,
+      isOwnProfile,
+      user
+    }));
 
     // account
     if (isOwnProfile) {

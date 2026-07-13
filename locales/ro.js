@@ -207,6 +207,9 @@ window.LOCALES.ro = {
   "profile.points_title": "Puncte",
   "profile.points_referrals_label": "Membri invitați",
   "profile.points_loyalty_label": "Puncte de fidelitate",
+  "profile.referral_link_label": "Codul tău de invitație",
+  "profile.referral_link_copy_action": "Copiază",
+  "profile.referral_link_copied": "Copiat!",
 
   "referral_info.title": "Membri invitați",
   "referral_info.section1_title": "Identificare și înregistrare",

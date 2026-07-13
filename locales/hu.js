@@ -207,6 +207,9 @@ window.LOCALES.hu = {
   "profile.points_title": "Pontok",
   "profile.points_referrals_label": "Meghívott tagok",
   "profile.points_loyalty_label": "Hűségpontok",
+  "profile.referral_link_label": "Meghívó kódod",
+  "profile.referral_link_copy_action": "Másolás",
+  "profile.referral_link_copied": "Másolva!",
 
   "referral_info.title": "Meghívott tagok",
   "referral_info.section1_title": "Azonosítás és regisztráció",

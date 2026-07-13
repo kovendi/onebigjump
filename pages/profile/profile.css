@@ -144,6 +144,10 @@ button.profile-point-item {
   line-height: 1.3;
 }
 
+.profile-referral-row {
+  margin-top: 10px;
+}
+
 .badge-grid {
   margin-top: 12px;
 }

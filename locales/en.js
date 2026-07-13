@@ -207,6 +207,9 @@ window.LOCALES.en = {
   "profile.points_title": "Points",
   "profile.points_referrals_label": "Referred members",
   "profile.points_loyalty_label": "Loyalty points",
+  "profile.referral_link_label": "Your referral code",
+  "profile.referral_link_copy_action": "Copy",
+  "profile.referral_link_copied": "Copied!",
 
   "referral_info.title": "Referred members",
   "referral_info.section1_title": "Identification and registration",
