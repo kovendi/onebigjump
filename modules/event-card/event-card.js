@@ -20,9 +20,9 @@ window.eventCardModule = (function () {
     return row;
   }
 
-  function renderEventCard({ eventId, imageUrl, name, startDate, endDate, location, followers = 0, isExam = false, isFree = false } = {}) {
+  function renderEventCard({ eventId, imageUrl, name, startDate, endDate, location, followers = 0, isExam = false, isFree = false, isPast = false } = {}) {
     const card = document.createElement("div");
-    card.className = "event-card";
+    card.className = isPast ? "event-card event-card--past" : "event-card";
 
     const image = document.createElement("img");
     image.className = "event-card__image";
@@ -103,12 +103,16 @@ window.eventCardModule = (function () {
     });
     actions.appendChild(followButton);
 
-    actions.appendChild(window.buttonModule.renderButton({
-      label: window.i18n.t(isFree ? "event_detail.register_action" : "event_detail.buy_ticket_action"),
-      variant: "secondary",
-      iconSrc: "../../assets/icon-ticket-primary.svg",
-      onClick: () => { window.location.href = `../ticket-purchase/ticket-purchase.html?id=${eventId}`; }
-    }));
+    if (isPast) {
+      actions.classList.add("event-card__actions--single");
+    } else {
+      actions.appendChild(window.buttonModule.renderButton({
+        label: window.i18n.t(isFree ? "event_detail.register_action" : "event_detail.buy_ticket_action"),
+        variant: "secondary",
+        iconSrc: "../../assets/icon-ticket-primary.svg",
+        onClick: () => { window.location.href = `../ticket-purchase/ticket-purchase.html?id=${eventId}`; }
+      }));
+    }
 
     card.appendChild(actions);
 

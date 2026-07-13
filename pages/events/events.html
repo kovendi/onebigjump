@@ -65,7 +65,7 @@
       document.getElementById('events-empty-title').textContent = t('events.empty_title');
       document.getElementById('events-empty-description').textContent = t('events.empty_description');
     } else {
-      const renderEventCard = (event) => {
+      const renderEventCard = (event, isPast = false) => {
         const card = window.eventCardModule.renderEventCard({
           eventId: event.id,
           imageUrl: event.image_url,
@@ -75,7 +75,8 @@
           location: event.location,
           followers: event.followers_count,
           isExam: event.is_exam,
-          isFree: !event.is_paid
+          isFree: !event.is_paid,
+          isPast
         });
         card.addEventListener('click', (e) => {
           if (e.target.closest('.event-card__actions') || e.target.closest('.event-card__badge--exam')) return;
@@ -92,7 +93,7 @@
 
       if (pastEvents.length > 0) {
         eventsList.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('events.past') }));
-        pastEvents.forEach((event) => eventsList.appendChild(renderEventCard(event)));
+        pastEvents.forEach((event) => eventsList.appendChild(renderEventCard(event, true)));
       }
     }
 

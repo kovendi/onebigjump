@@ -99,6 +99,18 @@
   padding: 6px 8px;
 }
 
+.event-card--past {
+  filter: grayscale(1);
+}
+
+.event-card__actions--single {
+  justify-content: flex-start;
+}
+
+.event-card__actions--single::after {
+  display: none;
+}
+
 .event-card__calendar-prompt-actions {
   display: flex;
   gap: 8px;

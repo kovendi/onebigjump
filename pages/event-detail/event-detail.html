@@ -98,6 +98,7 @@
     );
 
     if (event) {
+      const isPastEvent = window.dateModule.parseToDate(event.end_date) < new Date();
       document.getElementById('event-detail').hidden = false;
       document.getElementById('event-detail-image').src = event.image_url;
       if (event.is_exam) {
@@ -154,13 +155,15 @@
 
       const secondaryActions = document.createElement('div');
       secondaryActions.className = 'event-detail__actions-secondary';
-      secondaryActions.appendChild(
-        window.buttonModule.renderButton({
-          label: t('event_detail.add_to_calendar_action'),
-          variant: 'secondary',
-          iconSrc: '../../assets/icon-calendar.svg'
-        })
-      );
+      if (!isPastEvent) {
+        secondaryActions.appendChild(
+          window.buttonModule.renderButton({
+            label: t('event_detail.add_to_calendar_action'),
+            variant: 'secondary',
+            iconSrc: '../../assets/icon-calendar.svg'
+          })
+        );
+      }
       const followButton = window.buttonModule.renderButton({
         label: t('event_card.follow_action'),
         variant: 'text-accent',
@@ -175,14 +178,16 @@
       secondaryActions.appendChild(followButton);
       actions.appendChild(secondaryActions);
 
-      actions.appendChild(
-        window.buttonModule.renderButton({
-          label: event.is_paid ? t('event_detail.buy_ticket_action') : t('event_detail.register_action'),
-          variant: 'primary',
-          iconSrc: '../../assets/icon-nav-tickets.svg',
-          onClick: () => { window.location.href = `../ticket-purchase/ticket-purchase.html?id=${event.id}`; }
-        })
-      );
+      if (!isPastEvent) {
+        actions.appendChild(
+          window.buttonModule.renderButton({
+            label: event.is_paid ? t('event_detail.buy_ticket_action') : t('event_detail.register_action'),
+            variant: 'primary',
+            iconSrc: '../../assets/icon-nav-tickets.svg',
+            onClick: () => { window.location.href = `../ticket-purchase/ticket-purchase.html?id=${event.id}`; }
+          })
+        );
+      }
 
       if (event.sub_events && event.sub_events.length > 0) {
         const timeline = document.getElementById('event-detail-timeline');
@@ -224,13 +229,15 @@
           dates.textContent = window.dateModule.formatDateRange(subEvent.start_date, subEvent.end_date);
           content.appendChild(dates);
 
-          content.appendChild(
-            window.buttonModule.renderButton({
-              label: t('event_detail.add_to_calendar_action'),
-              variant: 'secondary',
-              iconSrc: '../../assets/icon-calendar.svg'
-            })
-          );
+          if (!isPastEvent) {
+            content.appendChild(
+              window.buttonModule.renderButton({
+                label: t('event_detail.add_to_calendar_action'),
+                variant: 'secondary',
+                iconSrc: '../../assets/icon-calendar.svg'
+              })
+            );
+          }
 
           item.appendChild(content);
           timelineList.appendChild(item);
