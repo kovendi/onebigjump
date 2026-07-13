@@ -175,6 +175,14 @@
     const sectionTitleDemo = window.sectionTitleModule.renderSectionTitle({ text: t('style_guide.component_section_title') });
     addComponentDemo(componentsGrid, 'style_guide.component_section_title', t('style_guide.component_section_title_note'), sectionTitleDemo);
 
+    // section-title with action icon
+    const sectionTitleActionDemo = window.sectionTitleModule.renderSectionTitle({
+      text: t('style_guide.component_section_title_action'),
+      actionIcon: '../../assets/icon-info.svg',
+      actionLabel: t('style_guide.component_section_title_action')
+    });
+    addComponentDemo(componentsGrid, 'style_guide.component_section_title_action', t('style_guide.component_section_title_action_note'), sectionTitleActionDemo);
+
     // button
     const buttonGroup = document.createElement('div');
     buttonGroup.className = 'style-guide-button-row';

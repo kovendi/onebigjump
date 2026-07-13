@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Pontok</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="points-info.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="points-info-page" id="points-info-page">
+      <div class="points-info-header">
+        <img class="points-info-icon" src="../../assets/icon-info.svg" alt="" />
+        <p class="points-info-name" id="points-info-name"></p>
+      </div>
+      <div class="points-info-content" id="points-info-content"></div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const pointsInfoPage = document.getElementById('points-info-page');
+    pointsInfoPage.prepend(
+      window.navbarModule.renderNavbar({ title: t('points_info.title'), showBack: true })
+    );
+
+    document.getElementById('points-info-name').textContent = t('points_info.title');
+
+    const intro = document.createElement('p');
+    intro.className = 'points-info-paragraph';
+    intro.textContent = t('points_info.intro');
+    document.getElementById('points-info-content').appendChild(intro);
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

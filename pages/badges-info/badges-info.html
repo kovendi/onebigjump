@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>One Big Jump — Jelvények</title>
+  <link rel="stylesheet" href="../../global.css" />
+  <link rel="stylesheet" href="../../modules/iphone-frame/iphone-frame.css" />
+  <link rel="stylesheet" href="../../modules/navbar/navbar.css" />
+  <link rel="stylesheet" href="badges-info.css" />
+</head>
+<body>
+  <div id="screen-content">
+    <div class="badges-info-page" id="badges-info-page">
+      <div class="badges-info-header">
+        <img class="badges-info-icon" src="../../assets/icon-info.svg" alt="" />
+        <p class="badges-info-name" id="badges-info-name"></p>
+      </div>
+      <div class="badges-info-content" id="badges-info-content"></div>
+    </div>
+  </div>
+
+  <script src="../../locales/hu.js"></script>
+  <script src="../../locales/en.js"></script>
+  <script src="../../locales/ro.js"></script>
+  <script src="../../modules/i18n/i18n.js"></script>
+  <script src="../../modules/iphone-frame/iphone-frame.js"></script>
+  <script src="../../modules/navbar/navbar.js"></script>
+  <script>
+    window.i18n.initI18n();
+    const t = window.i18n.t;
+
+    const badgesInfoPage = document.getElementById('badges-info-page');
+    badgesInfoPage.prepend(
+      window.navbarModule.renderNavbar({ title: t('badges_info.title'), showBack: true })
+    );
+
+    document.getElementById('badges-info-name').textContent = t('badges_info.title');
+
+    const intro = document.createElement('p');
+    intro.className = 'badges-info-paragraph';
+    intro.textContent = t('badges_info.intro');
+    document.getElementById('badges-info-content').appendChild(intro);
+
+    if (!window.iphoneFrame.isRealMobileDevice()) {
+      document.body.appendChild(window.iphoneFrame.renderIphoneFrame(document.getElementById('screen-content')));
+      document.body.classList.add('has-iphone-frame');
+    }
+  </script>
+</body>
+</html>

@@ -344,7 +344,12 @@
     content.appendChild(basics);
 
     // points
-    content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('profile.points_title') }));
+    content.appendChild(window.sectionTitleModule.renderSectionTitle({
+      text: t('profile.points_title'),
+      actionIcon: '../../assets/icon-info.svg',
+      actionLabel: t('profile.points_info_action'),
+      onActionClick: () => { window.location.href = '../points-info/points-info.html'; }
+    }));
 
     const pointsList = document.createElement('div');
     pointsList.className = 'profile-points';
@@ -424,7 +429,12 @@
     }
 
     // badges
-    content.appendChild(window.sectionTitleModule.renderSectionTitle({ text: t('profile.badges_title') }));
+    content.appendChild(window.sectionTitleModule.renderSectionTitle({
+      text: t('profile.badges_title'),
+      actionIcon: '../../assets/icon-info.svg',
+      actionLabel: t('profile.badges_info_action'),
+      onActionClick: () => { window.location.href = '../badges-info/badges-info.html'; }
+    }));
 
     const userDogs = isOwnProfile ? window.storage.getDogs() : window.storage.getDogsByUserId(user.id);
     const userTickets = isOwnProfile ? window.storage.getTickets() : window.storage.getTicketsByUserId(user.id);
