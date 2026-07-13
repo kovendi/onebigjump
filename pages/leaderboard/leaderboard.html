@@ -112,7 +112,7 @@
 
         const name = document.createElement('span');
         name.className = 'leaderboard-podium__name';
-        name.textContent = user.name;
+        name.textContent = window.storage.getFullName(user);
         spot.appendChild(name);
 
         const value = document.createElement('span');
@@ -156,7 +156,7 @@
 
         const name = document.createElement('span');
         name.className = 'leaderboard-row__name';
-        name.textContent = user.name;
+        name.textContent = window.storage.getFullName(user);
         row.appendChild(name);
 
         if (isMe) {

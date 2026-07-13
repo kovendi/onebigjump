@@ -28,11 +28,9 @@
           <span id="username-hint"></span>
         </p>
 
-        <div id="name-input"></div>
-        <p class="registration-hint">
-          <img class="registration-hint-icon" src="../../assets/icon-info.svg" alt="" />
-          <span id="name-hint"></span>
-        </p>
+        <div id="first-name-input"></div>
+
+        <div id="last-name-input"></div>
 
         <div id="invited-by-input"></div>
         <p class="registration-hint">
@@ -73,7 +71,6 @@
 
     document.getElementById('registration-title').textContent = t('registration.title');
     document.getElementById('username-hint').textContent = t('registration.username_hint');
-    document.getElementById('name-hint').textContent = t('registration.name_hint');
     document.getElementById('invited-by-hint').textContent = t('registration.invited_by_hint');
 
     if (socialProvider) {
@@ -96,8 +93,11 @@
     document.getElementById('username-input').replaceWith(
       window.inputModule.renderInput({ type: 'text', name: 'username', label: t('registration.username_label'), placeholder: t('registration.username_placeholder'), id: 'username-input' })
     );
-    document.getElementById('name-input').replaceWith(
-      window.inputModule.renderInput({ type: 'text', name: 'name', label: t('registration.name_label'), placeholder: t('registration.name_placeholder'), id: 'name-input' })
+    document.getElementById('first-name-input').replaceWith(
+      window.inputModule.renderInput({ type: 'text', name: 'first_name', label: t('registration.first_name_label'), placeholder: t('registration.first_name_placeholder'), id: 'first-name-input' })
+    );
+    document.getElementById('last-name-input').replaceWith(
+      window.inputModule.renderInput({ type: 'text', name: 'last_name', label: t('registration.last_name_label'), placeholder: t('registration.last_name_placeholder'), id: 'last-name-input' })
     );
     document.getElementById('invited-by-input').replaceWith(
       window.inputModule.renderInput({ type: 'text', name: 'invited_by', label: t('registration.invited_by_label'), placeholder: t('registration.invited_by_placeholder'), id: 'invited-by-input' })
@@ -143,7 +143,8 @@
         id: 'user-' + Date.now(),
         email: formData.get('email'),
         username: formData.get('username'),
-        name: formData.get('name'),
+        firstName: formData.get('first_name'),
+        lastName: formData.get('last_name'),
         password: formData.get('password'),
         invitedByUsername: invitedByUsername || null
       });

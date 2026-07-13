@@ -79,7 +79,7 @@
 
       const name = document.createElement('span');
       name.className = 'member-name';
-      name.textContent = user.name;
+      name.textContent = window.storage.getFullName(user);
       info.appendChild(name);
 
       const dogsRow = document.createElement('div');
@@ -140,7 +140,8 @@
     function renderResults(query) {
       results.innerHTML = '';
       const normalizedQuery = query.trim().toLowerCase();
-      const items = getAllItems().filter((item) => item.name.toLowerCase().includes(normalizedQuery));
+      const getItemName = (item) => (type === 'events' ? item.name : window.storage.getFullName(item));
+      const items = getAllItems().filter((item) => getItemName(item).toLowerCase().includes(normalizedQuery));
 
       if (items.length === 0) {
         results.hidden = true;

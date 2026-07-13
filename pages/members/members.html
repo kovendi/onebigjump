@@ -69,7 +69,7 @@
 
       const name = document.createElement('span');
       name.className = 'member-name';
-      name.textContent = user.name;
+      name.textContent = window.storage.getFullName(user);
       info.appendChild(name);
 
       const dogsRow = document.createElement('div');

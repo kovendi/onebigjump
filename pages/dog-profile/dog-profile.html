@@ -137,7 +137,7 @@
 
         const ownerName = document.createElement('span');
         ownerName.className = 'dog-profile-field-value';
-        ownerName.textContent = owner.name;
+        ownerName.textContent = window.storage.getFullName(owner);
         ownerValue.appendChild(ownerName);
 
         ownerRow.appendChild(ownerValue);

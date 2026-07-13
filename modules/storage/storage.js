@@ -6,7 +6,8 @@ window.storage = (function () {
       id: 'demo-user',
       email: 'demo@onebigjump.com',
       username: 'demo',
-      name: 'Demo User',
+      firstName: 'Demo',
+      lastName: 'User',
       password: 'demo1234',
       referralCount: 4,
       loyaltyPoints: 120
@@ -25,16 +26,22 @@ window.storage = (function () {
 
     return names.map(function (name, index) {
       var n = index + 2;
+      var parts = name.split(' ');
       return {
         id: 'demo-user-' + n,
         email: 'demo' + n + '@onebigjump.com',
         username: 'demo' + n,
-        name: name,
+        firstName: parts[0],
+        lastName: parts[1],
         photo: 'https://i.pravatar.cc/300?img=' + n,
         referralCount: n % 6,
         loyaltyPoints: (n % 10) * 15
       };
     });
+  }
+
+  function getFullName(user) {
+    return [user.firstName, user.lastName].filter(Boolean).join(' ');
   }
 
   function extraDemoDogs() {
@@ -318,6 +325,7 @@ window.storage = (function () {
     updateTicket: updateTicket,
     getUsers: getUsers,
     addUser: addUser,
+    getFullName: getFullName,
     getCurrentUser: getCurrentUser,
     getUserById: getUserById,
     setCurrentUser: setCurrentUser,

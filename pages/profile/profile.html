@@ -54,7 +54,7 @@
 
     const profilePage = document.getElementById('profile-page');
     profilePage.prepend(
-      window.navbarModule.renderNavbar({ title: isOwnProfile ? t('profile.title') : user.name })
+      window.navbarModule.renderNavbar({ title: isOwnProfile ? t('profile.title') : window.storage.getFullName(user) })
     );
 
     const content = document.getElementById('profile-content');
@@ -231,28 +231,27 @@
       basics.appendChild(usernameWarning);
     }
 
-    if (isOwnProfile) {
-      // editable full name
-      const nameRow = document.createElement('div');
-      nameRow.className = 'profile-field';
+    function renderEditableNamePart(labelText, field) {
+      const row = document.createElement('div');
+      row.className = 'profile-field';
 
-      const nameLabel = document.createElement('span');
-      nameLabel.className = 'profile-field-label';
-      nameLabel.textContent = t('profile.name_label');
-      nameRow.appendChild(nameLabel);
+      const label = document.createElement('span');
+      label.className = 'profile-field-label';
+      label.textContent = labelText;
+      row.appendChild(label);
 
-      const nameEditWrap = document.createElement('div');
-      nameEditWrap.className = 'profile-name-edit';
+      const editWrap = document.createElement('div');
+      editWrap.className = 'profile-name-edit';
 
-      const nameValue = document.createElement('span');
-      nameValue.className = 'profile-field-value';
-      nameValue.textContent = user.name;
+      const value = document.createElement('span');
+      value.className = 'profile-field-value';
+      value.textContent = user[field];
 
-      const nameInput = document.createElement('input');
-      nameInput.type = 'text';
-      nameInput.className = 'profile-name-input';
-      nameInput.value = user.name;
-      nameInput.hidden = true;
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'profile-name-input';
+      input.value = user[field];
+      input.hidden = true;
 
       const editButton = document.createElement('button');
       editButton.type = 'button';
@@ -264,77 +263,82 @@
       editIcon.alt = '';
       editButton.appendChild(editIcon);
 
-      const nameCancelButton = document.createElement('button');
-      nameCancelButton.type = 'button';
-      nameCancelButton.className = 'profile-name-action-button';
-      nameCancelButton.setAttribute('aria-label', t('common.cancel'));
-      nameCancelButton.hidden = true;
-      const nameCancelIcon = document.createElement('img');
-      nameCancelIcon.className = 'profile-name-action-icon';
-      nameCancelIcon.src = '../../assets/icon-close.svg';
-      nameCancelIcon.alt = '';
-      nameCancelButton.appendChild(nameCancelIcon);
+      const cancelButton = document.createElement('button');
+      cancelButton.type = 'button';
+      cancelButton.className = 'profile-name-action-button';
+      cancelButton.setAttribute('aria-label', t('common.cancel'));
+      cancelButton.hidden = true;
+      const cancelIcon = document.createElement('img');
+      cancelIcon.className = 'profile-name-action-icon';
+      cancelIcon.src = '../../assets/icon-close.svg';
+      cancelIcon.alt = '';
+      cancelButton.appendChild(cancelIcon);
 
       function enterEditMode() {
-        nameValue.hidden = true;
-        nameInput.hidden = false;
-        nameInput.value = user.name;
-        nameInput.focus();
+        value.hidden = true;
+        input.hidden = false;
+        input.value = user[field];
+        input.focus();
         editIcon.src = '../../assets/icon-check.svg';
         editButton.disabled = true;
-        nameCancelButton.hidden = false;
+        cancelButton.hidden = false;
       }
 
       function exitEditMode() {
-        nameValue.hidden = false;
-        nameInput.hidden = true;
+        value.hidden = false;
+        input.hidden = true;
         editIcon.src = '../../assets/icon-edit.svg';
         editButton.disabled = false;
-        nameCancelButton.hidden = true;
+        cancelButton.hidden = true;
       }
 
-      function saveName() {
-        const newName = nameInput.value.trim();
-        if (newName) {
-          user.name = newName;
-          window.storage.updateUser({ name: newName });
-          nameValue.textContent = newName;
+      function save() {
+        const newValue = input.value.trim();
+        if (newValue) {
+          user[field] = newValue;
+          window.storage.updateUser({ [field]: newValue });
+          value.textContent = newValue;
         }
         exitEditMode();
       }
 
-      function cancelNameEdit() {
-        nameInput.value = user.name;
+      function cancelEdit() {
+        input.value = user[field];
         exitEditMode();
       }
 
-      nameInput.addEventListener('input', () => {
-        editButton.disabled = nameInput.value.trim() === user.name;
+      input.addEventListener('input', () => {
+        editButton.disabled = input.value.trim() === user[field];
       });
 
       editButton.addEventListener('click', () => {
-        if (nameInput.hidden) {
+        if (input.hidden) {
           enterEditMode();
         } else {
-          saveName();
+          save();
         }
       });
 
-      nameCancelButton.addEventListener('click', cancelNameEdit);
+      cancelButton.addEventListener('click', cancelEdit);
 
-      nameInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !editButton.disabled) saveName();
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !editButton.disabled) save();
       });
 
-      nameEditWrap.appendChild(nameValue);
-      nameEditWrap.appendChild(nameInput);
-      nameEditWrap.appendChild(editButton);
-      nameEditWrap.appendChild(nameCancelButton);
-      nameRow.appendChild(nameEditWrap);
+      editWrap.appendChild(value);
+      editWrap.appendChild(input);
+      editWrap.appendChild(editButton);
+      editWrap.appendChild(cancelButton);
+      row.appendChild(editWrap);
 
-      basics.appendChild(nameRow);
+      return row;
+    }
+
+    if (isOwnProfile) {
+      basics.appendChild(renderEditableNamePart(t('registration.first_name_label'), 'firstName'));
+      basics.appendChild(renderEditableNamePart(t('registration.last_name_label'), 'lastName'));
     } else {
-      basics.appendChild(renderStaticField(t('profile.name_label'), user.name));
+      basics.appendChild(renderStaticField(t('profile.name_label'), window.storage.getFullName(user)));
     }
     content.appendChild(basics);
 
